@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+    redis:
+        host: 127.0.0.1
+        port: 6379
+    datasource:
+        name: batu
+        url: jdbc:mysql://192.168.1.118:3306/batu?serverTimezone=GMT%2B8
+        username: root
+        password: root
+        # ʹ��druid����Դ
+#        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        filters: stat
+        maxActive: 20
+        initialSize: 1
+        maxWait: 60000
+        minIdle: 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        validationQuery: select 'x'
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        poolPreparedStatements: true
+        maxOpenPreparedStatements: 20
+
+## �����ýڵ�Ϊ�����Ľڵ㣬�кܶ�ͬѧ���׽�������÷���spring�Ľڵ��£����������޷���ʶ��
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #ע�⣺һ��Ҫ��Ӧmapperӳ��xml�ļ�������·��
+  type-aliases-package: com.ch.entity  # ע�⣺��Ӧʵ�����·��
+
+#pagehelper��ҳ���
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+
+
