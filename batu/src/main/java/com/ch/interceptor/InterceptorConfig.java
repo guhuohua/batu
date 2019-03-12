@@ -21,7 +21,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePath = new ArrayList<>();
-        String sysUserLogin = "/user/selectOne";
+        String sysUserLogin = "/user/login";
         excludePath.add(sysUserLogin);
         registry.addInterceptor(tokenInterceptor).excludePathPatterns(excludePath);
     }

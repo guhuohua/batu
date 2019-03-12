@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class User implements Serializable {
     private static final long serialVersionUID = 276283687524873438L;
     //id
-    private Integer id;
+    private String id;
     //名字
     private String name;
     //密码
@@ -20,11 +20,11 @@ public class User implements Serializable {
     private String mobilePhone;
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

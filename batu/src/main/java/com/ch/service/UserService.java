@@ -17,7 +17,7 @@ public interface UserService {
      * @param id 主键
      * @return 实例对象
      */
-    User queryById(Integer id);
+    User queryById(String id);
 
     /**
      * 查询多条数据
@@ -52,4 +52,5 @@ public interface UserService {
      */
     boolean deleteById(Integer id);
 
+    User findByUserIdAndPassword(User user);
 }

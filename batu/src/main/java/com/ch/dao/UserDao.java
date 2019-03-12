@@ -21,7 +21,10 @@ public interface UserDao {
      * @return 实例对象
      */
     @Select("select * from user where id = #{id}")
-    User queryById(Integer id);
+    User queryById(String id);
+
+    @Select("select * from user where name = #{name} and password = #{password}")
+    User findByIdAndPassword(@Param("name") String name, @Param("password") String password);
 
     /**
      * 查询指定行数据

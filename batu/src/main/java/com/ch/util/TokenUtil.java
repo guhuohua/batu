@@ -18,11 +18,10 @@ public class TokenUtil {
 
     /**
      * 生成签名，15分钟过期
-     * @param **username**
-     * @param **password**
+     * @param **userId**
      * @return
      */
-    public static String sign(String username, String password) {
+    public static String sign(String userId) {
         try {
             // 设置过期时间
             Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
@@ -35,8 +34,7 @@ public class TokenUtil {
             // 返回token字符串
             return JWT.create()
                     .withHeader(header)
-                    .withClaim("loginName", username)
-                    .withClaim("pwd", password)
+                    .withClaim("Authorization", userId)
                     .withExpiresAt(date)
                     .sign(algorithm);
         } catch (Exception e) {
