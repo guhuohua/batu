@@ -1,7 +1,11 @@
 package com.ch.ch;
 
+import com.ch.dao.BtSysMenuMapper;
+import com.ch.entity.BtSysMenu;
+import com.ch.util.IdUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -9,8 +13,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class ChApplicationTests {
 
-	@Test
+	@Autowired
+	BtSysMenuMapper menuMapper;
+
+//	@Test
 	public void contextLoads() {
+		BtSysMenu menu = new BtSysMenu();
+		menu.setMenuId(IdUtil.createIdByUUID());
+		menu.setName("晒死");
+		menuMapper.insert(menu);
 	}
 
 }
