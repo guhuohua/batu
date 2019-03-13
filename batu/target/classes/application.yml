@@ -41,4 +41,10 @@ pagehelper:
     supportMethodsArguments: true
     params: count=countSql
 
+oss:
+  ossaddress: oss-cn-beijing.aliyuncs.com
+  accessKeyId: LTAIp0FkxlxtAIKO
+  accessKeySecret:  AQu82DEcK2S75DlAR3BXUDbEva938q
+  bucketName: batu-gaoma
+  filehost: batu
 

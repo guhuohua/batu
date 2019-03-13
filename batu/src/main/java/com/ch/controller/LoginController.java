@@ -29,9 +29,11 @@ public class LoginController {
         ResponseResult result = new ResponseResult();
         try {
             result = btSysUserService.login(dto);
-            UserDTO data = (UserDTO) result.getData();
-            String token = TokenUtil.getUserId(data.getUserId());
-            result.setData(token);
+            if (result.getCode() == 0) {
+                UserDTO data = (UserDTO) result.getData();
+                String token = TokenUtil.sign(data.getUserId());
+                result.setData(token);
+            }
         } catch (Exception e) {
             result.setCode(404);
             result.setError(e.getMessage());
@@ -63,7 +65,7 @@ public class LoginController {
     }
 
     @GetMapping("/require_permission")
-    @RequiresPermissions(logical = Logical.AND, value = {"view", "edit"})
+    @RequiresPermissions(logical = Logical.AND, value = {"系统管理", "角色管理"})
     public ResponseResult requirePermission() {
         return new ResponseResult(200, "You are visiting permission require edit,view", "", null);
     }
