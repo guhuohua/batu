@@ -82,7 +82,16 @@ public class BtSysUserServiceImpl implements BtSysUserService {
         }
         BtSysUserExample example = new BtSysUserExample();
         example.createCriteria().andUsernameEqualTo(userDTO.getUserName()).andPasswordEqualTo(userDTO.getPassword());
-        BtSysUser user = btSysUserMapper.selectByExample(example).stream().findFirst().get();
+        BtSysUser user = null;
+        try {
+            user = btSysUserMapper.selectByExample(example).stream().findFirst().get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setCode(500);
+            result.setError("用户名或密码输入错误，请重新输入~");
+            result.setError_description("用户名或密码输入错误，请重新输入~");
+            return result;
+        }
         if (user == null) {
             result.setCode(500);
             result.setError("用户名或密码输入错误，请重新输入~");
