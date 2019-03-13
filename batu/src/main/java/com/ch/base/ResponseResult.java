@@ -40,4 +40,14 @@ public class ResponseResult<T> implements Serializable {
     public void setData(T data) {
         this.data = data;
     }
+
+    public ResponseResult(int code, String error, String error_description, T data) {
+        this.code = code;
+        this.error = error;
+        this.error_description = error_description;
+        this.data = data;
+    }
+
+    public ResponseResult() {
+    }
 }

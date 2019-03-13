@@ -31,6 +31,8 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml  #ע�⣺һ��Ҫ��Ӧmapperӳ��xml�ļ�������·��
   type-aliases-package: com.ch.entity  # ע�⣺��Ӧʵ�����·��
+  configuration:
+    map-underscore-to-camel-case: true
 
 #pagehelper��ҳ���
 pagehelper:
