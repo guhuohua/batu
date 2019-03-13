@@ -37,13 +37,9 @@
         </javaClientGenerator>
 
         <!-- 指定我们要操作的表明和生成的javabean类名 -->
-        <table tableName="bt_sys_menu" domainObjectName="BtSysMenu" >
-        </table>
-        <table tableName="bt_sys_permissions" domainObjectName="BtSysPermissions" >
+        <table tableName="bt_sys_permission" domainObjectName="BtSysPermission" >
         </table>
         <table tableName="bt_sys_role" domainObjectName="BtSysRole" >
-        </table>
-        <table tableName="bt_sys_role_menu" domainObjectName="BtSysRoleMenu" >
         </table>
         <table tableName="bt_sys_role_permission" domainObjectName="BtSysRolePermission" >
         </table>
@@ -58,6 +54,8 @@
         <table tableName="bt_view_message" domainObjectName="BtViewMessage" >
         </table>
         <table tableName="bt_view_news" domainObjectName="BtViewNews" >
+        </table>
+        <table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >
         </table>
     </context>
 </generatorConfiguration>

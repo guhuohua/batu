@@ -33,18 +33,18 @@ public class BtSysUserServiceImpl implements BtSysUserService {
     @Override
     public UserDTO findById(String userId) {
         UserDTO dto = new UserDTO();
-        BtSysUser user = btSysUserMapper.findByUserId(userId);
-        if (user != null) {
-            dto.setUserId(userId);
-            dto.setPassword(user.getPassword());
-            dto.setUserName(user.getUsername());
-            List<BtSysUserRole> btSysUserRoles = btSysUserRoleMapper.findByUserId(userId);
-            Set<String> roles = new HashSet<>();
-            Set<String> permissions = new HashSet<>();
-
-            dto.setRoles(roles);
-            dto.setPermissions(permissions);
-        }
+//        BtSysUser user = btSysUserMapper.findByUserId(userId);
+//        if (user != null) {
+//            dto.setUserId(userId);
+//            dto.setPassword(user.getPassword());
+//            dto.setUserName(user.getUsername());
+////            List<BtSysUserRole> btSysUserRoles = btSysUserRoleMapper.findByUserId(userId);
+//            Set<String> roles = new HashSet<>();
+//            Set<String> permissions = new HashSet<>();
+//
+//            dto.setRoles(roles);
+//            dto.setPermissions(permissions);
+//        }
         return dto;
     }
 
