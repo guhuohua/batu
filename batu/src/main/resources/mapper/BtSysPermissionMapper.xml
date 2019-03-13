@@ -96,7 +96,7 @@
       This element was generated on Wed Mar 13 11:57:15 CST 2019.
     -->
     permission_id, name, path, parent_id, icon, component, sort, keep_status, type, create_time, 
-    update_time, del_flag, desc
+    update_time, del_flag, `desc`
   </sql>
   <select id="selectByExample" parameterType="com.ch.entity.BtSysPermissionExample" resultMap="BaseResultMap">
     <!--
