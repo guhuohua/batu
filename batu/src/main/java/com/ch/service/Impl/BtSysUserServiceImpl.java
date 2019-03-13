@@ -28,23 +28,40 @@ public class BtSysUserServiceImpl implements BtSysUserService {
     BtSysRolePermissionMapper btSysRolePermissionMapper;
 
     @Autowired
-    BtSysRolePermissionMapper btSysPermissionMapper;
+    BtSysPermissionMapper btSysPermissionMapper;
 
     @Override
     public UserDTO findById(String userId) {
         UserDTO dto = new UserDTO();
-//        BtSysUser user = btSysUserMapper.findByUserId(userId);
-//        if (user != null) {
-//            dto.setUserId(userId);
-//            dto.setPassword(user.getPassword());
-//            dto.setUserName(user.getUsername());
-////            List<BtSysUserRole> btSysUserRoles = btSysUserRoleMapper.findByUserId(userId);
-//            Set<String> roles = new HashSet<>();
-//            Set<String> permissions = new HashSet<>();
-//
-//            dto.setRoles(roles);
-//            dto.setPermissions(permissions);
-//        }
+        BtSysUser user = btSysUserMapper.findByUserId(userId);
+        if (user != null) {
+            dto.setUserId(userId);
+            dto.setPassword(user.getPassword());
+            dto.setUserName(user.getUsername());
+            List<BtSysUserRole> btSysUserRoles = btSysUserRoleMapper.findByUserId(userId);
+            Set<String> roles = new HashSet<>();
+            Set<String> permissions = new HashSet<>();
+            btSysUserRoles.stream().forEach(userRole -> {
+                BtSysRoleExample btSysRoleExample = new BtSysRoleExample();
+                btSysRoleExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
+                List<BtSysRole> roleList = btSysRoleMapper.selectByExample(btSysRoleExample);
+                roleList.forEach(role -> {
+                    roles.add(role.getRoleName());
+                });
+                BtSysRolePermissionExample btSysRolePermissionExample = new BtSysRolePermissionExample();
+                btSysRolePermissionExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
+                List<BtSysRolePermission> btSysRolePermissions = btSysRolePermissionMapper.selectByExample(btSysRolePermissionExample);
+                btSysRolePermissions.forEach(rolePermission -> {
+                    BtSysPermissionExample btSysPermissionExample= new BtSysPermissionExample();
+                    btSysPermissionExample.createCriteria().andPermissionIdEqualTo(rolePermission.getPermissionId());
+                    btSysPermissionMapper.selectByExample(btSysPermissionExample).forEach(permission -> {
+                        permissions.add(permission.getName());
+                    });
+                });
+            });
+            dto.setRoles(roles);
+            dto.setPermissions(permissions);
+        }
         return dto;
     }
 

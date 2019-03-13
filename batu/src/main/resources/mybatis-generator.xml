@@ -37,25 +37,25 @@
         </javaClientGenerator>
 
         <!-- 指定我们要操作的表明和生成的javabean类名 -->
-        <table tableName="bt_sys_permission" domainObjectName="BtSysPermission" >
-        </table>
-        <table tableName="bt_sys_role" domainObjectName="BtSysRole" >
-        </table>
-        <table tableName="bt_sys_role_permission" domainObjectName="BtSysRolePermission" >
-        </table>
-        <table tableName="bt_sys_user" domainObjectName="BtSysUser" >
-        </table>
-        <table tableName="bt_sys_user_role" domainObjectName="BtSysUserRole" >
-        </table>
-        <table tableName="bt_view_blog" domainObjectName="BtViewBlog" >
-        </table>
-        <table tableName="bt_view_menu" domainObjectName="BtViewMenu" >
-        </table>
-        <table tableName="bt_view_message" domainObjectName="BtViewMessage" >
-        </table>
+        <!--<table tableName="bt_sys_permission" domainObjectName="BtSysPermission" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_sys_role" domainObjectName="BtSysRole" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_sys_role_permission" domainObjectName="BtSysRolePermission" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_sys_user" domainObjectName="BtSysUser" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_sys_user_role" domainObjectName="BtSysUserRole" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_view_blog" domainObjectName="BtViewBlog" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_view_menu" domainObjectName="BtViewMenu" >-->
+        <!--</table>-->
+        <!--<table tableName="bt_view_message" domainObjectName="BtViewMessage" >-->
+        <!--</table>-->
         <table tableName="bt_view_news" domainObjectName="BtViewNews" >
         </table>
-        <table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >
-        </table>
+        <!--<table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>
