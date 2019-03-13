@@ -49,12 +49,12 @@
         <!--</table>-->
         <!--<table tableName="bt_view_blog" domainObjectName="BtViewBlog" >-->
         <!--</table>-->
-        <!--<table tableName="bt_view_menu" domainObjectName="BtViewMenu" >-->
-        <!--</table>-->
+        <table tableName="bt_view_menu" domainObjectName="BtViewMenu" >
+        </table>
         <!--<table tableName="bt_view_message" domainObjectName="BtViewMessage" >-->
         <!--</table>-->
-        <table tableName="bt_view_news" domainObjectName="BtViewNews" >
-        </table>
+        <!--<table tableName="bt_view_news" domainObjectName="BtViewNews" >-->
+        <!--</table>-->
         <!--<table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >-->
         <!--</table>-->
     </context>

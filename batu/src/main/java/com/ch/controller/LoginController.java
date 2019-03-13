@@ -73,6 +73,6 @@ public class LoginController {
     @RequestMapping(path = "/401")
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseResult unauthorized() {
-        return new ResponseResult(401, "Unauthorized", "", null);
+        return new ResponseResult(401, "Unauthorized", "没有权限访问，请登录后重试", null);
     }
 }
