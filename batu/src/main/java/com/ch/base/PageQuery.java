@@ -1,0 +1,50 @@
+package com.ch.base;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class PageQuery {
+    private int pageNum;
+    private int pageSize;
+    private boolean needTotalCount = true;
+    private List<OrderDesc> orderDescs;
+
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public boolean isNeedTotalCount() {
+        return needTotalCount;
+    }
+
+    public void setNeedTotalCount(boolean needTotalCount) {
+        this.needTotalCount = needTotalCount;
+    }
+
+    public List<OrderDesc> getOrderDescs() {
+        return orderDescs;
+    }
+
+    public void addOrderDesc(OrderDesc orderDesc) {
+        if (null == orderDescs) {
+            orderDescs = new ArrayList<>();
+        }
+        orderDescs.add(orderDesc);
+    }
+
+    public int getOffset() {
+        return pageNum > 0 ? (pageNum - 1) * pageSize : 0;
+    }
+}
