@@ -1,12 +1,9 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
-import com.ch.entity.BtViewMenu;
-import com.ch.entity.BtViewMenuExample;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -82,6 +79,8 @@ public interface BtViewNewsService {
      * @mbg.generated Wed Mar 13 14:38:56 CST 2019
      */
     int updateByExample(@Param("record") BtViewNews record, @Param("example") BtViewNewsExample example);
-   public ResponseResult findViewNewsByMenuId(String menuId);
+
+    public ResponseResult findViewNewsByMenuId(String menuId);
+
 
 }

@@ -1,8 +1,9 @@
 package com.ch.dao;
 
+import java.util.List;
+
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface BtViewNewsMapper {
@@ -60,5 +61,10 @@ public interface BtViewNewsMapper {
      *
      * @mbg.generated Thu Mar 14 14:09:05 CST 2019
      */
+
     int updateByExample(@Param("record") BtViewNews record, @Param("example") BtViewNewsExample example);
+
+
+    int updateByPrimaryKey(BtViewNews record);
+
 }

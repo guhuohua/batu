@@ -59,7 +59,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
             //根节点
             List<BtViewMenu> rootMenu = new ArrayList<BtViewMenu>();
             for (BtViewMenu nav : allMenu) {
-                if(nav.getParentId()!=null){
+                if(nav.getParentId().equals("0")){
                     rootMenu.add(nav);
                 }
             }
