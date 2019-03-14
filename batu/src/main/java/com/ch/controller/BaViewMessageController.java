@@ -1,6 +1,7 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.service.BtViewMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class BaViewMessageController {
     @PostMapping("message")
     public ResponseResult insert(@RequestBody BtViewMessage record){
         return btViewMessageService.insert(record);
+
+    }
+
+    @PostMapping("find_all")
+    public ResponseResult insert(@RequestBody MessageParam param){
+        return btViewMessageService.findAll(param);
 
     }
 }

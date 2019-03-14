@@ -1,9 +1,12 @@
 package com.ch.dao;
 
+import com.ch.dao.provider.BtViewMessageProvider;
+import com.ch.dto.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -79,4 +82,7 @@ public interface BtViewMessageMapper {
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
     int updateByExample(@Param("record") BtViewMessage record, @Param("example") BtViewMessageExample example);
+
+    @SelectProvider(type = BtViewMessageProvider.class, method = "getMessageList")
+    List<BtViewMessage> findAll(@Param("name") String name, @Param("phone") String phone);
 }

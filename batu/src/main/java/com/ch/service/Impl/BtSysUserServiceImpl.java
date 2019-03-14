@@ -42,12 +42,10 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             Set<String> roles = new HashSet<>();
             Set<String> permissions = new HashSet<>();
             btSysUserRoles.stream().forEach(userRole -> {
-                BtSysRoleExample btSysRoleExample = new BtSysRoleExample();
-                btSysRoleExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
-                List<BtSysRole> roleList = btSysRoleMapper.selectByExample(btSysRoleExample);
-                roleList.forEach(role -> {
+                BtSysRole role = btSysRoleMapper.findByRoleId(userRole.getRoleId());
+                if (role != null) {
                     roles.add(role.getRoleName());
-                });
+                }
                 BtSysRolePermissionExample btSysRolePermissionExample = new BtSysRolePermissionExample();
                 btSysRolePermissionExample.createCriteria().andRoleIdEqualTo(userRole.getRoleId());
                 List<BtSysRolePermission> btSysRolePermissions = btSysRolePermissionMapper.selectByExample(btSysRolePermissionExample);
@@ -55,7 +53,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
                     BtSysPermissionExample btSysPermissionExample= new BtSysPermissionExample();
                     btSysPermissionExample.createCriteria().andPermissionIdEqualTo(rolePermission.getPermissionId());
                     btSysPermissionMapper.selectByExample(btSysPermissionExample).forEach(permission -> {
-                        permissions.add(permission.getName());
+                        permissions.add(permission.getDesc());
                     });
                 });
             });

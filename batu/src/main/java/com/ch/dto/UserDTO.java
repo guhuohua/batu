@@ -53,4 +53,15 @@ public class UserDTO {
     public void setPermissions(Set<String> permissions) {
         this.permissions = permissions;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "userId='" + userId + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", roles=" + roles +
+                ", permissions=" + permissions +
+                '}';
+    }
 }

@@ -1,9 +1,12 @@
 package com.ch.controller;
 
+import com.ch.base.MyRealm;
 import com.ch.base.ResponseResult;
 import com.ch.dto.UserDTO;
 import com.ch.service.BtSysUserService;
 import com.ch.util.TokenUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -20,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "batu")
 public class LoginController {
+
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
 
     @Autowired
     BtSysUserService btSysUserService;

@@ -4,6 +4,8 @@ import com.ch.entity.BtSysRole;
 import com.ch.entity.BtSysRoleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,4 +65,20 @@ public interface BtSysRoleMapper {
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
     int updateByExample(@Param("record") BtSysRole record, @Param("example") BtSysRoleExample example);
+
+    /**
+     * 根据ID进行查询
+     * @param roleId
+     * @return
+     */
+    @Select("select * from bt_sys_role where role_id = #{roleId}")
+    BtSysRole findByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 根据ID修改实体对象
+     * @param btSysRole
+     * @return
+     */
+    @Update("update bt_sys_role set role_name = #{btSysRole.roleName}, role_desc = #{btSysRole.roleDesc}, update_time = now() where role_id = #{btSysRole.roleId}")
+    int update(@Param("btSysRole") BtSysRole btSysRole);
 }
