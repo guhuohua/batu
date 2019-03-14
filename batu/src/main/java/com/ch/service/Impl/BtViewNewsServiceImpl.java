@@ -2,8 +2,6 @@ package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsMapper;
-import com.ch.entity.BtViewMenu;
-import com.ch.entity.BtViewMenuExample;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtViewNewsService;
@@ -74,4 +72,6 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         result.setData(newsList);
         return result;
     }
+
+
 }
