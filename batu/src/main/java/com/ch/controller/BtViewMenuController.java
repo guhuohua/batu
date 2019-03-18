@@ -1,10 +1,13 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.MenuParam;
+import com.ch.entity.BtViewMenu;
 import com.ch.service.BtViewMenuService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,5 +22,30 @@ public class BtViewMenuController {
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     public ResponseResult findMenu() {
         return btViewMenuService.findTree();
+    }
+
+    @RequestMapping(value = "/pageMenu", method = RequestMethod.GET)
+    public ResponseResult findPageTree(int pageNum, int pageSize){
+        return btViewMenuService.findPageTree(pageNum,pageSize);
+    }
+
+    @RequestMapping(value = "/searchMenu", method = RequestMethod.POST)
+    public ResponseResult searchMenu(@RequestBody MenuParam menuParam){
+        return btViewMenuService.findPage(menuParam);
+    }
+
+    @RequestMapping(value = "/addMenu", method = RequestMethod.POST)
+    public ResponseResult addMenu(@RequestBody BtViewMenu btViewMenu){
+        return btViewMenuService.insert(btViewMenu);
+    }
+
+    @RequestMapping(value = "/updateMenu", method = RequestMethod.POST)
+    public ResponseResult updateMenu(@RequestBody BtViewMenu btViewMenu){
+        return btViewMenuService.updateByPrimaryKey(btViewMenu);
+    }
+
+    @RequestMapping(value = "/deleMenu", method = RequestMethod.GET)
+    public ResponseResult deleMenu(String id){
+        return btViewMenuService.deleteByPrimaryKey(id);
     }
 }

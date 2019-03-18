@@ -116,6 +116,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from bt_view_news_category
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.ch.entity.BtViewNewsCategory">
     <!--
       WARNING - @mbg.generated
@@ -191,5 +195,10 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ch.entity.BtViewNewsCategory" >
+    update bt_view_news_category
+    set news_category = #{newsCategory,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

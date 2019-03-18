@@ -2,7 +2,9 @@ package com.ch.dao;
 
 import com.ch.entity.BtViewMenu;
 import com.ch.entity.BtViewMenuExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -63,4 +65,11 @@ public interface BtViewMenuMapper {
      * @mbg.generated Wed Mar 13 17:29:02 CST 2019
      */
     int updateByExample(@Param("record") BtViewMenu record, @Param("example") BtViewMenuExample example);
+
+
+    int updateByPrimaryKey(BtViewMenu btViewMenu);
+
+    int deleteByPrimaryKey(String id);
+    BtViewMenu selectByPrimaryKey(String id);
+
 }

@@ -1,15 +1,21 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewMenuMapper;
+import com.ch.dto.MenuParam;
 import com.ch.entity.BtViewMenu;
 import com.ch.entity.BtViewMenuExample;
-import com.ch.service.BtSysUserService;
+
+import com.ch.entity.BtViewNews;
+import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtViewMenuService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
 @Service
 public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Autowired
@@ -26,8 +32,48 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     }
 
     @Override
-    public int insert(BtViewMenu record) {
-        return 0;
+    public ResponseResult insert(BtViewMenu record) {
+        ResponseResult result = new ResponseResult();
+        record.setCreateTime(new Date());
+        btViewMenuMapper.insert(record);
+        return result;
+    }
+
+    @Override
+    public ResponseResult deleteByPrimaryKey(String id) {
+        ResponseResult result = new ResponseResult();
+
+        BtViewMenu btViewMenu = btViewMenuMapper.selectByPrimaryKey(id);
+        if(btViewMenu.getParentId().equals("0")){
+
+            BtViewMenuExample example = new BtViewMenuExample();
+            BtViewMenuExample.Criteria criteria = example.createCriteria();
+            criteria.andParentIdEqualTo(id);
+            List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
+           if (btViewMenus!=null){
+               for (BtViewMenu btViewMenu2 :btViewMenus){
+                   btViewMenuMapper.deleteByExample(example);
+               }
+           }else {
+               btViewMenuMapper.deleteByPrimaryKey(id);
+           }
+            btViewMenuMapper.deleteByPrimaryKey(id);
+        }else {
+            BtViewMenuExample example = new BtViewMenuExample();
+            BtViewMenuExample.Criteria criteria = example.createCriteria();
+            criteria.andParentIdEqualTo(id);
+            List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
+            if (btViewMenus!=null){
+                for (BtViewMenu btViewMenu2 :btViewMenus){
+                    btViewMenuMapper.deleteByExample(example);
+                }
+                btViewMenuMapper.deleteByPrimaryKey(id);
+            }else {
+                btViewMenuMapper.deleteByPrimaryKey(id);
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -53,13 +99,12 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Override
     public ResponseResult findTree() {
         ResponseResult result = new ResponseResult();
-        Map<String,Object> data = new HashMap<String,Object>();
         try {//查询所有菜单
             List<BtViewMenu> allMenu = btViewMenuMapper.selectByExample(null);
             //根节点
             List<BtViewMenu> rootMenu = new ArrayList<BtViewMenu>();
             for (BtViewMenu nav : allMenu) {
-                if(nav.getParentId().equals("0")){
+                if (nav.getParentId().equals("0")) {
                     rootMenu.add(nav);
                 }
             }
@@ -76,8 +121,10 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
              *
              */
             result.setCode(0);
+
             result.setData(rootMenu);
             return result;
+
         } catch (Exception e) {
             result.setCode(500);
             result.setError(e.getMessage());
@@ -88,13 +135,14 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
 
     }
 
-    public List<BtViewMenu> getChild(String id,List<BtViewMenu> allMenu){
+
+    public List<BtViewMenu> getChild(String id, List<BtViewMenu> allMenu) {
         //子菜单
         List<BtViewMenu> childList = new ArrayList<BtViewMenu>();
         for (BtViewMenu nav : allMenu) {
             // 遍历所有节点，将所有菜单的父id与传过来的根节点的id比较
             //相等说明：为该根节点的子节点。
-            if((nav.getParentId()!=null) && nav.getParentId().equals(id)){
+            if ((nav.getParentId() != null) && nav.getParentId().equals(id)) {
                 childList.add(nav);
             }
         }
@@ -102,24 +150,64 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         for (BtViewMenu nav : childList) {
             nav.setChildren(getChild(nav.getId(), allMenu));
         }
-        Collections.sort(childList,order());//排序
+        Collections.sort(childList, order());//排序
         //如果节点下没有子节点，返回一个空List（递归退出）
-        if(childList.size() == 0){
+        if (childList.size() == 0) {
             return new ArrayList<BtViewMenu>();
         }
         return childList;
     }
-    public Comparator<BtViewMenu> order(){
+
+    public Comparator<BtViewMenu> order() {
         Comparator<BtViewMenu> comparator = new Comparator<BtViewMenu>() {
             @Override
             public int compare(BtViewMenu o1, BtViewMenu o2) {
-                if(o1.getSortOrder()!= o2.getSortOrder()){
+                if (o1.getSortOrder() != o2.getSortOrder()) {
                     return o1.getSortOrder() - o2.getSortOrder();
                 }
                 return 0;
             }
         };
         return comparator;
+    }
+
+    @Override
+    /**
+     * pageNum:当前页码
+     * pageSize:每页记录数
+     */
+    public ResponseResult findPageTree(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        ResponseResult result = findTree();
+        List<BtViewMenu> data = (List<BtViewMenu>) result.getData();
+        PageInfo<BtViewMenu> page = new PageInfo<>(data);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult findPage(MenuParam menuParam) {
+        PageHelper.startPage(menuParam.getPageNum(), menuParam.getPageSize());
+        BtViewMenuExample example = new BtViewMenuExample();
+        BtViewMenuExample.Criteria criteria = example.createCriteria();
+        if (menuParam.getName() != null) {
+            criteria.andNameLike("%" + menuParam.getName() + "%");
+
+        }
+        List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
+        PageInfo<BtViewMenu> page = new PageInfo<>(btViewMenus);
+        ResponseResult result = new ResponseResult();
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult updateByPrimaryKey(BtViewMenu btViewMenu) {
+        ResponseResult result = new ResponseResult();
+        btViewMenuMapper.updateByPrimaryKey(btViewMenu);
+
+
+        return result;
     }
 
 

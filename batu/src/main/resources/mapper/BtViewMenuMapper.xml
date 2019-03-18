@@ -122,6 +122,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from bt_view_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.ch.entity.BtViewMenu">
     <!--
       WARNING - @mbg.generated
@@ -206,6 +210,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from bt_view_menu
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     <!--
       WARNING - @mbg.generated
@@ -261,5 +271,16 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ch.entity.BtViewMenu">
+    update bt_view_menu
+    set parent_id = #{parentId,jdbcType=VARCHAR},
+    name = #{name,jdbcType=VARCHAR},
+    sort_order = #{sortOrder,jdbcType=INTEGER},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    creater = #{creater,jdbcType=VARCHAR},
+    status = #{status,jdbcType=INTEGER},
+    path = #{path,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
