@@ -1,9 +1,11 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
-import com.ch.dto.UserDTO;
+import com.ch.model.UserDTO;
 import com.ch.service.BtSysUserService;
 import com.ch.util.TokenUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(value = "batu")
 public class LoginController {
+
+    private static final Logger LOGGER = LogManager.getLogger(LoginController.class);
 
     @Autowired
     BtSysUserService btSysUserService;
@@ -41,6 +46,7 @@ public class LoginController {
         }
         return result;
     }
+
 
     @GetMapping("/article")
     public ResponseResult article() {

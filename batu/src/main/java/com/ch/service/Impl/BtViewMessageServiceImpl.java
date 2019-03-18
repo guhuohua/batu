@@ -1,10 +1,13 @@
-package com.ch.service.impl;
+package com.ch.service.Impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewMessageMapper;
+import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import com.ch.service.BtViewMessageService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +64,15 @@ public class BtViewMessageServiceImpl implements BtViewMessageService {
     @Override
     public int updateByExample(BtViewMessage record, BtViewMessageExample example) {
         return 0;
+    }
+
+    @Override
+    public ResponseResult findAll(MessageParam param) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(param.getIndex(), param.getSize());
+        List<BtViewMessage> all = btViewMessageMapper.findAll(param.getName(), param.getPhone());
+        PageInfo<BtViewMessage> btSysRolePageInfo = new PageInfo<>(all);
+        result.setData(btSysRolePageInfo);
+        return result;
     }
 }

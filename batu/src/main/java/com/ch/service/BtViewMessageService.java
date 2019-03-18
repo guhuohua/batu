@@ -1,6 +1,7 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
+import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import org.apache.ibatis.annotations.Param;
@@ -79,4 +80,10 @@ public interface BtViewMessageService {
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
     int updateByExample(@Param("record") BtViewMessage record, @Param("example") BtViewMessageExample example);
+
+    /**
+     * 后台留言列表
+     * @return
+     */
+    ResponseResult findAll(MessageParam param);
 }

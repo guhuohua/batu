@@ -1,6 +1,7 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.service.BtViewMessageService;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,12 @@ public class BaViewMessageController {
             result.setError_description("留言失败");
             return result;
         }
+
+    }
+
+    @PostMapping("find_all")
+    public ResponseResult insert(@RequestBody MessageParam param){
+        return btViewMessageService.findAll(param);
 
     }
 }
