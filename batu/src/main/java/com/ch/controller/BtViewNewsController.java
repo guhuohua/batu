@@ -1,6 +1,7 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.entity.BtViewNews;
 import com.ch.service.BtViewNewsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,9 +17,14 @@ public class BtViewNewsController {
     @Autowired
     private BtViewNewsService btViewNewsService;
     private static final Logger LOGGER = LogManager.getLogger(BtViewNewsController.class);
+
+
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public ResponseResult findViewNewsByMenuId(String menuId) {
         ResponseResult result = new ResponseResult();
+
+
+
         try {
             return  btViewNewsService.findViewNewsByMenuId(menuId);
         } catch (Exception e) {

@@ -20,20 +20,6 @@ public class BtSysNewsController {
     private BtSysNewsService btSysNewsService;
     private static final Logger LOGGER = LogManager.getLogger(BtSysNewsController.class);
 
-    @RequestMapping(value = "/showNews", method = RequestMethod.GET)
-    public ResponseResult showNews(int pageNum, int pageSize) {
-        ResponseResult result = new ResponseResult();
-
-        try {
-            return btSysNewsService.findPage(pageNum, pageSize);
-        } catch (Exception e) {
-            LOGGER.error("列表展示失败"+e.getMessage(),e);
-            result.setCode(500);
-            result.setError(e.getMessage());
-            result.setError_description("列表展示失败");
-            return result;
-        }
-    }
 
     @RequestMapping(value = "/deleNews", method = RequestMethod.POST)
     public ResponseResult deleNews(@RequestBody List<String> ids){
@@ -66,10 +52,10 @@ public class BtSysNewsController {
     }
 
     @RequestMapping(value = "/searchNews", method = RequestMethod.POST)
-    public ResponseResult searchNews(@RequestBody NewsParam pageNum){
+    public ResponseResult searchNews(@RequestBody NewsParam newsParam){
         ResponseResult result = new ResponseResult();
         try {
-            return btSysNewsService.findPage(pageNum);
+            return btSysNewsService.findPage(newsParam);
         } catch (Exception e) {
             LOGGER.error("查询失败"+e.getMessage(),e);
             result.setCode(500);

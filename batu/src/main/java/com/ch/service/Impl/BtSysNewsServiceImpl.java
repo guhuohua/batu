@@ -1,9 +1,12 @@
 package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.BtViewNewsCategoryMapper;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
+import com.ch.entity.BtViewNewsCategory;
+import com.ch.entity.BtViewNewsCategoryExample;
 import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtSysNewsService;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +22,10 @@ import java.util.List;
 public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Autowired
     private BtViewNewsMapper btViewNewsMapper;
+    @Autowired
+    private BtViewNewsCategoryMapper btViewNewsCategoryMapper;
+
+
 
     @Override
     public long countByExample(BtViewNewsExample example) {
@@ -47,26 +54,22 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     }
 
 
-
     /**
      * 分页展示
      *
-     * @param pageNum
-     * @param pageSize
      * @return
      */
-    @Override
-    public ResponseResult findPage(int pageNum, int pageSize) {
+   /* @Override
+    public ResponseResult findPage(NewsParam newsParam) {
         ResponseResult result = new ResponseResult();
-        PageHelper.startPage(pageNum, pageSize);
+        PageHelper.startPage(newsParam.getPageNum(), newsParam.getPageSize());
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(null);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         result.setData(page);
         return result;
 
 
-    }
-
+    }*/
     @Override
     public ResponseResult insert(BtViewNews record) {
         record.setCreateTime(new Date());
@@ -95,6 +98,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Transactional
     public ResponseResult updateByPrimaryKey(BtViewNews record) {
         ResponseResult result = new ResponseResult();
+        record.setUpdateTime(new Date());
         btViewNewsMapper.updateByPrimaryKey(record);
         return result;
     }
@@ -111,15 +115,26 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
 
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
-        if (newsParam.getTitle() != null) {
-                criteria.andTitleLike("%" + newsParam.getTitle() + "%");
-            criteria.andNewCategoryIdEqualTo(newsParam.getCategory());
-        }
+        BtViewNewsCategoryExample categoryExample = new BtViewNewsCategoryExample();
+        BtViewNewsCategoryExample.Criteria categoryCriteria = categoryExample.createCriteria();
 
+        if (newsParam != null) {
+            if (newsParam.getTitle() != null && newsParam.getTitle().length() > 0) {
+                criteria.andTitleLike("%" + newsParam.getTitle() + "%");
+
+            }
+            if (newsParam.getCategory() != null && newsParam.getCategory().length() > 0) {
+                categoryCriteria.andNewsCategoryEqualTo(newsParam.getCategory());
+                List<BtViewNewsCategory> btViewNewsCategories = btViewNewsCategoryMapper.selectByExample(categoryExample);
+                BtViewNewsCategory btViewNewsCategory = btViewNewsCategories.get(0);
+                criteria.andNewCategoryIdEqualTo(btViewNewsCategory.getId()+"");
+            } else {
+                btViewNewsMapper.selectByExample(null);
+            }
+        }
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         ResponseResult result = new ResponseResult();
-
         result.setData(page);
         return result;
 

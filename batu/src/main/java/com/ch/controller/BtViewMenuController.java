@@ -62,16 +62,43 @@ public class BtViewMenuController {
 
     @RequestMapping(value = "/addMenu", method = RequestMethod.POST)
     public ResponseResult addMenu(@RequestBody BtViewMenu btViewMenu){
-        return btViewMenuService.insert(btViewMenu);
+       ResponseResult result = new ResponseResult();
+        try {
+            result =  btViewMenuService.insert(btViewMenu);
+        } catch (Exception e) {
+            LOGGER.error("添加菜单失败" + e.getMessage(), e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("添加菜单失败");
+        }
+        return result;
     }
 
     @RequestMapping(value = "/updateMenu", method = RequestMethod.POST)
-    public ResponseResult updateMenu(@RequestBody BtViewMenu btViewMenu){
-        return btViewMenuService.updateByPrimaryKey(btViewMenu);
+    public ResponseResult updateMenu( @RequestBody BtViewMenu btViewMenu){
+        ResponseResult result = new ResponseResult();
+        try {
+            result =  btViewMenuService.updateByPrimaryKey(btViewMenu);
+        } catch (Exception e) {
+            LOGGER.error("编辑菜单失败" + e.getMessage(), e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("编辑菜单失败");
+        }
+        return result;
     }
 
     @RequestMapping(value = "/deleMenu", method = RequestMethod.GET)
     public ResponseResult deleMenu(String id){
-        return btViewMenuService.deleteByPrimaryKey(id);
+        ResponseResult result = new ResponseResult();
+        try {
+            result = btViewMenuService.deleteByPrimaryKey(id);
+        } catch (Exception e) {
+            LOGGER.error("删除菜单失败" + e.getMessage(), e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("删除菜单失败");
+        }
+        return result;
     }
 }
