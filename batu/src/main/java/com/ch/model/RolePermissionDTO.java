@@ -1,4 +1,4 @@
-package com.ch.dto;
+package com.ch.model;
 
 import java.util.List;
 

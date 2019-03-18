@@ -2,8 +2,7 @@ package com.ch.service.Impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewMessageMapper;
-import com.ch.dto.MessageParam;
-import com.ch.entity.BtSysRole;
+import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import com.ch.service.BtViewMessageService;

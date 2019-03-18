@@ -1,8 +1,7 @@
 package com.ch.controller;
 
-import com.ch.base.MyRealm;
 import com.ch.base.ResponseResult;
-import com.ch.dto.UserDTO;
+import com.ch.model.UserDTO;
 import com.ch.service.BtSysUserService;
 import com.ch.util.TokenUtil;
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping(value = "batu")
@@ -46,6 +46,7 @@ public class LoginController {
         }
         return result;
     }
+
 
     @GetMapping("/article")
     public ResponseResult article() {

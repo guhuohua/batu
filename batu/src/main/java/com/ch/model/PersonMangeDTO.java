@@ -1,12 +1,10 @@
-package com.ch.dto;
+package com.ch.model;
 
 import java.util.Date;
 
-public class UserListDTO {
+public class PersonMangeDTO {
 
-    private String userId;
-
-    private String name;
+    private String userName;
 
     private String phone;
 
@@ -14,24 +12,18 @@ public class UserListDTO {
 
     private String account;
 
-    private int status;
+    private Integer status;
 
-    private Date createDate;
+    private String createDate;
 
-    public String getUserId() {
-        return userId;
+    private String userId;
+
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPhone() {
@@ -58,19 +50,27 @@ public class UserListDTO {
         this.account = account;
     }
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
-    public Date getCreateDate() {
+    public String getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date createDate) {
+    public void setCreateDate(String createDate) {
         this.createDate = createDate;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

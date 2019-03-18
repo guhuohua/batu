@@ -1,8 +1,8 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
-import com.ch.dto.RoleDTO;
-import com.ch.dto.RolePermissionDTO;
+import com.ch.model.RoleDTO;
+import com.ch.model.RolePermissionDTO;
 
 import java.util.List;
 
@@ -50,4 +50,10 @@ public interface BtSysRoleService {
      * @return
      */
     ResponseResult insertPermission(RolePermissionDTO rolePermissionDTO);
+
+    /**
+     * 查询角色
+     * @return
+     */
+    ResponseResult roleList();
 }

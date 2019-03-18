@@ -1,6 +1,6 @@
 package com.ch.base;
 
-import com.ch.dto.UserDTO;
+import com.ch.model.UserDTO;
 import com.ch.service.BtSysUserService;
 import com.ch.util.TokenUtil;
 import org.apache.logging.log4j.LogManager;

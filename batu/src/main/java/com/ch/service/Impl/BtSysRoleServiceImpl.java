@@ -3,8 +3,8 @@ package com.ch.service.Impl;
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtSysRoleMapper;
 import com.ch.dao.BtSysRolePermissionMapper;
-import com.ch.dto.RoleDTO;
-import com.ch.dto.RolePermissionDTO;
+import com.ch.model.RoleDTO;
+import com.ch.model.RolePermissionDTO;
 import com.ch.entity.BtSysRole;
 import com.ch.entity.BtSysRoleExample;
 import com.ch.entity.BtSysRolePermission;
@@ -128,6 +128,14 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
             btSysRolePermissionMapper.insert(btSysRolePermission);
         });
         result.setData(true);
+        return result;
+    }
+
+    @Override
+    public ResponseResult roleList() {
+        ResponseResult result = new ResponseResult();
+        List<BtSysRole> btSysRoleList = btSysRoleMapper.selectByExample(null);
+        result.setData(btSysRoleList);
         return result;
     }
 }

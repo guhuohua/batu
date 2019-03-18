@@ -5,6 +5,7 @@ import com.ch.entity.BtSysUserRoleExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -73,4 +74,13 @@ public interface BtSysUserRoleMapper {
      */
     @Select("select * from bt_sys_user_role where user_id = #{userId}")
     List<BtSysUserRole> findByUserId(@Param("userId") String userId);
+
+    /**
+     * 根据用户ID修改角色ID
+     * @param userId
+     * @param roleId
+     * @return
+     */
+    @Update("update bt_sys_user_role set role_id = #{roleId} where user_id = #{userId}")
+    int updateByUserId(@Param("userId") String userId, @Param("roleId") String roleId);
 }

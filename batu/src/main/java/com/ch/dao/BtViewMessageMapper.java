@@ -1,7 +1,6 @@
 package com.ch.dao;
 
 import com.ch.dao.provider.BtViewMessageProvider;
-import com.ch.dto.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import java.util.List;

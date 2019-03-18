@@ -8,6 +8,7 @@ import com.ch.service.BtSysUserService;
 import com.ch.service.BtViewMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 @Service
@@ -121,6 +122,39 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         };
         return comparator;
     }
+
+    @Override
+    @Transactional
+    public ResponseResult deleteMenu(String id) {
+        ResponseResult result = new ResponseResult();
+        List<String> ids = new ArrayList<>();
+        ids.add(id);
+        BtViewMenu byId = btViewMenuMapper.findById(id);
+        if (byId.getParentId().equals("0")) {
+            BtViewMenuExample btViewMenuExample = new BtViewMenuExample();
+            btViewMenuExample.createCriteria().andParentIdEqualTo(id);
+            List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(btViewMenuExample);
+            btViewMenus.forEach(item -> {
+                ids.add(item.getId());
+                btViewMenuMapper.deleteByParentId(item.getId());
+            });
+        } else {
+            BtViewMenuExample example = new BtViewMenuExample();
+            example.createCriteria().andIdEqualTo(byId.getParentId());
+            BtViewMenu btViewMenu = new BtViewMenu();
+            if (btViewMenuMapper.selectByExample(example).stream().findFirst().isPresent()) {
+                btViewMenu = btViewMenuMapper.selectByExample(example).stream().findFirst().get();
+            }
+            if (btViewMenu.getParentId().equals("0")) {
+                btViewMenuMapper.deleteByParentId(id);
+            }
+        }
+        ids.forEach(menuId -> {
+            btViewMenuMapper.deleteMenuById(Integer.valueOf(menuId));
+        });
+        return result;
+    }
+
 
 
 }

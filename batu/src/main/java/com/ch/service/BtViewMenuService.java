@@ -65,6 +65,13 @@ public interface BtViewMenuService {
      */
     public ResponseResult findTree();
 
+    /**
+     * 删除菜单
+     * @param id
+     * @return
+     */
+    ResponseResult deleteMenu(String id);
+
 }
 
 

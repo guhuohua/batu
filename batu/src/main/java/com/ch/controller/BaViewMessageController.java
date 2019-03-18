@@ -1,7 +1,7 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
-import com.ch.dto.MessageParam;
+import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.service.BtViewMessageService;
 import org.apache.logging.log4j.LogManager;

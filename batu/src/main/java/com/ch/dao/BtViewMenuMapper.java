@@ -1,9 +1,13 @@
 package com.ch.dao;
 
+import com.ch.base.ResponseResult;
 import com.ch.entity.BtViewMenu;
 import com.ch.entity.BtViewMenuExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,4 +67,28 @@ public interface BtViewMenuMapper {
      * @mbg.generated Wed Mar 13 17:29:02 CST 2019
      */
     int updateByExample(@Param("record") BtViewMenu record, @Param("example") BtViewMenuExample example);
+
+    /**
+     * 根据ID进行删除
+     * @param id
+     * @return
+     */
+    @Delete("delete from bt_view_menu where id = #{id}")
+    int deleteMenuById(@Param("id") int id);
+
+    /**
+     * 根据ID进行查询
+     * @param id
+     * @return
+     */
+    @Select("select * from bt_view_menu where id = #{id}")
+    BtViewMenu findById(@Param("id") String id);
+
+    /**
+     * 根据父级ID删除
+     * @param parentId
+     * @return
+     */
+    @Delete("delete from bt_view_menu where parent_id = #{parentId}")
+    int deleteByParentId(@Param("parentId") String parentId);
 }

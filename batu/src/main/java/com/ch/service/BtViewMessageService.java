@@ -1,7 +1,7 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
-import com.ch.dto.MessageParam;
+import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import org.apache.ibatis.annotations.Param;
