@@ -29,6 +29,15 @@ public class LoginController {
     @Autowired
     BtSysUserService btSysUserService;
 
+
+    @GetMapping(value = "logout")
+    public ResponseResult login(HttpServletRequest req, HttpServletResponse res) {
+        ResponseResult result = new ResponseResult();
+        result.setCode(0);
+        return result;
+    }
+
+
     @PostMapping(value = "login")
     public ResponseResult login(HttpServletRequest req, HttpServletResponse res, @RequestBody UserDTO dto){
         ResponseResult result = new ResponseResult();
@@ -46,6 +55,22 @@ public class LoginController {
         }
         return result;
     }
+
+    @GetMapping(value = "user_info")
+    public ResponseResult getUserInfo(HttpServletRequest req, HttpServletResponse res) {
+        String token = req.getHeader("Authorization");
+        String userId = TokenUtil.getUserId(token);
+        ResponseResult result = new ResponseResult();
+        try {
+            result.setData(btSysUserService.findById(userId));
+        } catch (Exception e) {
+            result.setCode(404);
+            result.setError(e.getMessage());
+            result.setError_description("获取用户信息失败");
+        }
+        return result;
+    }
+
 
 
     @GetMapping("/article")

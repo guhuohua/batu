@@ -53,9 +53,9 @@
         <!--</table>-->
         <!--<table tableName="bt_view_message" domainObjectName="BtViewMessage" >-->
         <!--</table>-->
-        <table tableName="bt_sys_user"  enableSelectByPrimaryKey="true"
+        <table tableName="bt_sys_menu"  enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" domainObjectName="BtSysUser" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true" />
+               enableDeleteByPrimaryKey="true" domainObjectName="BtSysMenu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true" />
         <!--<table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >-->
         <!--</table>-->
     </context>

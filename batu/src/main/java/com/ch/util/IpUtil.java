@@ -162,8 +162,7 @@ public class IpUtil {
             }
 
 
-            return new StringBuffer("地址为：" + country + ",").append(region + "省,").append(city + "市,").append(county + ",").append("ISP公司：" + isp)
-                    .toString();
+            return city;
         }
         return null;
     }

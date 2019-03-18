@@ -4,13 +4,14 @@ import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
-import com.ch.service.BtViewNewsService;
+import com.ch.service.BtNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
+
 @Service
-public class BtViewNewsServiceImpl implements BtViewNewsService {
+public class BtNewsServiceImpl implements BtNewsService {
     @Autowired
     private BtViewNewsMapper btViewNewsMapper;
 

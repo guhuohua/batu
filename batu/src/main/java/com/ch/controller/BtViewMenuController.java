@@ -3,6 +3,7 @@ package com.ch.controller;
 import com.ch.base.ResponseResult;
 import com.ch.dto.MenuParam;
 import com.ch.entity.BtViewMenu;
+import com.ch.service.BtSysTrafficStatisticsService;
 import com.ch.service.BtViewMenuService;
 import com.ch.util.AddressUtil;
 import com.ch.util.IpUtil;
@@ -26,6 +27,8 @@ public class BtViewMenuController {
     @Autowired
     private BtViewMenuService btViewMenuService;
     @Autowired
+    BtSysTrafficStatisticsService btSysTrafficStatisticsService;
+    @Autowired
     IpUtil ipUtil;
     private static final Logger LOGGER = LogManager.getLogger(BtViewMenuController.class);
 
@@ -37,13 +40,9 @@ public class BtViewMenuController {
         } catch (SocketException e) {
             e.printStackTrace();
         }
-
-        System.out.println(ipAddr);
         try {
             String addresses = ipUtil.getAddresses("ip=" + ipAddr, "utf-8");
-            System.out.println(addresses);
-            LOGGER.info(ipAddr);
-            LOGGER.info(addresses);
+            btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

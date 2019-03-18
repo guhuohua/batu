@@ -49,7 +49,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
         if (user != null) {
             dto.setUserId(userId);
             dto.setPassword(user.getPassword());
-            dto.setUserName(user.getUsername());
+            dto.setUsername(user.getUsername());
             List<BtSysUserRole> btSysUserRoles = btSysUserRoleMapper.findByUserId(userId);
             Set<String> roles = new HashSet<>();
             Set<String> permissions = new HashSet<>();
@@ -78,7 +78,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
     @Override
     public ResponseResult login(UserDTO userDTO) {
         ResponseResult result = new ResponseResult();
-        if (userDTO.getUserName() == null) {
+        if (userDTO.getUsername() == null) {
             result.setCode(500);
             result.setError("用户名不能为空");
             result.setError_description("用户名不能为空");
@@ -91,12 +91,11 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             return result;
         }
         BtSysUserExample example = new BtSysUserExample();
-        example.createCriteria().andAccountEqualTo(userDTO.getUserName()).andPasswordEqualTo(userDTO.getPassword());
+        example.createCriteria().andAccountEqualTo(userDTO.getUsername()).andPasswordEqualTo(userDTO.getPassword());
         BtSysUser user = null;
-        try {
+        if (btSysUserMapper.selectByExample(example).stream().findFirst().isPresent()) {
             user = btSysUserMapper.selectByExample(example).stream().findFirst().get();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
             result.setCode(500);
             result.setError("用户名或密码输入错误，请重新输入~");
             result.setError_description("用户名或密码输入错误，请重新输入~");
