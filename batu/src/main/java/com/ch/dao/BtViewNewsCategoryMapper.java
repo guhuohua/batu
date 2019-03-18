@@ -63,7 +63,10 @@ public interface BtViewNewsCategoryMapper {
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
     int updateByExample(@Param("record") BtViewNewsCategory record, @Param("example") BtViewNewsCategoryExample example);
+
      int updateByPrimaryKey(BtViewNewsCategory record);
-     int deleteByPrimaryKey(String id);
+
+
+     int deleteByPrimaryKey(Integer id);
 
 }

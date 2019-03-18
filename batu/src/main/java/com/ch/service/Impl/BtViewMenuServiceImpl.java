@@ -34,6 +34,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Override
     public ResponseResult insert(BtViewMenu record) {
         ResponseResult result = new ResponseResult();
+
         record.setCreateTime(new Date());
         btViewMenuMapper.insert(record);
         return result;
@@ -205,8 +206,6 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     public ResponseResult updateByPrimaryKey(BtViewMenu btViewMenu) {
         ResponseResult result = new ResponseResult();
         btViewMenuMapper.updateByPrimaryKey(btViewMenu);
-
-
         return result;
     }
 

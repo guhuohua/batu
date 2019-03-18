@@ -68,5 +68,6 @@ public interface BtViewNewsMapper {
 
 
     int updateByPrimaryKey(BtViewNews record);
+    BtViewNews selectByPrimaryKey (String id);
 
 }

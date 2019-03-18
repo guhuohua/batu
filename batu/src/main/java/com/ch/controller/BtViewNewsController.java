@@ -1,7 +1,8 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
-import com.ch.service.BtNewsService;
+import com.ch.entity.BtViewNews;
+import com.ch.service.BtViewNewsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class BtViewNewsController {
 
     @Autowired
-    private BtNewsService btNewsService;
+    private BtViewNewsService btViewNewsService;
     private static final Logger LOGGER = LogManager.getLogger(BtViewNewsController.class);
+
+
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public ResponseResult findViewNewsByMenuId(String menuId) {
         ResponseResult result = new ResponseResult();
+
+
+
         try {
-            return  btNewsService.findViewNewsByMenuId(menuId);
+            return  btViewNewsService.findViewNewsByMenuId(menuId);
         } catch (Exception e) {
             LOGGER.error("新闻展示失败"+e.getMessage(),e);
             result.setCode(500);

@@ -8,7 +8,7 @@ public class BtViewNewsCategory {
      *
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
-    private String id;
+    private Integer id;
 
     /**
      *
@@ -27,7 +27,7 @@ public class BtViewNewsCategory {
      *
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -39,8 +39,8 @@ public class BtViewNewsCategory {
      *
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /**

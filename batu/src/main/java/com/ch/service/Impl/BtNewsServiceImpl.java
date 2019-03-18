@@ -1,19 +1,23 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
-import com.ch.service.BtNewsService;
+import com.ch.service.BtViewNewsService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
-
-
 @Service
-public class BtNewsServiceImpl implements BtNewsService {
+public class BtViewNewsServiceImpl implements BtViewNewsService {
+
     @Autowired
     private BtViewNewsMapper btViewNewsMapper;
+
+    public static int count=0;
+
 
     @Override
     public long countByExample(BtViewNewsExample example) {
@@ -66,9 +70,15 @@ public class BtNewsServiceImpl implements BtNewsService {
 
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
-        criteria.andStatusEqualTo(0);
+        //criteria.andStatusEqualTo(0);
         criteria.andMenuIdEqualTo(menuId);
         List<BtViewNews> newsList = btViewNewsMapper.selectByExample(example);
+        BtViewNews btViewNews = newsList.get(0);
+
+
+        /*System.out.println(i);
+        btViewNews.setBrowseNumber(i);*/
+        btViewNewsMapper.updateByPrimaryKey(btViewNews);
         ResponseResult result = new ResponseResult();
         result.setData(newsList);
         return result;

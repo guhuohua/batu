@@ -57,11 +57,10 @@ public interface BtSysNewsService  {
 
     /**
      * 分页展示
-     * @param pageNum
-     * @param pageSize
+     *
      * @return
      */
-    public ResponseResult findPage(int pageNum, int pageSize);
+
     public ResponseResult findPage(NewsParam newsParam);
 
     /**

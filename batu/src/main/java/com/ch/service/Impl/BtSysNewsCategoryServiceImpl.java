@@ -28,14 +28,14 @@ public class BtSysNewsCategoryServiceImpl implements BtSysNewsCategoryService {
     }
 
     @Override
-    public ResponseResult delete(String id) {
+    public ResponseResult delete(Integer id) {
         btViewNewsCategoryMapper.deleteByPrimaryKey(id);
         return result;
     }
 
     @Override
-    public ResponseResult delete(List<String> ids) {
-        for (String id : ids){
+    public ResponseResult delete(List<Integer> ids) {
+        for (Integer id : ids){
             btViewNewsCategoryMapper.deleteByPrimaryKey(id);
         }
         return result;

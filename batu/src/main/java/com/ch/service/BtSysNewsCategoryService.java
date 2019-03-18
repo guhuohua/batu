@@ -28,13 +28,13 @@ public interface BtSysNewsCategoryService {
      */
 
 
-    public ResponseResult delete(String id);
+    public ResponseResult delete(Integer id);
 
     /**
      * 批量删除
      * @param ids
      * @return
      */
-    public ResponseResult delete(List<String> ids);
+    public ResponseResult delete(List<Integer> ids);
 
 }
