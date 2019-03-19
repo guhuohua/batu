@@ -142,7 +142,7 @@ public class BtSysRoleController {
         return result;
     }
 
-    @PostMapping(value = "insert _ or_update")
+    @PostMapping(value = "insert_or_update")
     public ResponseResult insertOrUpdate(HttpServletRequest req, HttpServletResponse res, @RequestBody PersonParam personParam) {
         ResponseResult result = new ResponseResult();
         try {

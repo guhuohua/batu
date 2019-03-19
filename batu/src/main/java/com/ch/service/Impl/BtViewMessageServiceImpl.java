@@ -6,6 +6,7 @@ import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import com.ch.service.BtViewMessageService;
+import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class BtViewMessageServiceImpl implements BtViewMessageService {
     public ResponseResult insert(BtViewMessage record) {
         ResponseResult result =new ResponseResult();
         record.setMessageTime(new Date());
+        record.setId(IdUtil.createIdByUUID());
         btViewMessageMapper.insert(record);
         return result;
     }

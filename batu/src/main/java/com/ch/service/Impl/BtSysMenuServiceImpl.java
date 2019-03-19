@@ -1,4 +1,4 @@
-package com.ch.service.impl;
+package com.ch.service.Impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtSysMenuMapper;

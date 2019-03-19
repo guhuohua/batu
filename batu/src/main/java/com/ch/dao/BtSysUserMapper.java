@@ -91,7 +91,8 @@ public interface BtSysUserMapper {
             @Result(column = "account", property = "account", javaType = String.class),
             @Result(column = "status", property = "status", javaType = Integer.class),
             @Result(column = "update_time", property = "createDate", javaType = String.class),
-            @Result(column = "user_id", property = "userId", javaType = String.class)
+            @Result(column = "user_id", property = "userId", javaType = String.class),
+            @Result(column = "role_id", property = "roleId", javaType = String.class)
     })
     List<PersonMangeDTO> btUserList(@Param("userName") String userName, @Param("roleId") String roleId);
 

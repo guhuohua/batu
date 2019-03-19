@@ -90,7 +90,7 @@ public class LoginController {
     }
 
     @GetMapping("/require_role")
-    @RequiresRoles("admin")
+    @RequiresRoles(logical = Logical.OR, value = {"系统管理", "角色管理"})
     public ResponseResult requireRole() {
         return new ResponseResult(200, "You are visiting require_role","",  null);
     }

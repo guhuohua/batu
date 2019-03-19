@@ -1,4 +1,4 @@
-package com.ch.service.impl;
+package com.ch.service.Impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.*;
@@ -133,10 +133,13 @@ public class BtSysUserServiceImpl implements BtSysUserService {
                 String userId = IdUtil.createIdByUUID();
                 btSysUser.setUserId(userId);
                 btSysUser.setAccount(personParam.getAccount());
-                btSysUser.setPassword(personParam.getPassword());
+                if (personParam.getPassword() != null) {
+                    btSysUser.setPassword(personParam.getPassword());
+                }
                 btSysUser.setPhone(personParam.getPhone());
                 btSysUser.setUpdateTime(new Date());
                 btSysUser.setUsername(personParam.getUserName());
+                btSysUser.setStatus(0);
                 btSysUserMapper.insert(btSysUser);
                 BtSysUserRole userRole = new BtSysUserRole();
                 userRole.setRoleId(personParam.getRoleId());

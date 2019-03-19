@@ -6,6 +6,7 @@ import com.ch.entity.BtViewMenu;
 import com.ch.service.BtSysTrafficStatisticsService;
 import com.ch.service.BtViewMenuService;
 import com.ch.util.AddressUtil;
+import com.ch.util.Ip138Util;
 import com.ch.util.IpUtil;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.logging.log4j.LogManager;
@@ -37,15 +38,12 @@ public class BtViewMenuController {
         String ipAddr = null;
         try {
             ipAddr = ipUtil.getInnetIp();
-        } catch (SocketException e) {
-            e.printStackTrace();
-        }
-        try {
-            String addresses = ipUtil.getAddresses("ip=" + ipAddr, "utf-8");
+            String addresses = Ip138Util.queryIP(ipAddr);
             btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
         return btViewMenuService.findTree();
     }
 
