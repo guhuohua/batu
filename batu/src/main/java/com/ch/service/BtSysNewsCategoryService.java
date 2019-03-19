@@ -1,6 +1,7 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsCategory;
 
@@ -36,5 +37,13 @@ public interface BtSysNewsCategoryService {
      * @return
      */
     public ResponseResult delete(List<Integer> ids);
+
+    /**
+     * 分页展示新闻分类
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
+    public ResponseResult findPage(int pageNum ,int pageSize);
 
 }

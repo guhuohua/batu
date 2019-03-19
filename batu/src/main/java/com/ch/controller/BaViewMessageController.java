@@ -6,6 +6,8 @@ import com.ch.entity.BtViewMessage;
 import com.ch.service.BtViewMessageService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +22,7 @@ public class BaViewMessageController {
     private static final Logger LOGGER = LogManager.getLogger(BaViewMessageController.class);
 
     @PostMapping("message")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_message_mange_see","sys_message_mange"})
     public ResponseResult insert(@RequestBody BtViewMessage record){
         ResponseResult<Object> result = new ResponseResult<>();
         try {

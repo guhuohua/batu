@@ -4,5 +4,5 @@ import com.ch.base.ResponseResult;
 
 public interface BtSysMenuService {
 
-    public ResponseResult findTree();
+    public ResponseResult findTree(String userId);
 }
