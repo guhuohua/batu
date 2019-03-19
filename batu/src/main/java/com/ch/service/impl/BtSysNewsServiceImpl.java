@@ -9,6 +9,7 @@ import com.ch.entity.BtViewNewsCategory;
 import com.ch.entity.BtViewNewsCategoryExample;
 import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtSysNewsService;
+import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     public ResponseResult insert(BtViewNews record) {
         record.setCreateTime(new Date());
+        record.setId(IdUtil.createIdByUUID());
         btViewNewsMapper.insert(record);
 
         ResponseResult result = new ResponseResult();

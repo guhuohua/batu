@@ -2,6 +2,7 @@ package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtSysMenuMapper;
+import com.ch.dao.BtSysUserRoleMapper;
 import com.ch.entity.BtSysMenu;
 import com.ch.service.BtSysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,17 @@ import java.util.List;
 public class BtSysMenuServiceImpl implements BtSysMenuService {
    @Autowired
    private BtSysMenuMapper btSysMenuMapper;
+
+  @Autowired
+   private BtSysUserRoleMapper btSysUserRoleMapper;
     @Override
-    public ResponseResult findTree() {
+    public ResponseResult findTree(String userId) {
+
         ResponseResult result = new ResponseResult();
         try {//查询所有菜单
+
+            //btSysUserRoleMapper.selectByExample(example);
+
             List<BtSysMenu> allMenu = btSysMenuMapper.selectByExample(null);
             //根节点
             List<BtSysMenu> rootMenu = new ArrayList<BtSysMenu>();

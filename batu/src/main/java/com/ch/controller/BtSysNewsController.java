@@ -8,6 +8,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,7 @@ public class BtSysNewsController {
 
     @RequestMapping(value = "/deleNews", method = RequestMethod.POST)
     @ApiOperation("删除新闻")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_delete","sys_news_release"})
     public ResponseResult deleNews(@RequestBody List<String> ids){
         ResponseResult result = new ResponseResult();
 
@@ -55,6 +58,7 @@ public class BtSysNewsController {
     }*/
 
     @RequestMapping(value = "/searchNews", method = RequestMethod.POST)
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see","sys_news_release"})
     public ResponseResult searchNews(@RequestBody NewsParam newsParam){
         ResponseResult result = new ResponseResult();
         try {
@@ -70,6 +74,7 @@ public class BtSysNewsController {
 
     @PostMapping(value = "/editNews")
     @ApiOperation("增加或修改新闻")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert","sys_news_see_edit","sys_news_release"})
     public ResponseResult updateNews(@RequestBody BtViewNews record){
         ResponseResult result = new ResponseResult();
         try {

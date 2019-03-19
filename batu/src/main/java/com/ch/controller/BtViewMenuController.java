@@ -13,6 +13,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,6 +66,7 @@ public class BtViewMenuController {
 
     @RequestMapping(value = "/editMenu", method = RequestMethod.POST)
     @ApiOperation("添加或修改菜单")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_menu_edit","sys_mange_menu_insert","sys_mange_menu"})
     public ResponseResult editMenu(@RequestBody BtViewMenu btViewMenu){
        ResponseResult result = new ResponseResult();
         try {
@@ -100,6 +103,7 @@ public class BtViewMenuController {
 
     @RequestMapping(value = "/deleMenu", method = RequestMethod.GET)
     @ApiOperation("删除菜单")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_menu_delete","sys_mange_menu"})
     public ResponseResult deleMenu(String id){
         ResponseResult result = new ResponseResult();
         try {

@@ -121,6 +121,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "person_mange_list")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_see","sys_person_mange_mange"})
     public ResponseResult personMangeList(HttpServletRequest req, HttpServletResponse res, @RequestBody PersonMangeParam param) {
         ResponseResult result = new ResponseResult();
         try {
@@ -149,6 +150,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "insert_or_update")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_insert","sys_person_mange_edit","sys_person_mange_mange"})
     public ResponseResult insertOrUpdate(HttpServletRequest req, HttpServletResponse res, @RequestBody PersonParam personParam) {
         ResponseResult result = new ResponseResult();
         try {
@@ -163,6 +165,7 @@ public class BtSysRoleController {
     }
 
     @GetMapping(value = "reset")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_reset","sys_person_mange_mange"})
     public ResponseResult reset(HttpServletRequest req, HttpServletResponse res, @RequestParam String userId) {
         ResponseResult result = new ResponseResult();
         try {
@@ -177,6 +180,7 @@ public class BtSysRoleController {
     }
 
     @GetMapping(value = "update_status")
+
     public ResponseResult updateStatus(HttpServletRequest req, HttpServletResponse res, @RequestParam String userId, @RequestParam int status) {
         ResponseResult result = new ResponseResult();
         try {
