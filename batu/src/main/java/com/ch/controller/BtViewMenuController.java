@@ -8,6 +8,8 @@ import com.ch.service.BtViewMenuService;
 import com.ch.util.AddressUtil;
 import com.ch.util.Ip138Util;
 import com.ch.util.IpUtil;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,6 +26,7 @@ import java.net.SocketException;
 
 @RestController
 @RequestMapping("/viewMenu")
+@Api(value = "菜单管理",description = "菜单管理")
 public class BtViewMenuController {
     @Autowired
     private BtViewMenuService btViewMenuService;
@@ -34,6 +37,7 @@ public class BtViewMenuController {
     private static final Logger LOGGER = LogManager.getLogger(BtViewMenuController.class);
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
+    @ApiOperation("展示菜单")
     public ResponseResult findMenu(HttpServletRequest req, HttpServletResponse res) {
         String ipAddr = null;
         try {
@@ -57,11 +61,19 @@ public class BtViewMenuController {
         return btViewMenuService.findPage(menuParam);
     }
 
-    @RequestMapping(value = "/addMenu", method = RequestMethod.POST)
-    public ResponseResult addMenu(@RequestBody BtViewMenu btViewMenu){
+    @RequestMapping(value = "/editMenu", method = RequestMethod.POST)
+    @ApiOperation("添加或修改菜单")
+    public ResponseResult editMenu(@RequestBody BtViewMenu btViewMenu){
        ResponseResult result = new ResponseResult();
         try {
-            result =  btViewMenuService.insert(btViewMenu);
+
+            if (btViewMenu.getId()==null){
+                result =  btViewMenuService.insert(btViewMenu);
+            }else {
+                result =  btViewMenuService.updateByPrimaryKey(btViewMenu);
+            }
+
+
         } catch (Exception e) {
             LOGGER.error("添加菜单失败" + e.getMessage(), e);
             result.setCode(500);
@@ -71,7 +83,7 @@ public class BtViewMenuController {
         return result;
     }
 
-    @RequestMapping(value = "/updateMenu", method = RequestMethod.POST)
+  /*  @RequestMapping(value = "/updateMenu", method = RequestMethod.POST)
     public ResponseResult updateMenu( @RequestBody BtViewMenu btViewMenu){
         ResponseResult result = new ResponseResult();
         try {
@@ -83,9 +95,10 @@ public class BtViewMenuController {
             result.setError_description("编辑菜单失败");
         }
         return result;
-    }
+    }*/
 
     @RequestMapping(value = "/deleMenu", method = RequestMethod.GET)
+    @ApiOperation("删除菜单")
     public ResponseResult deleMenu(String id){
         ResponseResult result = new ResponseResult();
         try {

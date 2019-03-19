@@ -6,10 +6,12 @@ import com.ch.entity.BtViewNewsCategory;
 import com.ch.service.BtSysNewsCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class BtSysNewsCategoryServiceImpl implements BtSysNewsCategoryService {
     @Autowired
     private BtViewNewsCategoryMapper btViewNewsCategoryMapper;

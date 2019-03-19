@@ -4,6 +4,8 @@ import com.ch.base.ResponseResult;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.service.BtSysNewsService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sysNews")
+@Api(value = "新闻管理",description = "新闻管理")
 public class BtSysNewsController {
 
     @Autowired
@@ -21,6 +24,7 @@ public class BtSysNewsController {
 
 
     @RequestMapping(value = "/deleNews", method = RequestMethod.POST)
+    @ApiOperation("删除新闻")
     public ResponseResult deleNews(@RequestBody List<String> ids){
         ResponseResult result = new ResponseResult();
 
@@ -35,7 +39,7 @@ public class BtSysNewsController {
         }
     }
 
-    @RequestMapping(value = "/addNews", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/addNews", method = RequestMethod.POST)
     public ResponseResult addNews( @RequestBody BtViewNews record){
         ResponseResult result = new ResponseResult();
 
@@ -48,7 +52,7 @@ public class BtSysNewsController {
             result.setError_description("添加失败");
             return result;
         }
-    }
+    }*/
 
     @RequestMapping(value = "/searchNews", method = RequestMethod.POST)
     public ResponseResult searchNews(@RequestBody NewsParam newsParam){
@@ -64,16 +68,23 @@ public class BtSysNewsController {
         }
     }
 
-    @PostMapping(value = "/updateNews")
+    @PostMapping(value = "/editNews")
+    @ApiOperation("增加或修改新闻")
     public ResponseResult updateNews(@RequestBody BtViewNews record){
         ResponseResult result = new ResponseResult();
         try {
-            return btSysNewsService.updateByPrimaryKey(record);
+
+            if (record.getId()!=null){
+                return btSysNewsService.updateByPrimaryKey(record);
+            }else {
+                return btSysNewsService.insert(record);
+            }
+
         } catch (Exception e) {
-            LOGGER.error("查询失败"+e.getMessage(),e);
+            LOGGER.error("修改失败"+e.getMessage(),e);
             result.setCode(500);
             result.setError(e.getMessage());
-            result.setError_description("查询失败");
+            result.setError_description("修改失败");
             return result;
         }
     }

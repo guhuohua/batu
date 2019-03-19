@@ -32,7 +32,7 @@ public class BtSysRoleController {
     BtSysUserService btSysUserService;
 
     @GetMapping(value = "role_list")
-    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_see"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_see","sys_mange_role"})
     public ResponseResult roleList(HttpServletRequest req, HttpServletResponse res, @RequestParam int index, @RequestParam int size) {
         ResponseResult result = new ResponseResult();
         try {
@@ -47,7 +47,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "insert_role")
-    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_insert"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_insert","sys_mange_role"})
     public ResponseResult insertRole(HttpServletRequest req, HttpServletResponse res, @RequestBody RoleDTO roleDTO) {
         ResponseResult result = new ResponseResult();
         try {
@@ -62,7 +62,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "delete_roles")
-    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_del"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_delete","sys_mange_role"})
     public ResponseResult deleteRoles(HttpServletRequest req, HttpServletResponse res, @RequestBody List<String> roleIds) {
         ResponseResult result = new ResponseResult();
         try {
@@ -77,7 +77,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "update_roles")
-    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_insert"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_edit","sys_mange_role"})
     public ResponseResult updateRoles(HttpServletRequest req, HttpServletResponse res, @RequestBody RoleDTO roleDTO) {
         ResponseResult result = new ResponseResult();
         try {
@@ -106,6 +106,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "save_permission")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_setup","sys_mange_role"})
     public ResponseResult savePermission(HttpServletRequest req, HttpServletResponse res, @RequestBody RolePermissionDTO rolePermissionDTO) {
         ResponseResult result = new ResponseResult();
         try {

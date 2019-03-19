@@ -3,6 +3,7 @@ package com.ch.controller;
 import com.ch.base.ResponseResult;
 import com.ch.entity.BtViewNewsCategory;
 import com.ch.service.BtSysNewsCategoryService;
+import io.swagger.annotations.Api;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("category")
+@Api(value = "新闻分类管理",description = "新闻分类管理")
 public class BtSysNewsCategoryController {
     @Autowired
     private BtSysNewsCategoryService btSysNewsCategoryService;
