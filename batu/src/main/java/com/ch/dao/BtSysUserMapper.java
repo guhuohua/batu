@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.ch.model.PersonMangeDTO;
+import com.ch.model.RolePermissionModel;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -122,4 +123,19 @@ public interface BtSysUserMapper {
      */
     @Update("update bt_sys_user set password = #{status} where user_id = #{userId}")
     int updateStatus(@Param("userId") String userId, @Param("status") int status);
+
+    /**
+     * 根据角色ID查询对应权限
+     * @param roleId
+     * @return
+     */
+    @Select("select bsrp.role_id,bsp.permission_id,bsp.name,bsp.parent_id from bt_sys_role_permission bsrp" +
+            "  left join bt_sys_permission bsp on bsp.permission_id = bsrp.permission_id where bsrp.role_id = #{roleId}")
+    @Results({
+            @Result(column = "role_id", property = "roleId", javaType = String.class),
+            @Result(column = "permission_id", property = "permissionId", javaType = String.class),
+            @Result(column = "name", property = "permissionName", javaType = String.class),
+            @Result(column = "parent_id", property = "parentId", javaType = Integer.class)
+    })
+    List<RolePermissionModel> findAll(@Param("roleId") String roleId);
 }

@@ -4,9 +4,11 @@ import com.ch.base.ResponseResult;
 import com.ch.dao.BtSysPermissionMapper;
 import com.ch.dao.BtSysRoleMapper;
 import com.ch.dao.BtSysRolePermissionMapper;
+import com.ch.dao.BtSysUserMapper;
 import com.ch.entity.*;
 import com.ch.model.RoleDTO;
 import com.ch.model.RolePermissionDTO;
+import com.ch.model.RolePermissionModel;
 import com.ch.service.BtSysRoleService;
 import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
@@ -28,6 +30,9 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
 
     @Autowired
     BtSysPermissionMapper btSysPermissionMapper;
+
+    @Autowired
+    BtSysUserMapper btSysUserMapper;
 
     @Override
     public ResponseResult roleList(int index, int size) {
@@ -101,18 +106,30 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
         return result;
     }
 
+    public Comparator<RolePermissionModel> order() {
+        Comparator<RolePermissionModel> comparator = new Comparator<RolePermissionModel>() {
+            @Override
+            public int compare(RolePermissionModel o1, RolePermissionModel o2) {
+                if (o1.getSortOrder() != o2.getSortOrder()) {
+                    return o1.getSortOrder() - o2.getSortOrder();
+                }
+                return 0;
+            }
+        };
+        return comparator;
+    }
+
     @Override
     public ResponseResult findPermissionByRoleId(String roleId) {
         ResponseResult result = new ResponseResult();
-        BtSysRolePermissionExample example = new BtSysRolePermissionExample();
-        example.createCriteria().andRoleIdEqualTo(roleId);
-        Map<String,String> permission = new HashMap();
-        List<BtSysRolePermission> btSysRolePermissions = btSysRolePermissionMapper.selectByExample(example);
-        btSysRolePermissions.forEach(item -> {
-            BtSysPermission btSysPermission = btSysPermissionMapper.findById(item.getPermissionId());
-            permission.put(item.getPermissionId(), btSysPermission.getName());
-        });
-        result.setData(permission);
+        List<RolePermissionModel> allMenu = btSysUserMapper.findAll(roleId);
+        //根节点
+        List<RolePermissionModel> rootMenu = new ArrayList<RolePermissionModel>();
+        for (RolePermissionModel nav : allMenu) {
+            if (nav.getParentId().equals("0")) {
+                rootMenu.add(nav);
+            }
+        }
         return result;
     }
 
@@ -138,4 +155,7 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
         result.setData(btSysRoleList);
         return result;
     }
+
+
+
 }
