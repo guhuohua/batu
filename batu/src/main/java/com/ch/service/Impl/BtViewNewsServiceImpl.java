@@ -70,15 +70,13 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
 
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
-        //criteria.andStatusEqualTo(0);
         criteria.andMenuIdEqualTo(menuId);
         List<BtViewNews> newsList = btViewNewsMapper.selectByExample(example);
-        BtViewNews btViewNews = newsList.get(0);
-
-
-        /*System.out.println(i);
-        btViewNews.setBrowseNumber(i);*/
-        btViewNewsMapper.updateByPrimaryKey(btViewNews);
+        for(BtViewNews btViewNews :  newsList){
+            Integer browseNumber = btViewNews.getBrowseNumber();
+            btViewNews.setBrowseNumber(++browseNumber);
+            btViewNewsMapper.updateByPrimaryKey(btViewNews);
+        }
         ResponseResult result = new ResponseResult();
         result.setData(newsList);
         return result;

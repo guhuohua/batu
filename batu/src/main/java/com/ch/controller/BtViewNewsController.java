@@ -18,13 +18,9 @@ public class BtViewNewsController {
     private BtViewNewsService btViewNewsService;
     private static final Logger LOGGER = LogManager.getLogger(BtViewNewsController.class);
 
-
     @RequestMapping(value = "/news", method = RequestMethod.GET)
     public ResponseResult findViewNewsByMenuId(String menuId) {
         ResponseResult result = new ResponseResult();
-
-
-
         try {
             return  btViewNewsService.findViewNewsByMenuId(menuId);
         } catch (Exception e) {

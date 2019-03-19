@@ -10,6 +10,7 @@ import com.ch.service.BtSysUserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,7 @@ public class BtSysRoleController {
     BtSysUserService btSysUserService;
 
     @GetMapping(value = "role_list")
+    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_see"})
     public ResponseResult roleList(HttpServletRequest req, HttpServletResponse res, @RequestParam int index, @RequestParam int size) {
         ResponseResult result = new ResponseResult();
         try {
@@ -45,6 +47,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "insert_role")
+    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_insert"})
     public ResponseResult insertRole(HttpServletRequest req, HttpServletResponse res, @RequestBody RoleDTO roleDTO) {
         ResponseResult result = new ResponseResult();
         try {
@@ -59,6 +62,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "delete_roles")
+    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_del"})
     public ResponseResult deleteRoles(HttpServletRequest req, HttpServletResponse res, @RequestBody List<String> roleIds) {
         ResponseResult result = new ResponseResult();
         try {
@@ -73,6 +77,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "update_roles")
+    @RequiresPermissions(logical = Logical.AND, value = {"sys_mange_per_insert"})
     public ResponseResult updateRoles(HttpServletRequest req, HttpServletResponse res, @RequestBody RoleDTO roleDTO) {
         ResponseResult result = new ResponseResult();
         try {
