@@ -1,4 +1,4 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewMessageMapper;
@@ -6,7 +6,6 @@ import com.ch.model.MessageParam;
 import com.ch.entity.BtViewMessage;
 import com.ch.entity.BtViewMessageExample;
 import com.ch.service.BtViewMessageService;
-import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;

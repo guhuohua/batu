@@ -1,4 +1,4 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewMenuMapper;
@@ -6,8 +6,6 @@ import com.ch.dto.MenuParam;
 import com.ch.entity.BtViewMenu;
 import com.ch.entity.BtViewMenuExample;
 
-import com.ch.entity.BtViewNews;
-import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtViewMenuService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;

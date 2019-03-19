@@ -1,9 +1,8 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtSysMenuMapper;
 import com.ch.entity.BtSysMenu;
-import com.ch.entity.BtViewMenu;
 import com.ch.service.BtSysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

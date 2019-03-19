@@ -1,4 +1,4 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsCategoryMapper;
@@ -6,7 +6,6 @@ import com.ch.entity.BtViewNewsCategory;
 import com.ch.service.BtSysNewsCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

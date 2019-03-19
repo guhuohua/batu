@@ -1,11 +1,10 @@
-package com.ch.service.Impl;
+package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtViewNewsService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
