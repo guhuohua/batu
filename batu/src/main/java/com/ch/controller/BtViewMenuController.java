@@ -3,8 +3,10 @@ package com.ch.controller;
 import com.ch.base.ResponseResult;
 import com.ch.dto.MenuParam;
 import com.ch.entity.BtViewMenu;
+import com.ch.service.BtSysTrafficStatisticsService;
 import com.ch.service.BtViewMenuService;
 import com.ch.util.AddressUtil;
+import com.ch.util.Ip138Util;
 import com.ch.util.IpUtil;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.logging.log4j.LogManager;
@@ -26,6 +28,8 @@ public class BtViewMenuController {
     @Autowired
     private BtViewMenuService btViewMenuService;
     @Autowired
+    BtSysTrafficStatisticsService btSysTrafficStatisticsService;
+    @Autowired
     IpUtil ipUtil;
     private static final Logger LOGGER = LogManager.getLogger(BtViewMenuController.class);
 
@@ -34,19 +38,12 @@ public class BtViewMenuController {
         String ipAddr = null;
         try {
             ipAddr = ipUtil.getInnetIp();
-        } catch (SocketException e) {
+            String addresses = Ip138Util.queryIP(ipAddr);
+            btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        System.out.println(ipAddr);
-        try {
-            String addresses = ipUtil.getAddresses("ip=" + ipAddr, "utf-8");
-            System.out.println(addresses);
-            LOGGER.info(ipAddr);
-            LOGGER.info(addresses);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         return btViewMenuService.findTree();
     }
 

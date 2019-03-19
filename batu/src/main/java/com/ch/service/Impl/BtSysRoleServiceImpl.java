@@ -1,14 +1,12 @@
 package com.ch.service.Impl;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.BtSysPermissionMapper;
 import com.ch.dao.BtSysRoleMapper;
 import com.ch.dao.BtSysRolePermissionMapper;
+import com.ch.entity.*;
 import com.ch.model.RoleDTO;
 import com.ch.model.RolePermissionDTO;
-import com.ch.entity.BtSysRole;
-import com.ch.entity.BtSysRoleExample;
-import com.ch.entity.BtSysRolePermission;
-import com.ch.entity.BtSysRolePermissionExample;
 import com.ch.service.BtSysRoleService;
 import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
@@ -17,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class BtSysRoleServiceImpl implements BtSysRoleService {
@@ -29,6 +25,9 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
 
     @Autowired
     BtSysRolePermissionMapper btSysRolePermissionMapper;
+
+    @Autowired
+    BtSysPermissionMapper btSysPermissionMapper;
 
     @Override
     public ResponseResult roleList(int index, int size) {
@@ -107,10 +106,11 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
         ResponseResult result = new ResponseResult();
         BtSysRolePermissionExample example = new BtSysRolePermissionExample();
         example.createCriteria().andRoleIdEqualTo(roleId);
-        List<String> permission = new ArrayList<>();
+        Map<String,String> permission = new HashMap();
         List<BtSysRolePermission> btSysRolePermissions = btSysRolePermissionMapper.selectByExample(example);
         btSysRolePermissions.forEach(item -> {
-            permission.add(item.getPermissionId());
+            BtSysPermission btSysPermission = btSysPermissionMapper.findById(item.getPermissionId());
+            permission.put(item.getPermissionId(), btSysPermission.getName());
         });
         result.setData(permission);
         return result;

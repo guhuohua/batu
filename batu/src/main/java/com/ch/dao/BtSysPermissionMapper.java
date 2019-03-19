@@ -4,6 +4,7 @@ import com.ch.entity.BtSysPermission;
 import com.ch.entity.BtSysPermissionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -63,4 +64,12 @@ public interface BtSysPermissionMapper {
      * @mbg.generated Wed Mar 13 11:57:15 CST 2019
      */
     int updateByExample(@Param("record") BtSysPermission record, @Param("example") BtSysPermissionExample example);
+
+    /**
+     * 根据ID进行查询
+     * @param id
+     * @return
+     */
+    @Select("select * from bt_sys_permission where permission_id = #{id}")
+    BtSysPermission findById(@Param("id") String id);
 }
