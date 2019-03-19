@@ -14,7 +14,27 @@ public class RolePermissionModel {
 
     private Integer sortOrder;
 
+    private Integer checked; //0未选中，1选中
+
+    private String label;
+
     private List<RolePermissionModel> children;
+
+    public Integer getChecked() {
+        return checked;
+    }
+
+    public void setChecked(Integer checked) {
+        this.checked = checked;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
 
     public String getRoleId() {
         return roleId;

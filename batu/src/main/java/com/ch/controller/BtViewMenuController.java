@@ -42,7 +42,8 @@ public class BtViewMenuController {
         String ipAddr = null;
         try {
             ipAddr = ipUtil.getInnetIp();
-            String addresses = Ip138Util.queryIP(ipAddr);
+//            String addresses = Ip138Util.queryIP(ipAddr);
+            String addresses = ipUtil.getAddresses("ip=" + ipAddr, "utf-8");
             btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
         } catch (Exception e) {
             e.printStackTrace();

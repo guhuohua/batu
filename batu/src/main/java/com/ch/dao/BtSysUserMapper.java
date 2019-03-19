@@ -129,13 +129,27 @@ public interface BtSysUserMapper {
      * @param roleId
      * @return
      */
-    @Select("select bsrp.role_id,bsp.permission_id,bsp.name,bsp.parent_id from bt_sys_role_permission bsrp" +
+    @Select("select bsrp.role_id,bsp.permission_id,bsp.name,bsp.parent_id,bsp.sort from bt_sys_role_permission bsrp" +
             "  left join bt_sys_permission bsp on bsp.permission_id = bsrp.permission_id where bsrp.role_id = #{roleId}")
     @Results({
             @Result(column = "role_id", property = "roleId", javaType = String.class),
             @Result(column = "permission_id", property = "permissionId", javaType = String.class),
             @Result(column = "name", property = "permissionName", javaType = String.class),
-            @Result(column = "parent_id", property = "parentId", javaType = Integer.class)
+            @Result(column = "parent_id", property = "parentId", javaType = Integer.class),
+            @Result(column = "sort", property = "sortOrder", javaType = Integer.class)
     })
-    List<RolePermissionModel> findAll(@Param("roleId") String roleId);
+    List<RolePermissionModel> findAllByRoleId(@Param("roleId") String roleId);
+
+    /**
+     * 查询所有角色权限
+     * @return
+     */
+    @Select("select permission_id,name,parent_id,sort from bt_sys_permission")
+    @Results({
+            @Result(column = "permission_id", property = "permissionId", javaType = String.class),
+            @Result(column = "name", property = "permissionName", javaType = String.class),
+            @Result(column = "parent_id", property = "parentId", javaType = Integer.class),
+            @Result(column = "sort", property = "sortOrder", javaType = Integer.class)
+    })
+    List<RolePermissionModel> findAll();
 }

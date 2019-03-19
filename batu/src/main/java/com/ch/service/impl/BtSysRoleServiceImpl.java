@@ -119,23 +119,68 @@ public class BtSysRoleServiceImpl implements BtSysRoleService {
         return comparator;
     }
 
+    private List<RolePermissionModel> getChild(String id, List<RolePermissionModel> allMenu) {
+        //子菜单
+        List<RolePermissionModel> childList = new ArrayList<RolePermissionModel>();
+        for (RolePermissionModel nav : allMenu) {
+            // 遍历所有节点，将所有菜单的父id与传过来的根节点的id比较
+            //相等说明：为该根节点的子节点。
+            if ((nav.getParentId() != null) && nav.getParentId() == Integer.valueOf(id)) {
+                childList.add(nav);
+            }
+        }
+        //递归
+        for (RolePermissionModel nav : childList) {
+            nav.setChildren(getChild(nav.getPermissionId(), allMenu));
+        }
+        Collections.sort(childList, order());//排序
+        //如果节点下没有子节点，返回一个空List（递归退出）
+        if (childList.size() == 0) {
+            return new ArrayList<RolePermissionModel>();
+        }
+        return childList;
+    }
+
     @Override
     public ResponseResult findPermissionByRoleId(String roleId) {
         ResponseResult result = new ResponseResult();
-        List<RolePermissionModel> allMenu = btSysUserMapper.findAll(roleId);
+        List<RolePermissionModel> allMenu = btSysUserMapper.findAll();
+        List<RolePermissionModel> rolePermissionModels = btSysUserMapper.findAllByRoleId(roleId);
+        for (RolePermissionModel root: allMenu) {
+            root.setRoleId(roleId);
+            root.setLabel(root.getPermissionName());
+            for (RolePermissionModel children:rolePermissionModels) {
+                if (children.getPermissionId().equals(root.getPermissionId())) {
+                    root.setChecked(1);
+                    root.setLabel(root.getPermissionName());
+                }
+            }
+        }
         //根节点
         List<RolePermissionModel> rootMenu = new ArrayList<RolePermissionModel>();
         for (RolePermissionModel nav : allMenu) {
-            if (nav.getParentId().equals("0")) {
+            if (nav.getParentId() == 0) {
                 rootMenu.add(nav);
             }
         }
+        /* 根据Menu类的order排序 */
+        Collections.sort(rootMenu, order());
+        //为根菜单设置子菜单，getClild是递归调用的
+        for (RolePermissionModel nav : rootMenu) {
+            /* 获取根节点下的所有子节点 使用getChild方法*/
+            List<RolePermissionModel> childList = getChild(nav.getPermissionId(), allMenu);
+            nav.setChildren(childList);//给根节点设置子节点
+        }
+        result.setData(rootMenu);
         return result;
     }
 
     @Override
     @Transactional
     public ResponseResult insertPermission(RolePermissionDTO rolePermissionDTO) {
+        BtSysRolePermissionExample example = new BtSysRolePermissionExample();
+        example.createCriteria().andRoleIdEqualTo(rolePermissionDTO.getRoleId());
+        btSysRolePermissionMapper.deleteByExample(example);
         ResponseResult result = new ResponseResult();
         String roleId = rolePermissionDTO.getRoleId();
         rolePermissionDTO.getPermissions().forEach(item -> {
