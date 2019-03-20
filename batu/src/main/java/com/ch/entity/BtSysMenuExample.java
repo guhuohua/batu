@@ -274,7 +274,7 @@ public class BtSysMenuExample {
             return (Criteria) this;
         }
 
-        public Criteria andParentIdEqualTo(String value) {
+        public Criteria andParentIdEqualTo(Integer value) {
             addCriterion("parent_id =", value, "parentId");
             return (Criteria) this;
         }

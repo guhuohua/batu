@@ -63,4 +63,9 @@ public interface BtSysMenuMapper {
      * @mbg.generated Mon Mar 18 16:47:12 CST 2019
      */
     int updateByExample(@Param("record") BtSysMenu record, @Param("example") BtSysMenuExample example);
+    int updateByPrimaryKey(BtSysMenu record);
+    int deleteByPrimaryKey(Integer id);
+    BtSysMenu selectByPrimaryKey(Integer id);
+
+
 }

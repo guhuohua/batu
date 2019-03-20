@@ -57,4 +57,11 @@ public class BtSysNewsCategoryServiceImpl implements BtSysNewsCategoryService {
         result.setData(page);
         return result;
     }
+
+    @Override
+    public ResponseResult findAll() {
+        List<BtViewNewsCategory> btViewNewsCategoryList = btViewNewsCategoryMapper.selectByExample(null);
+        result.setData(btViewNewsCategoryList);
+        return result;
+    }
 }

@@ -53,7 +53,17 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
             List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
            if (btViewMenus!=null){
                for (BtViewMenu btViewMenu2 :btViewMenus){
-                   btViewMenuMapper.deleteByExample(example);
+                   BtViewMenuExample example1 = new BtViewMenuExample();
+                   BtViewMenuExample.Criteria criteria1 = example1.createCriteria();
+                   criteria1.andParentIdEqualTo(btViewMenu2.getId()+"");
+                   List<BtViewMenu> btViewMenus1 = btViewMenuMapper.selectByExample(example1);
+
+                   for ( BtViewMenu btViewMenu1 :btViewMenus1){
+                       btViewMenuMapper.deleteByPrimaryKey(btViewMenu1.getId()+"");
+                   }
+
+
+                   btViewMenuMapper.deleteByPrimaryKey(btViewMenu2.getId());
                }
            }else {
                btViewMenuMapper.deleteByPrimaryKey(id);

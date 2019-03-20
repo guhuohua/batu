@@ -22,7 +22,7 @@ public class BaViewMessageController {
     private static final Logger LOGGER = LogManager.getLogger(BaViewMessageController.class);
 
     @PostMapping("message")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_message_mange_see","sys_message_mange"})
+   // @RequiresPermissions(logical = Logical.OR, value = {"sys_message_mange_see","sys_message_mange"})
     public ResponseResult insert(@RequestBody BtViewMessage record){
         ResponseResult<Object> result = new ResponseResult<>();
         try {

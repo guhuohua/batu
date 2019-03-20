@@ -93,4 +93,18 @@ public class BtSysNewsCategoryController {
     public ResponseResult deleById(Integer id) {
         return btSysNewsCategoryService.delete(id);
     }*/
+    @RequestMapping("/findAll")
+    public ResponseResult findAll(){
+        ResponseResult result = new ResponseResult();
+        try {
+            result =  btSysNewsCategoryService.findAll();
+        } catch (Exception e) {
+            LOGGER.error("展示所有分类失败" + e.getMessage(), e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("展示所有分类失败");
+        }
+        return  result;
+    }
+
 }
