@@ -132,7 +132,11 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
                 BtViewNewsCategory btViewNewsCategory = btViewNewsCategories.get(0);
                 criteria.andNewCategoryIdEqualTo(btViewNewsCategory.getId()+"");
             } else {
-                btViewNewsMapper.selectByExample(null);
+                List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(null);
+                PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
+                ResponseResult result = new ResponseResult();
+                result.setData(page);
+                return result;
             }
         }
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
