@@ -45,5 +45,6 @@ public interface BtSysNewsCategoryService {
      * @return
      */
     public ResponseResult findPage(int pageNum ,int pageSize);
+    public ResponseResult findAll();
 
 }
