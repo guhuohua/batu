@@ -87,7 +87,7 @@ public interface BtSysTrafficStatisticsMapper {
      * 统计昨天访问量
      * @return
      */
-    @Select("select count(*) from bt_sys_traffic_statistics where TO_DAYS( NOW( ) ) - TO_DAYS(create_date) <= 1)")
+    @Select("select count(*) from bt_sys_traffic_statistics where TO_DAYS( NOW( ) ) - TO_DAYS(create_date) <= 1")
     Long countYesterday();
 
     /**
@@ -103,4 +103,7 @@ public interface BtSysTrafficStatisticsMapper {
      */
     @Select("select count(*) from bt_sys_traffic_statistics where DATE_FORMAT(create_date, '%Y%m' ) = DATE_FORMAT(CURDATE( ) ,'%Y%m')")
     Long countMonth();
+
+    @Select("select * from bt_sys_traffic_statistics")
+    List<BtSysTrafficStatistics> findAll();
 }

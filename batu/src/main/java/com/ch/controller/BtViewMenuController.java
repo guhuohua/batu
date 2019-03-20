@@ -43,8 +43,7 @@ public class BtViewMenuController {
     public ResponseResult findMenu(HttpServletRequest req, HttpServletResponse res) {
         String ipAddr = null;
         try {
-            ipAddr = ipUtil.getInnetIp();
-//            String addresses = Ip138Util.queryIP(ipAddr);
+            ipAddr = Ip138Util.publicip();
             String addresses = ipUtil.getAddresses("ip=" + ipAddr, "utf-8");
             btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
         } catch (Exception e) {
