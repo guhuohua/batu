@@ -10,10 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,13 +37,13 @@ public class BtSysNewsCategoryController {
         return result;
     }*/
 
-    @RequestMapping(value = "/findPage", method = RequestMethod.GET)
+    @GetMapping(value = "/findPage")
     @ApiOperation("展示新闻分类")
     @RequiresPermissions(logical = Logical.OR, value = {"sys_news_category_see","sys_news_category"})
-    public ResponseResult findPage(int pageNum, int pageSize){
+    public ResponseResult findPage(@RequestParam int index, @RequestParam int size){
         ResponseResult result = new ResponseResult();
         try {
-            result = btSysNewsCategoryService.findPage(pageNum, pageSize);
+            result = btSysNewsCategoryService.findPage(index, size);
         } catch (Exception e) {
             LOGGER.error("展示分类失败" + e.getMessage(), e);
             result.setCode(500);

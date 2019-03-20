@@ -2,37 +2,61 @@ package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtSysMenuMapper;
+import com.ch.dao.BtSysPermissionMapper;
+import com.ch.dao.BtSysRolePermissionMapper;
 import com.ch.dao.BtSysUserRoleMapper;
-import com.ch.entity.BtSysMenu;
+import com.ch.entity.*;
 import com.ch.service.BtSysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 public class BtSysMenuServiceImpl implements BtSysMenuService {
-   @Autowired
-   private BtSysMenuMapper btSysMenuMapper;
+    @Autowired
+    private BtSysMenuMapper btSysMenuMapper;
 
-  @Autowired
-   private BtSysUserRoleMapper btSysUserRoleMapper;
+    @Autowired
+    private BtSysUserRoleMapper btSysUserRoleMapper;
+
+    @Autowired
+    BtSysRolePermissionMapper btSysRolePermissionMapper;
+
+    @Autowired
+    BtSysPermissionMapper btSysPermissionMapper;
+
     @Override
     public ResponseResult findTree(String userId) {
 
         ResponseResult result = new ResponseResult();
+        BtSysUserRoleExample btSysUserRoleExample = new BtSysUserRoleExample();
+        btSysUserRoleExample.createCriteria().andUserIdEqualTo(userId);
+        List<String> permissionNameList = new ArrayList<>();
+        List<BtSysUserRole> btSysUserRoles = btSysUserRoleMapper.selectByExample(btSysUserRoleExample);
+        btSysUserRoles.forEach(userRoles -> {
+            BtSysRolePermissionExample btSysRolePermissionExample = new BtSysRolePermissionExample();
+            btSysRolePermissionExample.createCriteria().andRoleIdEqualTo(userRoles.getRoleId());
+            btSysRolePermissionMapper.selectByExample(btSysRolePermissionExample).forEach(rolePermission -> {
+                BtSysPermissionExample btSysPermissionExample = new BtSysPermissionExample();
+                btSysPermissionExample.createCriteria().andPermissionIdEqualTo(rolePermission.getPermissionId());
+                btSysPermissionMapper.selectByExample(btSysPermissionExample).forEach(permission -> {
+                    permissionNameList.add(permission.getName());
+                });
+            });
+        });
         try {//查询所有菜单
 
             //btSysUserRoleMapper.selectByExample(example);
 
             List<BtSysMenu> allMenu = btSysMenuMapper.selectByExample(null);
+            List<BtSysMenu> collect = allMenu.stream().filter(item -> permissionNameList.contains(item.getLabel())).collect(Collectors.toList());
             //根节点
             List<BtSysMenu> rootMenu = new ArrayList<BtSysMenu>();
-            for (BtSysMenu nav : allMenu) {
+            for (BtSysMenu nav : collect) {
                 if (nav.getParentId().equals("0")) {
                     rootMenu.add(nav);
                 }
@@ -42,7 +66,7 @@ public class BtSysMenuServiceImpl implements BtSysMenuService {
             //为根菜单设置子菜单，getClild是递归调用的
             for (BtSysMenu nav : rootMenu) {
                 /* 获取根节点下的所有子节点 使用getChild方法*/
-                List<BtSysMenu> childList = getChild(nav.getId(), allMenu);
+                List<BtSysMenu> childList = getChild(nav.getId(), collect);
                 nav.setChildren(childList);//给根节点设置子节点
             }
             /**
