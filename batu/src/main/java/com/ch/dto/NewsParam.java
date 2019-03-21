@@ -2,7 +2,7 @@ package com.ch.dto;
 
 public class NewsParam {
     private String title;
-    private String category;
+    private String categoryId;
     private int pageNum;
     private int pageSize;
 
@@ -14,12 +14,12 @@ public class NewsParam {
         this.title = title;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public int getPageNum() {
