@@ -153,7 +153,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     public ResponseResult findPage(NewsParam newsParam) {
 
-        PageHelper.startPage(newsParam.getPageNum(), newsParam.getPageSize());
+        PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
 
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
