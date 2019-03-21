@@ -1,8 +1,11 @@
 package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.BtViewNewsEngMapper;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.entity.BtViewNews;
+import com.ch.entity.BtViewNewsEng;
+import com.ch.entity.BtViewNewsEngExample;
 import com.ch.entity.BtViewNewsExample;
 import com.ch.service.BtViewNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +20,8 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
     @Autowired
     private BtViewNewsMapper btViewNewsMapper;
 
-    public static int count=0;
+    @Autowired
+    BtViewNewsEngMapper btViewNewsEngMapper;
 
 
     @Override
@@ -84,5 +88,19 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         return result;
     }
 
-
+    @Override
+    public ResponseResult findViewNewsEngByMenuId(String menuId) {
+        BtViewNewsEngExample example = new BtViewNewsEngExample();
+        BtViewNewsEngExample.Criteria criteria = example.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNewsEng> newsList = btViewNewsEngMapper.selectByExample(example);
+        for(BtViewNewsEng btViewNews :  newsList){
+            Integer browseNumber = btViewNews.getBrowseNumber();
+            btViewNews.setBrowseNumber(++browseNumber);
+            btViewNewsEngMapper.updateByPrimaryKey(btViewNews);
+        }
+        ResponseResult result = new ResponseResult();
+        result.setData(newsList);
+        return result;
+    }
 }

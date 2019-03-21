@@ -6,6 +6,7 @@ import com.ch.entity.BtViewNews;
 import com.ch.service.BtSysNewsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
@@ -79,7 +80,7 @@ public class BtSysNewsController {
         ResponseResult result = new ResponseResult();
         try {
 
-            if (record.getId()!=null){
+            if (record.getId()!=null && !StringUtils.isEmpty(record.getId())){
                 return btSysNewsService.updateByPrimaryKey(record);
             }else {
                 return btSysNewsService.insert(record);

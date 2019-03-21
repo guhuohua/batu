@@ -2,13 +2,12 @@ package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsCategoryMapper;
+import com.ch.dao.BtViewNewsEngMapper;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.dto.NewsParam;
-import com.ch.entity.BtViewNews;
-import com.ch.entity.BtViewNewsCategory;
-import com.ch.entity.BtViewNewsCategoryExample;
-import com.ch.entity.BtViewNewsExample;
+import com.ch.entity.*;
 import com.ch.service.BtSysNewsService;
+import com.ch.util.BaiduTranslateUtil;
 import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -26,6 +25,11 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     private BtViewNewsMapper btViewNewsMapper;
     @Autowired
     private BtViewNewsCategoryMapper btViewNewsCategoryMapper;
+
+    @Autowired
+    BtViewNewsEngMapper btViewNewsEngMapper;
+    @Autowired
+    BaiduTranslateUtil baiduTranslateUtil;
 
 
     @Override
@@ -72,11 +76,27 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
 
     }*/
     @Override
+    @Transactional
     public ResponseResult insert(BtViewNews record) {
         record.setCreateTime(new Date());
-        record.setId(IdUtil.createIdByUUID());
+        String uuid = IdUtil.createIdByUUID();
+        record.setId(uuid);
+        record.setStatus(0);
+        record.setStatusStr("zh");
         btViewNewsMapper.insert(record);
-
+        BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
+        btViewNewsEng.setId(uuid);
+        btViewNewsEng.setCreateTime(new Date());
+        btViewNewsEng.setUpdateTime(new Date());
+        btViewNewsEng.setBrowseNumber(record.getBrowseNumber());
+        btViewNewsEng.setMenuId(record.getMenuId());
+        btViewNewsEng.setNewCategoryId(record.getNewCategoryId());
+        btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
+        btViewNewsEng.setPictureUrl(record.getPictureUrl());
+        btViewNewsEng.setStatusStr("en");
+        btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
+        btViewNewsEng.setStatus(record.getStatus());
+        btViewNewsEngMapper.insert(btViewNewsEng);
         ResponseResult result = new ResponseResult();
 
         return result;
@@ -90,6 +110,9 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
             BtViewNewsExample.Criteria criteria = example.createCriteria();
             criteria.andIdEqualTo(id);
             btViewNewsMapper.deleteByExample(example);
+            BtViewNewsEngExample engExample = new BtViewNewsEngExample();
+            engExample.createCriteria().andIdEqualTo(id);
+            btViewNewsEngMapper.deleteByExample(engExample);
         }
         ResponseResult result = new ResponseResult();
 
@@ -102,6 +125,11 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         ResponseResult result = new ResponseResult();
         record.setUpdateTime(new Date());
         btViewNewsMapper.updateByPrimaryKey(record);
+        BtViewNewsEng btViewNewsEng = btViewNewsEngMapper.findById(record.getId());
+        btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
+        btViewNewsEng.setUpdateTime(new Date());
+        btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
+        btViewNewsEngMapper.updateByPrimaryKey(btViewNewsEng);
         return result;
     }
 

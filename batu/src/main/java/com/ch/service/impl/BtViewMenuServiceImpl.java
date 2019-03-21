@@ -1,14 +1,20 @@
 package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.BtViewMenuEngMapper;
 import com.ch.dao.BtViewMenuMapper;
 import com.ch.dto.MenuParam;
 import com.ch.entity.BtViewMenu;
+import com.ch.entity.BtViewMenuEng;
+import com.ch.entity.BtViewMenuEngExample;
 import com.ch.entity.BtViewMenuExample;
 
 import com.ch.service.BtViewMenuService;
+import com.ch.util.BaiduTranslateUtil;
+import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +26,15 @@ import java.util.*;
 public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Autowired
     private BtViewMenuMapper btViewMenuMapper;
+
+    @Autowired
+    BtViewMenuEngMapper btViewMenuEngMapper;
+
+    @Autowired
+    BaiduTranslateUtil baiduTranslateUtil;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Override
     public long countByExample(BtViewMenuExample example) {
@@ -34,13 +49,21 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Override
     public ResponseResult insert(BtViewMenu record) {
         ResponseResult result = new ResponseResult();
-
+        String idByUUID = IdUtil.createIdByUUID();
+        record.setId(idByUUID);
         record.setCreateTime(new Date());
         btViewMenuMapper.insert(record);
+
+        BtViewMenuEng btViewMenuEng = new BtViewMenuEng();
+        btViewMenuEng.setId(idByUUID);
+        modelMapper.map(record, btViewMenuEng);
+        btViewMenuEng.setName(baiduTranslateUtil.translate(record.getName()));
+        btViewMenuEngMapper.insert(btViewMenuEng);
         return result;
     }
 
     @Override
+    @Transactional
     public ResponseResult deleteByPrimaryKey(String id) {
         ResponseResult result = new ResponseResult();
 
@@ -55,32 +78,41 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
                for (BtViewMenu btViewMenu2 :btViewMenus){
                    BtViewMenuExample example1 = new BtViewMenuExample();
                    BtViewMenuExample.Criteria criteria1 = example1.createCriteria();
-                   criteria1.andParentIdEqualTo(btViewMenu2.getId()+"");
+                   criteria1.andParentIdEqualTo(btViewMenu2.getId());
                    List<BtViewMenu> btViewMenus1 = btViewMenuMapper.selectByExample(example1);
 
                    for ( BtViewMenu btViewMenu1 :btViewMenus1){
-                       btViewMenuMapper.deleteByPrimaryKey(btViewMenu1.getId()+"");
+                       btViewMenuMapper.deleteByPrimaryKey(btViewMenu1.getId());
+                       btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu1.getId());
                    }
 
 
                    btViewMenuMapper.deleteByPrimaryKey(btViewMenu2.getId());
+                   btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu2.getId());
                }
            }else {
                btViewMenuMapper.deleteByPrimaryKey(id);
+               btViewMenuEngMapper.deleteByPrimaryKey(id);
            }
             btViewMenuMapper.deleteByPrimaryKey(id);
+            btViewMenuEngMapper.deleteByPrimaryKey(id);
         }else {
             BtViewMenuExample example = new BtViewMenuExample();
             BtViewMenuExample.Criteria criteria = example.createCriteria();
             criteria.andParentIdEqualTo(id);
+            BtViewMenuEngExample engExample = new BtViewMenuEngExample();
+            engExample.createCriteria().andParentIdEqualTo(id);
             List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
             if (btViewMenus!=null){
                 for (BtViewMenu btViewMenu2 :btViewMenus){
                     btViewMenuMapper.deleteByExample(example);
+                    btViewMenuEngMapper.deleteByExample(engExample);
                 }
                 btViewMenuMapper.deleteByPrimaryKey(id);
+                btViewMenuEngMapper.deleteByPrimaryKey(id);
             }else {
                 btViewMenuMapper.deleteByPrimaryKey(id);
+                btViewMenuEngMapper.deleteByPrimaryKey(id);
             }
         }
 
@@ -147,7 +179,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     }
 
 
-    public List<BtViewMenu> getChild(String id, List<BtViewMenu> allMenu) {
+    private List<BtViewMenu> getChild(String id, List<BtViewMenu> allMenu) {
         //子菜单
         List<BtViewMenu> childList = new ArrayList<BtViewMenu>();
         for (BtViewMenu nav : allMenu) {
@@ -213,11 +245,86 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     }
 
     @Override
+    @Transactional
     public ResponseResult updateByPrimaryKey(BtViewMenu btViewMenu) {
         ResponseResult result = new ResponseResult();
         btViewMenuMapper.updateByPrimaryKey(btViewMenu);
+        BtViewMenuEng btViewMenuEng = btViewMenuEngMapper.findById(btViewMenu.getId());
+        btViewMenuEng.setName(baiduTranslateUtil.translate(btViewMenu.getName()));
+        btViewMenuEngMapper.updateByPrimaryKey(btViewMenuEng);
         return result;
     }
 
 
+    @Override
+    public ResponseResult findTreeEng() {
+        ResponseResult result = new ResponseResult();
+        try {//查询所有菜单
+            List<BtViewMenuEng> allMenu = btViewMenuEngMapper.selectByExample(null);
+            //根节点
+            List<BtViewMenuEng> rootMenu = new ArrayList<BtViewMenuEng>();
+            for (BtViewMenuEng nav : allMenu) {
+                if (nav.getParentId().equals("0")) {
+                    rootMenu.add(nav);
+                }
+            }
+            /* 根据Menu类的order排序 */
+            Collections.sort(rootMenu, orderEng());
+            //为根菜单设置子菜单，getClild是递归调用的
+            for (BtViewMenuEng nav : rootMenu) {
+                /* 获取根节点下的所有子节点 使用getChild方法*/
+                List<BtViewMenuEng> childList = getChildEng(nav.getId(), allMenu);
+                nav.setChildren(childList);//给根节点设置子节点
+            }
+            /**
+             * 输出构建好的菜单数据。
+             *
+             */
+            result.setCode(0);
+
+            result.setData(rootMenu);
+            return result;
+
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("菜单生成异常");
+            return result;
+        }
+    }
+
+    private List<BtViewMenuEng> getChildEng(String id, List<BtViewMenuEng> allMenu) {
+        //子菜单
+        List<BtViewMenuEng> childList = new ArrayList<BtViewMenuEng>();
+        for (BtViewMenuEng nav : allMenu) {
+            // 遍历所有节点，将所有菜单的父id与传过来的根节点的id比较
+            //相等说明：为该根节点的子节点。
+            if ((nav.getParentId() != null) && nav.getParentId().equals(id)) {
+                childList.add(nav);
+            }
+        }
+        //递归
+        for (BtViewMenuEng nav : childList) {
+            nav.setChildren(getChildEng(nav.getId(), allMenu));
+        }
+        Collections.sort(childList, orderEng());//排序
+        //如果节点下没有子节点，返回一个空List（递归退出）
+        if (childList.size() == 0) {
+            return new ArrayList<BtViewMenuEng>();
+        }
+        return childList;
+    }
+
+    public Comparator<BtViewMenuEng> orderEng() {
+        Comparator<BtViewMenuEng> comparator = new Comparator<BtViewMenuEng>() {
+            @Override
+            public int compare(BtViewMenuEng o1, BtViewMenuEng o2) {
+                if (o1.getSortOrder() != o2.getSortOrder()) {
+                    return o1.getSortOrder() - o2.getSortOrder();
+                }
+                return 0;
+            }
+        };
+        return comparator;
+    }
 }

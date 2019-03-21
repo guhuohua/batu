@@ -65,8 +65,9 @@ public interface BtViewMenuService {
      * 展示网站首页菜单
      * @return
      */
-    public ResponseResult findTree();
+    ResponseResult findTree();
 
+    ResponseResult findTreeEng();
 
     /**
      * 分页展示菜单

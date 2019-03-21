@@ -32,5 +32,19 @@ public class BtViewNewsController {
         }
     }
 
+    @RequestMapping(value = "/news_eng", method = RequestMethod.GET)
+    public ResponseResult findViewNewsEngByMenuId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.findViewNewsEngByMenuId(menuId);
+        } catch (Exception e) {
+            LOGGER.error("新闻展示失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("新闻展示失败");
+            return result;
+        }
+    }
+
 
 }

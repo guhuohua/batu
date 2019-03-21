@@ -16,10 +16,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +39,26 @@ public class BtViewMenuController {
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
     @ApiOperation("展示菜单")
-    public ResponseResult findMenu(HttpServletRequest req, HttpServletResponse res) {
+    public ResponseResult findMenu(HttpServletRequest req, HttpServletResponse res, @RequestParam Boolean flg) {
+        String ipAddr = null;
+        try {
+            if (!flg) {
+                String clientIP = IpUtil.getClientIP(req);
+                String addresses = ip138Util.getCityInfo(clientIP);
+                System.out.println(addresses);
+                System.out.println("clientIP:" + clientIP);
+                btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return btViewMenuService.findTree();
+    }
+
+    @RequestMapping(value = "/menu_eng", method = RequestMethod.GET)
+    @ApiOperation("展示菜单")
+    public ResponseResult findMenuEng(HttpServletRequest req, HttpServletResponse res) {
         String ipAddr = null;
         try {
             String clientIP = IpUtil.getClientIP(req);
@@ -54,7 +70,7 @@ public class BtViewMenuController {
             e.printStackTrace();
         }
 
-        return btViewMenuService.findTree();
+        return btViewMenuService.findTreeEng();
     }
 
     @RequestMapping(value = "/pageMenu", method = RequestMethod.GET)

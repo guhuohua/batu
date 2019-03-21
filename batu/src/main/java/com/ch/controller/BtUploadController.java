@@ -20,4 +20,9 @@ public class BtUploadController {
     public UploadName upload(MultipartFile file) {
         return btUploadService.upload(file);
     }
+
+    @PostMapping(value = "uploadFile")
+    public ResponseResult uploadFile(MultipartFile file) {
+        return btUploadService.uploadFile(file);
+    }
 }
