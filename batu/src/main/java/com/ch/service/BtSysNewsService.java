@@ -84,5 +84,6 @@ public interface BtSysNewsService  {
      * @return
      */
     public ResponseResult updateByPrimaryKey(BtViewNews record);
+    public ResponseResult updateStatus (String id,int status);
 
 }
