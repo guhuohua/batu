@@ -95,5 +95,11 @@ public class BtSysNewsController {
         }
     }
 
+    @RequestMapping("/updateStatus")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert","sys_news_see_edit","sys_news_release"})
+    public ResponseResult updateStatus(String id,int status){
+       return  btSysNewsService.updateStatus(id,status);
+    }
+
 
 }

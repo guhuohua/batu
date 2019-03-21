@@ -134,6 +134,17 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         return result;
     }
 
+    @Override
+    public ResponseResult updateStatus(String id,int status) {
+
+        ResponseResult result = new ResponseResult();
+
+        btViewNewsMapper.updateStatus(id,status);
+
+
+        return result;
+    }
+
     /**
      * 分页展示
      *
@@ -175,5 +186,6 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
 
 
     }
+
 
 }
