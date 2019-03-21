@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,7 +34,7 @@ public class BtSysMenuController {
     public ResponseResult editSysMenu( @RequestBody BtSysMenu btSysMenu){
        ResponseResult result = new ResponseResult();
        try {
-           if (btSysMenu.getId()!=null){
+           if (btSysMenu.getId()!=null && !StringUtils.isEmpty(btSysMenu.getId())){
               result =  btSysMenuService.update(btSysMenu);
            }else {
               result =  btSysMenuService.add(btSysMenu);

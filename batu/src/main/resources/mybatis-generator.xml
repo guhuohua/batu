@@ -6,7 +6,7 @@
 <generatorConfiguration>
 
     <!-- mysql-connector-java-5.1.46.jar的绝对路径 -->
-    <classPathEntry location="/Users/changhan/Downloads/repository/repository/mysql/mysql-connector-java/5.1.6/mysql-connector-java-5.1.6.jar" />
+    <classPathEntry location="/Users/changhan/Downloads/repository/repository/mysql/mysql-connector-java/8.0.15/mysql-connector-java-8.0.15.jar" />
 
     <context id="DB2Tables" targetRuntime="MyBatis3">
         <!-- 配置数据源 -->
@@ -53,9 +53,10 @@
         <!--</table>-->
         <!--<table tableName="bt_view_message" domainObjectName="BtViewMessage" >-->
         <!--</table>-->
-        <table tableName="bt_sys_menu"  enableSelectByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" domainObjectName="BtSysMenu" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true" />
+        <table tableName="bt_view_news_eng" domainObjectName="BtViewNewsEng" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+        <table tableName="bt_view_menu_eng" domainObjectName="BtViewMenuEng" enableCountByExample="true" enableUpdateByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
         <!--<table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >-->
         <!--</table>-->
     </context>

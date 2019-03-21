@@ -82,6 +82,10 @@ public interface BtViewNewsService {
 
     public ResponseResult findViewNewsByMenuId(String menuId);
 
-
-
+    /**
+     * 根据ID查询英文信息
+     * @param menuId
+     * @return
+     */
+    ResponseResult findViewNewsEngByMenuId(String menuId);
 }

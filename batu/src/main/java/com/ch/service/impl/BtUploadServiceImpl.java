@@ -15,6 +15,17 @@ public class BtUploadServiceImpl implements BtUploadService {
     OSSUtil ossUtil;
 
     @Override
+    public ResponseResult uploadFile(MultipartFile file) {
+        ResponseResult result = new ResponseResult();
+        UploadName uploadName = new UploadName();
+        String upload = ossUtil.upload(file);
+        uploadName.setUrl(upload);
+        uploadName.setName(file.getOriginalFilename());
+        result.setData(uploadName);
+        return result;
+    }
+
+    @Override
     public UploadName upload(MultipartFile file) {
         UploadName result = new UploadName();
         String upload = ossUtil.upload(file);

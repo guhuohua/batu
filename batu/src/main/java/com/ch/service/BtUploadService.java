@@ -12,4 +12,6 @@ public interface BtUploadService {
      * @return
      */
     UploadName upload(MultipartFile file);
+
+    ResponseResult uploadFile(MultipartFile file);
 }

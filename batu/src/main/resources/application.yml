@@ -16,6 +16,10 @@ oss:
   bucketName: batu-gaoma
   filehost: batu
 
+baidu:
+  accessKeyId: 20190321000279610
+  accessKeySecret: 9CP6u0S76T1fnoui_UTn
+
 spring:
   redis:
       #数据库索引
