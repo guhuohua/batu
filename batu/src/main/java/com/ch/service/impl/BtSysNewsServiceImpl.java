@@ -32,7 +32,6 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     BaiduTranslateUtil baiduTranslateUtil;
 
 
-
     @Override
     public long countByExample(BtViewNewsExample example) {
         return 0;
@@ -135,11 +134,11 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     }
 
     @Override
-    public ResponseResult updateStatus(String id,int status) {
+    public ResponseResult updateStatus(String id, int status) {
 
         ResponseResult result = new ResponseResult();
 
-        btViewNewsMapper.updateStatus(id,status);
+        btViewNewsMapper.updateStatus(id, status);
 
 
         return result;
@@ -165,27 +164,28 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
                 criteria.andTitleLike("%" + newsParam.getTitle() + "%");
 
             }
-            if (newsParam.getCategory() != null && newsParam.getCategory().length() > 0) {
-                categoryCriteria.andNewsCategoryEqualTo(newsParam.getCategory());
-                List<BtViewNewsCategory> btViewNewsCategories = btViewNewsCategoryMapper.selectByExample(categoryExample);
-                BtViewNewsCategory btViewNewsCategory = btViewNewsCategories.get(0);
-                criteria.andNewCategoryIdEqualTo(btViewNewsCategory.getId()+"");
-            } else {
+            if (newsParam.getCategoryId() != null && newsParam.getCategoryId().length() > 0) {
+                criteria.andNewCategoryIdEqualTo(newsParam.getCategoryId());
+
+            } else if (newsParam.getPageNum()>0 && newsParam.getPageSize()>0){
                 List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(null);
                 PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
                 ResponseResult result = new ResponseResult();
                 result.setData(page);
                 return result;
             }
+
+
         }
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         ResponseResult result = new ResponseResult();
         result.setData(page);
         return result;
-
-
     }
-
-
 }
+
+
+
+
+
