@@ -1,5 +1,6 @@
 package com.ch.util;
 
+import io.micrometer.core.instrument.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,88 +14,78 @@ import java.util.regex.Pattern;
 @Component
 public class IpUtil {
     /**
-     * 获取本机的内网ip地址
-     *
+     * 获取Ip地址
+     * @param request
      * @return
-     * @throws SocketException
      */
-    public String getInnetIp() throws SocketException {
-        String localip = null;// 本地IP，如果没有配置外网IP则返回它
-        String netip = null;// 外网IP
-        Enumeration<NetworkInterface> netInterfaces;
-        netInterfaces = NetworkInterface.getNetworkInterfaces();
-        InetAddress ip = null;
-        boolean finded = false;// 是否找到外网IP
-        while (netInterfaces.hasMoreElements() && !finded) {
-            NetworkInterface ni = netInterfaces.nextElement();
-            Enumeration<InetAddress> address = ni.getInetAddresses();
-            while (address.hasMoreElements()) {
-                ip = address.nextElement();
-                if (!ip.isSiteLocalAddress()
-                        && !ip.isLoopbackAddress()
-                        && ip.getHostAddress().indexOf(":") == -1) {// 外网IP
-                    netip = ip.getHostAddress();
-                    finded = true;
-                    break;
-                } else if (ip.isSiteLocalAddress()
-                        && !ip.isLoopbackAddress()
-                        && ip.getHostAddress().indexOf(":") == -1) {// 内网IP
-                    localip = ip.getHostAddress();
-                }
+    public  String getIpAdrress(HttpServletRequest request) {
+        String Xip = request.getHeader("X-Real-IP");
+        String XFor = request.getHeader("X-Forwarded-For");
+        if(StringUtils.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)){
+            //多次反向代理后会有多个ip值，第一个ip才是真实ip
+            int index = XFor.indexOf(",");
+            if(index != -1){
+                return XFor.substring(0,index);
+            }else{
+                return XFor;
             }
         }
-        if (netip != null && !"".equals(netip)) {
-            return netip;
-        } else {
-            return localip;
+        XFor = Xip;
+        if(StringUtils.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)){
+            return XFor;
         }
+        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+            XFor = request.getHeader("Proxy-Client-IP");
+        }
+        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+            XFor = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+            XFor = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+            XFor = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+            XFor = request.getRemoteAddr();
+        }
+        return XFor;
     }
 
-    /**
-     * 获取本机的外网ip地址
-     *
-     * @return
-     */
-    public String getV4IP() {
-        String ip = "";
-        String chinaz = "http://ip.chinaz.com";
+    public static String getClientIP(HttpServletRequest request) {
+        String ipAddress = request.getHeader("x-forwarded-for");
 
-        StringBuilder inputLine = new StringBuilder();
-        String read = "";
-        URL url = null;
-        HttpURLConnection urlConnection = null;
-        BufferedReader in = null;
-        try {
-            url = new URL(chinaz);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), "UTF-8"));
-            while ((read = in.readLine()) != null) {
-                inputLine.append(read + "\r\n");
-            }
-//System.out.println(inputLine.toString());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (in != null) {
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.length() == 0 || "unknow".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ipAddress == null || ipAddress.length() == 0 || "unknown".equalsIgnoreCase(ipAddress)) {
+            ipAddress = request.getRemoteAddr();
+
+            if (ipAddress.equals("127.0.0.1") || ipAddress.equals("0:0:0:0:0:0:0:1")) {
+                //根据网卡获取本机配置的IP地址
+                InetAddress inetAddress = null;
                 try {
-                    in.close();
-                } catch (IOException e) {
-// TODO Auto-generated catch block
+                    inetAddress = InetAddress.getLocalHost();
+                } catch (UnknownHostException e) {
                     e.printStackTrace();
                 }
+                ipAddress = inetAddress.getHostAddress();
             }
         }
-        Pattern p = Pattern.compile("\\<dd class\\=\"fz24\">(.*?)\\<\\/dd>");
-        Matcher m = p.matcher(inputLine.toString());
-        if (m.find()) {
-            String ipstr = m.group(1);
-            ip = ipstr;
-//System.out.println(ipstr);
+        //对于通过多个代理的情况，第一个IP为客户端真实的IP地址，多个IP按照','分割
+        if (null != ipAddress && ipAddress.length() > 15) {
+            //"***.***.***.***".length() = 15
+            if (ipAddress.indexOf(",") > 0) {
+                ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
+            }
         }
-        return ip;
+        return ipAddress;
     }
+
+
 
 
     /**

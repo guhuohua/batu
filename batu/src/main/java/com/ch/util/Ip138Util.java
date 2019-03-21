@@ -1,17 +1,34 @@
 package com.ch.util;
 
 import com.ch.base.AddressJsonData;
+import com.ch.config.ConstantConfig;
 import net.sf.json.JSONObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.lionsoul.ip2region.DataBlock;
+import org.lionsoul.ip2region.DbConfig;
+import org.lionsoul.ip2region.DbSearcher;
+import org.lionsoul.ip2region.Util;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+@Component
 public class Ip138Util {
+
+    private static final Logger LOGGER = LogManager.getLogger(Ip138Util.class);
+
+    @Resource
+    ConstantConfig constantConfig;
 
     public static String DATATYPE = "jsonp";
 
@@ -84,6 +101,52 @@ public class Ip138Util {
                 e.printStackTrace();
             }
         }
+        return null;
+    }
+
+    public String getCityInfo(String ip){
+
+        File file = new File(constantConfig.getPath());
+        if ( file.exists() == false ) {
+            System.out.println("Error: Invalid ip2region.db file");
+        }
+
+        //查询算法
+        int algorithm = DbSearcher.BTREE_ALGORITHM; //B-tree
+        //DbSearcher.BINARY_ALGORITHM //Binary
+        //DbSearcher.MEMORY_ALGORITYM //Memory
+        try {
+            DbConfig config = new DbConfig();
+            DbSearcher searcher = new DbSearcher(config, constantConfig.getPath());
+
+            //define the method
+            Method method = null;
+            switch ( algorithm )
+            {
+                case DbSearcher.BTREE_ALGORITHM:
+                    method = searcher.getClass().getMethod("btreeSearch", String.class);
+                    break;
+                case DbSearcher.BINARY_ALGORITHM:
+                    method = searcher.getClass().getMethod("binarySearch", String.class);
+                    break;
+                case DbSearcher.MEMORY_ALGORITYM:
+                    method = searcher.getClass().getMethod("memorySearch", String.class);
+                    break;
+            }
+
+            DataBlock dataBlock = null;
+            if ( Util.isIpAddress(ip) == false ) {
+                System.out.println("Error: Invalid ip address");
+            }
+
+            dataBlock  = (DataBlock) method.invoke(searcher, ip);
+
+            return dataBlock.getRegion();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 }

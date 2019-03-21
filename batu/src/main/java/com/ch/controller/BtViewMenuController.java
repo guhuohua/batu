@@ -36,6 +36,8 @@ public class BtViewMenuController {
     BtSysTrafficStatisticsService btSysTrafficStatisticsService;
     @Autowired
     IpUtil ipUtil;
+    @Autowired
+    Ip138Util ip138Util;
     private static final Logger LOGGER = LogManager.getLogger(BtViewMenuController.class);
 
     @RequestMapping(value = "/menu", method = RequestMethod.GET)
@@ -43,8 +45,10 @@ public class BtViewMenuController {
     public ResponseResult findMenu(HttpServletRequest req, HttpServletResponse res) {
         String ipAddr = null;
         try {
-            ipAddr = Ip138Util.publicip();
-            String addresses = ipUtil.getAddresses("ip=" + ipAddr, "utf-8");
+            String clientIP = IpUtil.getClientIP(req);
+            String addresses = ip138Util.getCityInfo(clientIP);
+            System.out.println(addresses);
+            System.out.println("clientIP:" + clientIP);
             btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
         } catch (Exception e) {
             e.printStackTrace();
