@@ -36,4 +36,19 @@ public class BaiduTranslateUtil {
         }
         return null;
     }
+
+    public String translateFan(String param) {
+        TransApi api = new TransApi(baiduProperties.getAccessKeyId(), baiduProperties.getAccessKeySecret());
+        String transResult = api.getTransResult(param, "zh", "cht");
+        LOGGER.info(transResult);
+        System.out.println(transResult);
+        JSONObject jsonObject = JSONObject.fromObject(transResult);
+        Map<String, Class<Result>> map = new HashMap<String, Class<Result>>();
+        map.put("trans_result", Result.class);
+        TranslateResult translateResult = (TranslateResult) JSONObject.toBean(jsonObject, TranslateResult.class, map);
+        if (translateResult.getTrans_result().stream().findFirst().isPresent()) {
+            return translateResult.getTrans_result().stream().findFirst().get().getDst();
+        }
+        return null;
+    }
 }
