@@ -23,11 +23,16 @@ public class BtSysMenuController {
    private BtSysMenuService btSysMenuService;
     private static final Logger LOGGER = LogManager.getLogger(BtViewNewsController.class);
 
-   @RequestMapping("/findTree")
-    public ResponseResult findTree(HttpServletRequest req){
+   @RequestMapping("/findRoleTree")
+    public ResponseResult findRoleTree(HttpServletRequest req){
        String token = req.getHeader("Authorization");
        String userId = TokenUtil.getUserId(token);
         return btSysMenuService.findTree(userId);
+    }
+
+    @RequestMapping("/findTree")
+    public ResponseResult findTree(HttpServletRequest req){
+        return btSysMenuService.findTree();
     }
 
    @RequestMapping(value = "/addSysMenu",method = RequestMethod.POST)

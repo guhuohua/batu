@@ -193,4 +193,46 @@ public class BtSysMenuServiceImpl implements BtSysMenuService {
 
         return result;
     }
+
+    @Override
+    public ResponseResult findTree() {
+        ResponseResult result = new ResponseResult();
+
+        try {//查询所有菜单
+
+
+            List<BtSysMenu> allMenu = btSysMenuMapper.selectByExample(null);
+            //根节点
+            List<BtSysMenu> rootMenu = new ArrayList<BtSysMenu>();
+            for (BtSysMenu nav : allMenu) {
+                if (nav.getParentId() == 0) {
+                    rootMenu.add(nav);
+                }
+            }
+            /* 根据Menu类的order排序 */
+            Collections.sort(rootMenu, order());
+            //为根菜单设置子菜单，getClild是递归调用的
+            for (BtSysMenu nav : rootMenu) {
+                /* 获取根节点下的所有子节点 使用getChild方法*/
+                List<BtSysMenu> childList = getChild(nav.getId(), allMenu);
+                nav.setChildren(childList);//给根节点设置子节点
+            }
+            /**
+             * 输出构建好的菜单数据。
+             *
+             */
+            result.setCode(0);
+
+            result.setData(rootMenu);
+            return result;
+
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("菜单生成异常");
+            return result;
+        }
+    }
+
 }
+

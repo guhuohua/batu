@@ -5,8 +5,9 @@ import com.ch.entity.BtSysMenu;
 
 public interface BtSysMenuService {
 
-    public ResponseResult findTree(String userId);
-    public ResponseResult add(BtSysMenu btSysMenu);
-    public ResponseResult update(BtSysMenu btSysMenu);
-    public ResponseResult dele(Integer id);
+    ResponseResult findTree(String userId);
+    ResponseResult findTree();
+    ResponseResult add(BtSysMenu btSysMenu);
+    ResponseResult update(BtSysMenu btSysMenu);
+    ResponseResult dele(Integer id);
 }
