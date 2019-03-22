@@ -140,7 +140,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         ResponseResult result = new ResponseResult();
 
         btViewNewsMapper.updateStatus(id, status);
-
+        btViewNewsEngMapper.updateStatus(id,status);
 
         return result;
     }

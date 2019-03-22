@@ -79,4 +79,9 @@ public interface BtViewNewsEngMapper {
             " picture_url = #{btViewNewsEng.pictureUrl}, new_category_id = #{btViewNewsEng.newCategoryId}, menu_id = #{btViewNewsEng.menuId}," +
             " browse_number = #{btViewNewsEng.browseNumber}, create_time = #{btViewNewsEng.createTime}  where id = #{btViewNewsEng.id}")
     int updateByPrimaryKey(@Param("btViewNewsEng") BtViewNewsEng btViewNewsEng);
+
+
+    @Update("update bt_view_news set status = #{status} where id = #{id}" )
+    int updateStatus (@Param("id") String id,@Param("status") int status);
+
 }
