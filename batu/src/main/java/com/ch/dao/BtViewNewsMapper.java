@@ -3,9 +3,12 @@ package com.ch.dao;
 import java.util.List;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.provider.BtViewNewsProvider;
+import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
@@ -75,4 +78,8 @@ public interface BtViewNewsMapper {
 
     @Update("update bt_view_news set status = #{status} where id = #{id}" )
     int updateStatus (@Param("id") String id,@Param("status") int status);
+
+
+    @SelectProvider(type = BtViewNewsProvider.class , method = "getNewsList")
+    List<BtViewNews> findPage(@Param("newsParam")NewsParam newsParam);
 }

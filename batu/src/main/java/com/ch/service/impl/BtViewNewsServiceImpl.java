@@ -76,10 +76,10 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
         criteria.andMenuIdEqualTo(menuId);
-        criteria.andStatusEqualTo(0);
+        criteria.andStatusEqualTo(1);
         List<BtViewNews> newsList = btViewNewsMapper.selectByExample(example);
         for(BtViewNews btViewNews :  newsList){
-            Integer browseNumber = btViewNews.getBrowseNumber();
+            Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
             btViewNews.setBrowseNumber(++browseNumber);
             btViewNewsMapper.updateByPrimaryKey(btViewNews);
         }
@@ -93,9 +93,10 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsEngExample example = new BtViewNewsEngExample();
         BtViewNewsEngExample.Criteria criteria = example.createCriteria();
         criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
         List<BtViewNewsEng> newsList = btViewNewsEngMapper.selectByExample(example);
         for(BtViewNewsEng btViewNews :  newsList){
-            Integer browseNumber = btViewNews.getBrowseNumber();
+            Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
             btViewNews.setBrowseNumber(++browseNumber);
             btViewNewsEngMapper.updateByPrimaryKey(btViewNews);
         }

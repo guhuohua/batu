@@ -10,6 +10,7 @@ import com.ch.util.Ip138Util;
 import com.ch.util.IpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -90,7 +91,7 @@ public class BtViewMenuController {
        ResponseResult result = new ResponseResult();
         try {
 
-            if (btViewMenu.getId()==null){
+            if (StringUtils.isEmpty(btViewMenu.getId()) || btViewMenu.getId()==null){
                 result =  btViewMenuService.insert(btViewMenu);
             }else {
                 result =  btViewMenuService.updateByPrimaryKey(btViewMenu);

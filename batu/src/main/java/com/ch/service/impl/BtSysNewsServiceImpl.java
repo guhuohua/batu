@@ -83,6 +83,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         record.setId(uuid);
         record.setStatus(0);
         record.setStatusStr("zh");
+        record.setBrowseNumber(0);
         btViewNewsMapper.insert(record);
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
@@ -95,7 +96,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNewsEng.setPictureUrl(record.getPictureUrl());
         btViewNewsEng.setStatusStr("en");
         btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
-        btViewNewsEng.setStatus(record.getStatus());
+        btViewNewsEng.setStatus(0);
         btViewNewsEngMapper.insert(btViewNewsEng);
         ResponseResult result = new ResponseResult();
 
@@ -152,23 +153,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     public ResponseResult findPage(NewsParam newsParam) {
         PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
-        BtViewNewsExample example = new BtViewNewsExample();
-        BtViewNewsExample.Criteria criteria = example.createCriteria();
-        //BtViewNewsCategoryExample categoryExample = new BtViewNewsCategoryExample();
-        //BtViewNewsCategoryExample.Criteria categoryCriteria = categoryExample.createCriteria();
-        if (newsParam.getTitle() != null && newsParam.getTitle().length() > 0) {
-            criteria.andTitleLike("%" + newsParam.getTitle() + "%");
-        }
-        if (newsParam.getNewCategoryId() > 0) {
-            criteria.andNewCategoryIdEqualTo(newsParam.getNewCategoryId() + "");
-        }
-        if (newsParam.getStatus() == 0) {
-            criteria.andStatusEqualTo(0);
-        }
-        if (newsParam.getStatus() == 1) {
-            criteria.andStatusEqualTo(1);
-        }
-        List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+        List<BtViewNews> btViewNews = btViewNewsMapper.findPage(newsParam);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         ResponseResult result = new ResponseResult();
         result.setData(page);
