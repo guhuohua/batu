@@ -15,6 +15,7 @@ public class BtViewMessageProvider {
         if (phone != null) {
             sb.append(" and tel like '%").append(phone).append("%'");
         }
+        sb.append(" order by message_time desc");
         return sb.toString();
     }
 }

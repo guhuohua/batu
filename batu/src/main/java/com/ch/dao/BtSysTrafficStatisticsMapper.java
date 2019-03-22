@@ -104,6 +104,6 @@ public interface BtSysTrafficStatisticsMapper {
     @Select("select count(*) from bt_sys_traffic_statistics where DATE_FORMAT(create_date, '%Y%m' ) = DATE_FORMAT(CURDATE( ) ,'%Y%m')")
     Long countMonth();
 
-    @Select("select * from bt_sys_traffic_statistics")
+    @Select("select * from bt_sys_traffic_statistics order by create_date desc")
     List<BtSysTrafficStatistics> findAll();
 }
