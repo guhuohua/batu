@@ -53,9 +53,9 @@
         <!--</table>-->
         <!--<table tableName="bt_view_message" domainObjectName="BtViewMessage" >-->
         <!--</table>-->
-        <table tableName="bt_view_news_eng" domainObjectName="BtViewNewsEng" enableCountByExample="true" enableUpdateByExample="true"
+        <table tableName="bt_view_menu_fan" domainObjectName="BtViewMenuFan" enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
-        <table tableName="bt_view_menu_eng" domainObjectName="BtViewMenuEng" enableCountByExample="true" enableUpdateByExample="true"
+        <table tableName="bt_view_news_fan" domainObjectName="BtViewNewsFan" enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
         <!--<table tableName="bt_view_news_category" domainObjectName="BtViewNewsCategory" >-->
         <!--</table>-->
