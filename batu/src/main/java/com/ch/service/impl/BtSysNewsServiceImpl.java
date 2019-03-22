@@ -151,32 +151,28 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
      */
     @Override
     public ResponseResult findPage(NewsParam newsParam) {
-
-        PageHelper.startPage(newsParam.getPageNum(), newsParam.getPageSize());
-
+        PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
-        BtViewNewsCategoryExample categoryExample = new BtViewNewsCategoryExample();
-        BtViewNewsCategoryExample.Criteria categoryCriteria = categoryExample.createCriteria();
-
-        if (newsParam != null) {
-            if (newsParam.getTitle() != null && newsParam.getTitle().length() > 0) {
-                criteria.andTitleLike("%" + newsParam.getTitle() + "%");
-
-            }
-            if (newsParam.getCategoryId()>0) {
-                criteria.andNewCategoryIdEqualTo(newsParam.getCategoryId()+"");
-
-
-            } else if (newsParam.getPageNum()>0 && newsParam.getPageSize()>0){
-                List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
-                PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
-                ResponseResult result = new ResponseResult();
-                result.setData(page);
-                return result;
-            }
-
-
+        //BtViewNewsCategoryExample categoryExample = new BtViewNewsCategoryExample();
+        //BtViewNewsCategoryExample.Criteria categoryCriteria = categoryExample.createCriteria();
+        if (newsParam.getTitle() != null && newsParam.getTitle().length() > 0) {
+            criteria.andTitleLike("%" + newsParam.getTitle() + "%");
+        }
+        if (newsParam.getCategoryId() > 0) {
+            criteria.andNewCategoryIdEqualTo(newsParam.getCategoryId() + "");
+        }
+        if (newsParam.getStatus() == 0) {
+            criteria.andStatusEqualTo(0);
+        }
+        if (newsParam.getStatus() == 1) {
+            criteria.andStatusEqualTo(1);
+        } else if (newsParam.getIndex() > 0 && newsParam.getSize() > 0) {
+            List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+            PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
+            ResponseResult result = new ResponseResult();
+            result.setData(page);
+            return result;
         }
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);

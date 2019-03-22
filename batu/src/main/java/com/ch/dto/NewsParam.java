@@ -3,8 +3,17 @@ package com.ch.dto;
 public class NewsParam {
     private String title;
     private int categoryId;
-    private int pageNum;
-    private int pageSize;
+    private int index;
+    private int size;
+    private  int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public String getTitle() {
         return title;
@@ -22,19 +31,19 @@ public class NewsParam {
         this.categoryId = categoryId;
     }
 
-    public int getPageNum() {
-        return pageNum;
+    public int getIndex() {
+        return index;
     }
 
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public int getSize() {
+        return size;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setSize(int size) {
+        this.size = size;
     }
 }
