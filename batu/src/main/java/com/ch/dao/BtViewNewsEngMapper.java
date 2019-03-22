@@ -5,6 +5,7 @@ import com.ch.entity.BtViewNewsEngExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -73,5 +74,9 @@ public interface BtViewNewsEngMapper {
     @Select("select * from bt_view_news_eng where id = #{id}")
     BtViewNewsEng findById(@Param("id") String id);
 
-    int updateByPrimaryKey(BtViewNewsEng btViewNewsEng);
+    @Update("update bt_view_news_eng set status = #{btViewNewsEng.status}, new_content = #{btViewNewsEng.newContent}," +
+            " title = #{btViewNewsEng.title}, update_time = #{btViewNewsEng.updateTime}, status_str = #{btViewNewsEng.statusStr}," +
+            " picture_url = #{btViewNewsEng.pictureUrl}, new_category_id = #{btViewNewsEng.newCategoryId}, menu_id = #{btViewNewsEng.menuId}," +
+            " browse_number = #{btViewNewsEng.browseNumber}, create_time = #{btViewNewsEng.createTime}  where id = #{btViewNewsEng.id}")
+    int updateByPrimaryKey(@Param("btViewNewsEng") BtViewNewsEng btViewNewsEng);
 }
