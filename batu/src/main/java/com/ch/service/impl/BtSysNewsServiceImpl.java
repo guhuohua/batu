@@ -201,6 +201,12 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         result.setData(page);
         return result;
     }
+    public ResponseResult findById(String id){
+        ResponseResult result = new ResponseResult();
+        BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
+        result.setData(btViewNews);
+        return  result;
+    }
 }
 
 

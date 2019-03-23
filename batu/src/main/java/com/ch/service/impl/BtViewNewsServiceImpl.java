@@ -122,4 +122,6 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         result.setData(newsList);
         return result;
     }
+
+
 }

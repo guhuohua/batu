@@ -104,7 +104,24 @@ public class BtSysNewsController {
     @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert","sys_news_see_edit","sys_news_release"})
     public ResponseResult updateStatus(@RequestParam String id,@RequestParam int status){
        return  btSysNewsService.updateStatus(id,status);
+
+
+
+    }
+    @GetMapping("/findById/{id}")
+    public ResponseResult findById(@PathVariable("id") String id){
+        System.out.println(id);
+        return btSysNewsService.findById(id);
     }
 
+    @GetMapping("/findById")
+    public ResponseResult findById11111(@RequestParam("id") String id){
+        System.out.println(id);
+        return btSysNewsService.findById(id);
+    }
 
+    /**
+     * xxxxxxx?&tye=1111id=saaaa
+     * xxxxxxx/111111/saaaa
+     */
 }
