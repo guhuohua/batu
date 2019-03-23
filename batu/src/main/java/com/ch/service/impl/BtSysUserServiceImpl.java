@@ -9,6 +9,7 @@ import com.ch.model.UserDTO;
 import com.ch.entity.*;
 import com.ch.service.BtSysUserService;
 import com.ch.util.IdUtil;
+import com.ch.util.PasswordUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.logging.log4j.LogManager;
@@ -17,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BtSysUserServiceImpl implements BtSysUserService {
@@ -90,26 +88,27 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             result.setError_description("密码不能为空");
             return result;
         }
-        BtSysUserExample example = new BtSysUserExample();
-        example.createCriteria().andAccountEqualTo(userDTO.getUsername()).andPasswordEqualTo(userDTO.getPassword());
-        BtSysUser user = null;
-        if (btSysUserMapper.selectByExample(example).stream().findFirst().isPresent()) {
-            user = btSysUserMapper.selectByExample(example).stream().findFirst().get();
+        BtSysUser btSysUser = btSysUserMapper.findByAccount(userDTO.getUsername());
+        if (btSysUser!=null) {
+            PasswordUtil encoderMd5 = new PasswordUtil(btSysUser.getSalt(), "sha-256");
+            String encodedPassword = encoderMd5.encode(userDTO.getPassword());
+            if (btSysUser.getPassword().equals(encodedPassword)) {
+                UserDTO dto = findById(btSysUser.getUserId());
+                result.setData(dto);
+                return result;
+            } else {
+                result.setCode(500);
+                result.setError("账号或者密码输入错误请重新输入");
+                result.setError_description("账号或者密码输入错误请重新输入");
+                return result;
+            }
         } else {
             result.setCode(500);
-            result.setError("用户名或密码输入错误，请重新输入~");
-            result.setError_description("用户名或密码输入错误，请重新输入~");
+            result.setError("该用户不存在，请重新输入");
+            result.setError_description("该用户不存在，请重新输入");
             return result;
         }
-        if (user == null) {
-            result.setCode(500);
-            result.setError("用户名或密码输入错误，请重新输入~");
-            result.setError_description("用户名或密码输入错误，请重新输入~");
-            return result;
-        }
-        UserDTO dto = findById(user.getUserId());
-        result.setData(dto);
-        return result;
+
     }
 
 
@@ -127,15 +126,35 @@ public class BtSysUserServiceImpl implements BtSysUserService {
     @Transactional
     public ResponseResult updateOrInsertUser(PersonParam personParam) {
         ResponseResult result = new ResponseResult();
-        if (personParam.getUserId() == null) {
+        BtSysUserExample example = new BtSysUserExample();
+        example.createCriteria().andUsernameEqualTo(personParam.getUserName());
+        List<BtSysUser> btSysUsers = btSysUserMapper.selectByExample(example);
+        BtSysUserExample example2 = new BtSysUserExample();
+        example2.createCriteria().andAccountEqualTo(personParam.getAccount());
+        List<BtSysUser> btSysUsers2 = btSysUserMapper.selectByExample(example2);
+        if (btSysUsers.size() > 0) {
+            result.setCode(500);
+            result.setError("用户名不能重复");
+            result.setError_description("用户名不能重复");
+            return result;
+        }
+        if (btSysUsers2.size() > 0) {
+            result.setCode(500);
+            result.setError("登录账户不能重复");
+            result.setError_description("登录账户不能重复");
+            return result;
+        }
+        if (personParam.getUserId() == null || personParam.getUserId().equals("")) {
             try {
                 BtSysUser btSysUser = new BtSysUser();
                 String userId = IdUtil.createIdByUUID();
                 btSysUser.setUserId(userId);
                 btSysUser.setAccount(personParam.getAccount());
-                if (personParam.getPassword() != null) {
-                    btSysUser.setPassword(personParam.getPassword());
-                }
+                String salt = UUID.randomUUID().toString();
+                PasswordUtil encoderMd5 = new PasswordUtil(salt, "sha-256");
+                String encodedPassword = encoderMd5.encode(personParam.getPassword());
+                btSysUser.setSalt(salt);
+                btSysUser.setPassword(encodedPassword);
                 btSysUser.setPhone(personParam.getPhone());
                 btSysUser.setUpdateTime(new Date());
                 btSysUser.setUsername(personParam.getUserName());
@@ -155,7 +174,13 @@ public class BtSysUserServiceImpl implements BtSysUserService {
         } else {
             BtSysUser btSysUser = new BtSysUser();
             btSysUser.setAccount(personParam.getAccount());
-            btSysUser.setPassword(personParam.getPassword());
+            if (personParam.getPassword() != null || personParam.getPassword()!="") {
+                String salt = UUID.randomUUID().toString();
+                PasswordUtil encoderMd5 = new PasswordUtil(salt, "sha-256");
+                String encodedPassword = encoderMd5.encode(personParam.getPassword());
+                btSysUser.setSalt(salt);
+                btSysUser.setPassword(encodedPassword);
+            }
             btSysUser.setPhone(personParam.getPhone());
             btSysUser.setUpdateTime(new Date());
             btSysUser.setUsername(personParam.getUserName());

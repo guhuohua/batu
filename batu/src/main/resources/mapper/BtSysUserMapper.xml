@@ -14,6 +14,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="salt" jdbcType="VARCHAR" property="salt" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -133,7 +134,7 @@
       account)
     values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{account,jdbcType=VARCHAR})
+      #{account,jdbcType=VARCHAR}),#{salt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ch.entity.BtSysUser">
     <!--
@@ -164,6 +165,9 @@
       <if test="account != null">
         account,
       </if>
+      <if test="salt != null">
+        salt,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -186,6 +190,9 @@
       </if>
       <if test="account != null">
         #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -229,6 +236,9 @@
       <if test="record.account != null">
         account = #{record.account,jdbcType=VARCHAR},
       </if>
+      <if test="record.salt != null">
+        salt = #{record.salt,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,6 +258,7 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER},
       account = #{record.account,jdbcType=VARCHAR}
+      account = #{record.salt,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
