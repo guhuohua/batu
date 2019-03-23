@@ -7,6 +7,7 @@ import com.ch.dao.BtViewNewsEngMapper;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.dto.NewsParam;
 import com.ch.entity.*;
+import com.ch.model.NewsPageDTO;
 import com.ch.service.BtSysNewsService;
 import com.ch.util.BaiduTranslateUtil;
 import com.ch.util.IdUtil;
@@ -87,6 +88,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         record.setStatus(0);
         record.setStatusStr("zh");
         record.setBrowseNumber(0);
+        record.setCreateTime(new Date());
         BtSysUserExample example = new BtSysUserExample();
         BtSysUserExample.Criteria criteria = example.createCriteria();
         criteria.andUserIdEqualTo(userId);
@@ -96,7 +98,6 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
         btViewNewsEng.setCreateTime(new Date());
-        btViewNewsEng.setUpdateTime(new Date());
         btViewNewsEng.setBrowseNumber(record.getBrowseNumber());
         btViewNewsEng.setMenuId(record.getMenuId());
         btViewNewsEng.setNewCategoryId(record.getNewCategoryId());
@@ -146,8 +147,12 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     public ResponseResult updateStatus(String id, int status) {
 
         ResponseResult result = new ResponseResult();
-        BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
-        btViewNewsMapper.updateStatus(id, status);
+        if (status==1) {
+            btViewNewsMapper.updateStatus(id, status);
+        } else {
+            btViewNewsMapper.updateDate(id, status);
+        }
+
         btViewNewsEngMapper.updateStatus(id,status);
         return result;
     }
@@ -160,8 +165,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     public ResponseResult findPage(NewsParam newsParam) {
         PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
-        List<BtViewNews> btViewNews = btViewNewsMapper.findPage(newsParam);
-        PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
+        List<NewsPageDTO> btViewNews = btViewNewsMapper.findPage(newsParam);
+        PageInfo<NewsPageDTO> page = new PageInfo<>(btViewNews);
         ResponseResult result = new ResponseResult();
         result.setData(page);
         return result;

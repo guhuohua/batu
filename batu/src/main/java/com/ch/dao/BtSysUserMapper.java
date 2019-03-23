@@ -103,8 +103,8 @@ public interface BtSysUserMapper {
      * @return
      */
     @Update("update bt_sys_user set username = #{btSysUser.username}, " +
-            " phone = #{btSysUser.phone}, account = #{btSysUser.account}, " +
-            " password = #{btSysUser.password} where user_id = #{btSysUser.userId}")
+            " phone = #{btSysUser.phone}, account = #{btSysUser.account}, salt = #{btSysUser.salt}," +
+            " password = #{btSysUser.password}, status = #{btSysUser.status} where user_id = #{btSysUser.userId}")
     Integer updateBtSysUserByUserId(@Param("btSysUser") BtSysUser btSysUser);
 
 

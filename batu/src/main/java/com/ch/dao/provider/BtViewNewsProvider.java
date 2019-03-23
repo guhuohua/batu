@@ -24,7 +24,7 @@ public class BtViewNewsProvider {
         if (newsParam.getStatus() !=null && newsParam.getStatus() ==1) {
             sb.append(" and status = ").append(newsParam.getStatus());
         }
-        System.out.println(sb.toString());
+        sb.append(" order by create_time desc");
         return sb.toString();
     }
 }
