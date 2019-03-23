@@ -28,6 +28,8 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Autowired
     BtViewMenuEngMapper btViewMenuEngMapper;
 
+
+
     @Autowired
     BaiduTranslateUtil baiduTranslateUtil;
 
@@ -60,6 +62,12 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         modelMapper.map(record, btViewMenuEng);
         btViewMenuEng.setName(baiduTranslateUtil.translate(record.getName()));
         btViewMenuEngMapper.insert(btViewMenuEng);
+
+        BtViewMenuFan btViewMenuFan = new BtViewMenuFan();
+        btViewMenuFan.setId(idByUUID);
+        modelMapper.map(record, btViewMenuFan);
+        btViewMenuFan.setName(baiduTranslateUtil.translateFan(record.getName()));
+        btViewMenuFanMapper.insert(btViewMenuFan);
         return result;
     }
 
@@ -85,35 +93,48 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
                    for ( BtViewMenu btViewMenu1 :btViewMenus1){
                        btViewMenuMapper.deleteByPrimaryKey(btViewMenu1.getId());
                        btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu1.getId());
+                       btViewMenuFanMapper.deleteByPrimaryKey(btViewMenu1.getId());
                    }
 
 
                    btViewMenuMapper.deleteByPrimaryKey(btViewMenu2.getId());
                    btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu2.getId());
+                   btViewMenuFanMapper.deleteByPrimaryKey(btViewMenu2.getId());
+
                }
            }else {
                btViewMenuMapper.deleteByPrimaryKey(id);
                btViewMenuEngMapper.deleteByPrimaryKey(id);
+               btViewMenuFanMapper.deleteByPrimaryKey(id);
+
            }
             btViewMenuMapper.deleteByPrimaryKey(id);
             btViewMenuEngMapper.deleteByPrimaryKey(id);
+            btViewMenuFanMapper.deleteByPrimaryKey(id);
         }else {
             BtViewMenuExample example = new BtViewMenuExample();
             BtViewMenuExample.Criteria criteria = example.createCriteria();
             criteria.andParentIdEqualTo(id);
             BtViewMenuEngExample engExample = new BtViewMenuEngExample();
             engExample.createCriteria().andParentIdEqualTo(id);
+            BtViewMenuFanExample fanExample = new BtViewMenuFanExample();
+
+            fanExample.createCriteria().andParentIdEqualTo(id);
             List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
             if (btViewMenus!=null){
                 for (BtViewMenu btViewMenu2 :btViewMenus){
                     btViewMenuMapper.deleteByExample(example);
                     btViewMenuEngMapper.deleteByExample(engExample);
+                    btViewMenuFanMapper.deleteByExample(fanExample);
+
                 }
                 btViewMenuMapper.deleteByPrimaryKey(id);
                 btViewMenuEngMapper.deleteByPrimaryKey(id);
+                btViewMenuFanMapper.deleteByPrimaryKey(id);
             }else {
                 btViewMenuMapper.deleteByPrimaryKey(id);
                 btViewMenuEngMapper.deleteByPrimaryKey(id);
+                btViewMenuFanMapper.deleteByPrimaryKey(id);
             }
         }
 
@@ -249,10 +270,17 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Transactional
     public ResponseResult updateByPrimaryKey(BtViewMenu btViewMenu) {
         ResponseResult result = new ResponseResult();
+
         btViewMenuMapper.updateByPrimaryKey(btViewMenu);
+
         BtViewMenuEng btViewMenuEng = btViewMenuEngMapper.findById(btViewMenu.getId());
         btViewMenuEng.setName(baiduTranslateUtil.translate(btViewMenu.getName()));
         btViewMenuEngMapper.updateByPrimaryKey(btViewMenuEng);
+
+        BtViewMenuFan btViewMenuFan = btViewMenuFanMapper.findById(btViewMenu.getId());
+        btViewMenuFan.setName(baiduTranslateUtil.translateFan(btViewMenu.getName()));
+        btViewMenuFanMapper.updateByPrimaryKey(btViewMenuFan);
+
         return result;
     }
 

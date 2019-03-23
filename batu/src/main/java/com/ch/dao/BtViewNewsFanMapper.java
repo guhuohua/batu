@@ -1,10 +1,15 @@
 package com.ch.dao;
 
+import com.ch.entity.BtViewNewsEng;
 import com.ch.entity.BtViewNewsFan;
 import com.ch.entity.BtViewNewsFanExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BtViewNewsFanMapper {
     int countByExample(BtViewNewsFanExample example);
 
@@ -27,4 +32,12 @@ public interface BtViewNewsFanMapper {
     int updateByPrimaryKeySelective(BtViewNewsFan record);
 
     int updateByPrimaryKey(BtViewNewsFan record);
+
+    @Select("select * from bt_view_news_fan where id = #{id}")
+    BtViewNewsFan findById(@Param("id") String id);
+
+    @Update("update bt_view_news_fan set status = #{status} where id = #{id}" )
+    int updateStatus (@Param("id") String id,@Param("status") int status);
+
+
 }
