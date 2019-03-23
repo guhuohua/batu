@@ -8,6 +8,7 @@ import com.ch.dao.provider.BtViewNewsProvider;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
+import com.ch.model.NewsPageDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
@@ -80,7 +81,10 @@ public interface BtViewNewsMapper {
     @Update("update bt_view_news set status = #{status} , update_time = now() where id = #{id}" )
     int updateStatus (@Param("id") String id, @Param("status") int status);
 
+    @Update("update bt_view_news set status = #{status}, update_time = null  where id = #{id}" )
+    int updateDate (@Param("id") String id, @Param("status") int status);
+
 
     @SelectProvider(type = BtViewNewsProvider.class , method = "getNewsList")
-    List<BtViewNews> findPage(@Param("newsParam")NewsParam newsParam);
+    List<NewsPageDTO> findPage(@Param("newsParam")NewsParam newsParam);
 }

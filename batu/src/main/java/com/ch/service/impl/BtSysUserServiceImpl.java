@@ -89,6 +89,12 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             return result;
         }
         BtSysUser btSysUser = btSysUserMapper.findByAccount(userDTO.getUsername());
+        if (btSysUser.getStatus()==1) {
+            result.setCode(500);
+            result.setError("该用户已被禁用，请联系管理员");
+            result.setError_description("该用户已被禁用，请联系管理员");
+            return result;
+        }
         if (btSysUser!=null) {
             PasswordUtil encoderMd5 = new PasswordUtil(btSysUser.getSalt(), "sha-256");
             String encodedPassword = encoderMd5.encode(userDTO.getPassword());
@@ -126,25 +132,35 @@ public class BtSysUserServiceImpl implements BtSysUserService {
     @Transactional
     public ResponseResult updateOrInsertUser(PersonParam personParam) {
         ResponseResult result = new ResponseResult();
-        BtSysUserExample example = new BtSysUserExample();
-        example.createCriteria().andUsernameEqualTo(personParam.getUserName());
-        List<BtSysUser> btSysUsers = btSysUserMapper.selectByExample(example);
-        BtSysUserExample example2 = new BtSysUserExample();
-        example2.createCriteria().andAccountEqualTo(personParam.getAccount());
-        List<BtSysUser> btSysUsers2 = btSysUserMapper.selectByExample(example2);
-        if (btSysUsers.size() > 0) {
-            result.setCode(500);
-            result.setError("用户名不能重复");
-            result.setError_description("用户名不能重复");
-            return result;
-        }
-        if (btSysUsers2.size() > 0) {
-            result.setCode(500);
-            result.setError("登录账户不能重复");
-            result.setError_description("登录账户不能重复");
-            return result;
-        }
+
         if (personParam.getUserId() == null || personParam.getUserId().equals("")) {
+            BtSysUserExample example = new BtSysUserExample();
+            example.createCriteria().andUsernameEqualTo(personParam.getUserName());
+            List<BtSysUser> btSysUsers = btSysUserMapper.selectByExample(example);
+            BtSysUserExample example2 = new BtSysUserExample();
+            example2.createCriteria().andAccountEqualTo(personParam.getAccount());
+            List<BtSysUser> btSysUsers2 = btSysUserMapper.selectByExample(example2);
+            BtSysUserExample example3 = new BtSysUserExample();
+            example3.createCriteria().andPhoneEqualTo(personParam.getPhone());
+            List<BtSysUser> btSysUsers3 = btSysUserMapper.selectByExample(example3);
+            if (btSysUsers.size() > 0) {
+                result.setCode(500);
+                result.setError("用户名不能重复");
+                result.setError_description("用户名不能重复");
+                return result;
+            }
+            if (btSysUsers2.size() > 0) {
+                result.setCode(500);
+                result.setError("登录账户不能重复");
+                result.setError_description("登录账户不能重复");
+                return result;
+            }
+            if (btSysUsers3.size() > 0) {
+                result.setCode(500);
+                result.setError("手机号不能重复");
+                result.setError_description("手机号不能重复");
+                return result;
+            }
             try {
                 BtSysUser btSysUser = new BtSysUser();
                 String userId = IdUtil.createIdByUUID();
@@ -158,7 +174,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
                 btSysUser.setPhone(personParam.getPhone());
                 btSysUser.setUpdateTime(new Date());
                 btSysUser.setUsername(personParam.getUserName());
-                btSysUser.setStatus(0);
+                btSysUser.setStatus(personParam.getStatus());
                 btSysUserMapper.insert(btSysUser);
                 BtSysUserRole userRole = new BtSysUserRole();
                 userRole.setRoleId(personParam.getRoleId());
@@ -172,6 +188,33 @@ public class BtSysUserServiceImpl implements BtSysUserService {
                 return result;
             }
         } else {
+            BtSysUserExample example = new BtSysUserExample();
+            example.createCriteria().andUsernameEqualTo(personParam.getUserName()).andUserIdNotEqualTo(personParam.getUserId());
+            List<BtSysUser> btSysUsers = btSysUserMapper.selectByExample(example);
+            BtSysUserExample example2 = new BtSysUserExample();
+            example2.createCriteria().andAccountEqualTo(personParam.getAccount()).andUserIdNotEqualTo(personParam.getUserId());
+            List<BtSysUser> btSysUsers2 = btSysUserMapper.selectByExample(example2);
+            BtSysUserExample example3 = new BtSysUserExample();
+            example3.createCriteria().andPhoneEqualTo(personParam.getPhone()).andUserIdNotEqualTo(personParam.getUserId());
+            List<BtSysUser> btSysUsers3 = btSysUserMapper.selectByExample(example3);
+            if (btSysUsers.size() > 0) {
+                result.setCode(500);
+                result.setError("用户名不能重复");
+                result.setError_description("用户名不能重复");
+                return result;
+            }
+            if (btSysUsers2.size() > 0) {
+                result.setCode(500);
+                result.setError("登录账户不能重复");
+                result.setError_description("登录账户不能重复");
+                return result;
+            }
+            if (btSysUsers3.size() > 0) {
+                result.setCode(500);
+                result.setError("手机号不能重复");
+                result.setError_description("手机号不能重复");
+                return result;
+            }
             BtSysUser btSysUser = new BtSysUser();
             btSysUser.setAccount(personParam.getAccount());
             if (personParam.getPassword() != null || personParam.getPassword()!="") {
@@ -185,6 +228,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             btSysUser.setUpdateTime(new Date());
             btSysUser.setUsername(personParam.getUserName());
             btSysUser.setUserId(personParam.getUserId());
+            btSysUser.setStatus(personParam.getStatus());
             try {
                 btSysUserMapper.updateBtSysUserByUserId(btSysUser);
                 btSysUserRoleMapper.updateByUserId(personParam.getUserId(), personParam.getRoleId());

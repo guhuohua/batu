@@ -131,10 +131,10 @@
     -->
     insert into bt_sys_user (user_id, username, password, 
       phone, update_time, status, 
-      account)
+      account, salt)
     values (#{userId,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=INTEGER}, 
-      #{account,jdbcType=VARCHAR}),#{salt,jdbcType=VARCHAR})
+      #{account,jdbcType=VARCHAR},#{salt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ch.entity.BtSysUser">
     <!--
@@ -258,7 +258,7 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status = #{record.status,jdbcType=INTEGER},
       account = #{record.account,jdbcType=VARCHAR}
-      account = #{record.salt,jdbcType=VARCHAR}
+      salt = #{record.salt,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
