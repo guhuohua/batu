@@ -57,9 +57,28 @@ public class BtViewMenuController {
         return btViewMenuService.findTree();
     }
 
-    @RequestMapping(value = "/menu_eng", method = RequestMethod.GET)
+
+
+        @RequestMapping(value = "/menu_eng", method = RequestMethod.GET)
+        @ApiOperation("展示菜单")
+        public ResponseResult findMenuEng(HttpServletRequest req, HttpServletResponse res) {
+            String ipAddr = null;
+            try {
+                String clientIP = IpUtil.getClientIP(req);
+                String addresses = ip138Util.getCityInfo(clientIP);
+                System.out.println(addresses);
+                System.out.println("clientIP:" + clientIP);
+                btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return btViewMenuService.findTreeEng();
+    }
+
+
+    @RequestMapping(value = "/menu_fan", method = RequestMethod.GET)
     @ApiOperation("展示菜单")
-    public ResponseResult findMenuEng(HttpServletRequest req, HttpServletResponse res) {
+    public ResponseResult findMenuFan(HttpServletRequest req, HttpServletResponse res) {
         String ipAddr = null;
         try {
             String clientIP = IpUtil.getClientIP(req);
@@ -70,8 +89,7 @@ public class BtViewMenuController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return btViewMenuService.findTreeEng();
+        return btViewMenuService.findTreeFan();
     }
 
     @RequestMapping(value = "/pageMenu", method = RequestMethod.GET)

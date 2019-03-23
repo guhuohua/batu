@@ -1,5 +1,6 @@
 package com.ch.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.ch.base.ResponseResult;
@@ -76,8 +77,8 @@ public interface BtViewNewsMapper {
 
     BtViewNews selectByPrimaryKey (String id);
 
-    @Update("update bt_view_news set status = #{status} where id = #{id}" )
-    int updateStatus (@Param("id") String id,@Param("status") int status);
+    @Update("update bt_view_news set status = #{status} , update_time = now() where id = #{id}" )
+    int updateStatus (@Param("id") String id, @Param("status") int status);
 
 
     @SelectProvider(type = BtViewNewsProvider.class , method = "getNewsList")

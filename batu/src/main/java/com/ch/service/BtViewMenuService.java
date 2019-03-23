@@ -68,6 +68,7 @@ public interface BtViewMenuService {
     ResponseResult findTree();
 
     ResponseResult findTreeEng();
+    ResponseResult findTreeFan();
 
     /**
      * 分页展示菜单

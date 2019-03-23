@@ -88,4 +88,5 @@ public interface BtViewNewsService {
      * @return
      */
     ResponseResult findViewNewsEngByMenuId(String menuId);
+    ResponseResult findViewNewsFanByMenuId(String menuId);
 }

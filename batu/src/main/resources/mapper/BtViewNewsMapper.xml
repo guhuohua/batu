@@ -18,6 +18,7 @@
     <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
     <result column="create_time" jdbcType="DATE" property="createTime" />
     <result column="browse_number" jdbcType="INTEGER" property="browseNumber" />
+    <result column="creater" jdbcType="VARCHAR" property="creater" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -136,11 +137,11 @@
     insert into bt_view_news (id, status, new_content, 
       title, update_time, status_str, 
       picture_url, new_category_id, menu_id, 
-      create_time, browse_number)
+      create_time, browse_number,creater)
     values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{newContent,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{statusStr,jdbcType=VARCHAR}, 
       #{pictureUrl,jdbcType=VARCHAR}, #{newCategoryId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=DATE}, #{browseNumber,jdbcType=INTEGER})
+      #{createTime,jdbcType=DATE}, #{browseNumber,jdbcType=INTEGER},#{creater,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ch.entity.BtViewNews">
     <!--

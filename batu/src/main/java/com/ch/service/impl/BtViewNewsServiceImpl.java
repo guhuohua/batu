@@ -2,11 +2,9 @@ package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsEngMapper;
+import com.ch.dao.BtViewNewsFanMapper;
 import com.ch.dao.BtViewNewsMapper;
-import com.ch.entity.BtViewNews;
-import com.ch.entity.BtViewNewsEng;
-import com.ch.entity.BtViewNewsEngExample;
-import com.ch.entity.BtViewNewsExample;
+import com.ch.entity.*;
 import com.ch.service.BtViewNewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,9 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
 
     @Autowired
     BtViewNewsEngMapper btViewNewsEngMapper;
+
+    @Autowired
+    BtViewNewsFanMapper btViewNewsFanMapper;
 
 
     @Override
@@ -99,6 +100,23 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
             Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
             btViewNews.setBrowseNumber(++browseNumber);
             btViewNewsEngMapper.updateByPrimaryKey(btViewNews);
+        }
+        ResponseResult result = new ResponseResult();
+        result.setData(newsList);
+        return result;
+    }
+
+    @Override
+    public ResponseResult findViewNewsFanByMenuId(String menuId) {
+        BtViewNewsFanExample example = new BtViewNewsFanExample();
+        BtViewNewsFanExample.Criteria criteria = example.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
+        List<BtViewNewsFan> newsList = btViewNewsFanMapper.selectByExample(example);
+        for(BtViewNewsFan btViewNews :  newsList){
+            Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
+            btViewNews.setBrowseNumber(++browseNumber);
+            btViewNewsFanMapper.updateByPrimaryKey(btViewNews);
         }
         ResponseResult result = new ResponseResult();
         result.setData(newsList);

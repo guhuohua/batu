@@ -2,12 +2,10 @@ package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewMenuEngMapper;
+import com.ch.dao.BtViewMenuFanMapper;
 import com.ch.dao.BtViewMenuMapper;
 import com.ch.dto.MenuParam;
-import com.ch.entity.BtViewMenu;
-import com.ch.entity.BtViewMenuEng;
-import com.ch.entity.BtViewMenuEngExample;
-import com.ch.entity.BtViewMenuExample;
+import com.ch.entity.*;
 
 import com.ch.service.BtViewMenuService;
 import com.ch.util.BaiduTranslateUtil;
@@ -35,6 +33,9 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    BtViewMenuFanMapper btViewMenuFanMapper;
 
     @Override
     public long countByExample(BtViewMenuExample example) {
@@ -293,6 +294,44 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         }
     }
 
+    @Override
+    public ResponseResult findTreeFan() {
+        ResponseResult result = new ResponseResult();
+        try {//查询所有菜单
+            List<BtViewMenuFan> allMenu = btViewMenuFanMapper.selectByExample(null);
+            //根节点
+            List<BtViewMenuFan> rootMenu = new ArrayList<BtViewMenuFan>();
+            for (BtViewMenuFan nav : allMenu) {
+                if (nav.getParentId().equals("0")) {
+                    rootMenu.add(nav);
+                }
+            }
+            /* 根据Menu类的order排序 */
+            Collections.sort(rootMenu, orderFan());
+            //为根菜单设置子菜单，getClild是递归调用的
+            for (BtViewMenuFan nav : rootMenu) {
+                /* 获取根节点下的所有子节点 使用getChild方法*/
+                List<BtViewMenuFan> childList = getChildFan(nav.getId(), allMenu);
+                nav.setChildren(childList);//给根节点设置子节点
+            }
+            /**
+             * 输出构建好的菜单数据。
+             *
+             */
+            result.setCode(0);
+
+            result.setData(rootMenu);
+            return result;
+
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("菜单生成异常");
+            return result;
+        }
+    }
+
+
     private List<BtViewMenuEng> getChildEng(String id, List<BtViewMenuEng> allMenu) {
         //子菜单
         List<BtViewMenuEng> childList = new ArrayList<BtViewMenuEng>();
@@ -315,6 +354,9 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         return childList;
     }
 
+
+
+
     public Comparator<BtViewMenuEng> orderEng() {
         Comparator<BtViewMenuEng> comparator = new Comparator<BtViewMenuEng>() {
             @Override
@@ -327,4 +369,42 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         };
         return comparator;
     }
+
+    public Comparator<BtViewMenuFan> orderFan() {
+        Comparator<BtViewMenuFan> comparator = new Comparator<BtViewMenuFan>() {
+            @Override
+            public int compare(BtViewMenuFan o1, BtViewMenuFan o2) {
+                if (o1.getSortOrder() != o2.getSortOrder()) {
+                    return o1.getSortOrder() - o2.getSortOrder();
+                }
+                return 0;
+            }
+        };
+        return comparator;
+    }
+
+    private List<BtViewMenuFan> getChildFan(String id, List<BtViewMenuFan> allMenu) {
+        //子菜单
+        List<BtViewMenuFan> childList = new ArrayList<BtViewMenuFan>();
+        for (BtViewMenuFan nav : allMenu) {
+            // 遍历所有节点，将所有菜单的父id与传过来的根节点的id比较
+            //相等说明：为该根节点的子节点。
+            if ((nav.getParentId() != null) && nav.getParentId().equals(id)) {
+                childList.add(nav);
+            }
+        }
+        //递归
+        for (BtViewMenuFan nav : childList) {
+            nav.setChildren(getChildFan(nav.getId(), allMenu));
+        }
+        Collections.sort(childList, orderFan());//排序
+        //如果节点下没有子节点，返回一个空List（递归退出）
+        if (childList.size() == 0) {
+            return new ArrayList<BtViewMenuFan>();
+        }
+        return childList;
+    }
+
+
+
 }

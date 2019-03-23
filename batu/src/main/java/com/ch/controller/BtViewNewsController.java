@@ -47,4 +47,19 @@ public class BtViewNewsController {
     }
 
 
+    @RequestMapping(value = "/news_fan", method = RequestMethod.GET)
+    public ResponseResult findViewNewsFanByMenuId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.findViewNewsFanByMenuId(menuId);
+        } catch (Exception e) {
+            LOGGER.error("新闻展示失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("新闻展示失败");
+            return result;
+        }
+    }
+
+
 }

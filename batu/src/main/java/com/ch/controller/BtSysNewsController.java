@@ -4,6 +4,7 @@ import com.ch.base.ResponseResult;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.service.BtSysNewsService;
+import com.ch.util.TokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +15,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -76,14 +79,16 @@ public class BtSysNewsController {
     @PostMapping(value = "/editNews")
     @ApiOperation("增加或修改新闻")
     @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert","sys_news_see_edit","sys_news_release"})
-    public ResponseResult updateNews(@RequestBody BtViewNews record){
+    public ResponseResult updateNews(@RequestBody BtViewNews record , HttpServletRequest req){
+        String token = req.getHeader("Authorization");
+        String userId = TokenUtil.getUserId(token);
         ResponseResult result = new ResponseResult();
         try {
 
             if (record.getId()!=null && !StringUtils.isEmpty(record.getId())){
                 return btSysNewsService.updateByPrimaryKey(record);
             }else {
-                return btSysNewsService.insert(record);
+                return btSysNewsService.insert(record,userId);
             }
 
         } catch (Exception e) {

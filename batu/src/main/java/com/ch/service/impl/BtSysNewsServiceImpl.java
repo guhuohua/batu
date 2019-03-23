@@ -1,6 +1,7 @@
 package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.BtSysUserMapper;
 import com.ch.dao.BtViewNewsCategoryMapper;
 import com.ch.dao.BtViewNewsEngMapper;
 import com.ch.dao.BtViewNewsMapper;
@@ -30,6 +31,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     BtViewNewsEngMapper btViewNewsEngMapper;
     @Autowired
     BaiduTranslateUtil baiduTranslateUtil;
+    @Autowired
+    BtSysUserMapper btSysUserMapper;
 
 
     @Override
@@ -77,13 +80,18 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     }*/
     @Override
     @Transactional
-    public ResponseResult insert(BtViewNews record) {
+    public ResponseResult insert(BtViewNews record,String userId) {
         record.setCreateTime(new Date());
         String uuid = IdUtil.createIdByUUID();
         record.setId(uuid);
         record.setStatus(0);
         record.setStatusStr("zh");
         record.setBrowseNumber(0);
+        BtSysUserExample example = new BtSysUserExample();
+        BtSysUserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        List<BtSysUser> btSysUsers = btSysUserMapper.selectByExample(example);
+        record.setCreater(btSysUsers.get(0).getUsername());
         btViewNewsMapper.insert(record);
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
@@ -138,10 +146,9 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     public ResponseResult updateStatus(String id, int status) {
 
         ResponseResult result = new ResponseResult();
-
+        BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
         btViewNewsMapper.updateStatus(id, status);
         btViewNewsEngMapper.updateStatus(id,status);
-
         return result;
     }
 
