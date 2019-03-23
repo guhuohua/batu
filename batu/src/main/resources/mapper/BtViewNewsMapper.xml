@@ -315,6 +315,28 @@
     browse_number = #{browseNumber,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <resultMap id="selectByIdMap" type="com.ch.entity.BtViewNews">
+
+    <id column="id" property="id" />
+    <result column="status" property="status" />
+    <result column="new_content" property="newContent" />
+    <result column="title" property="title" />
+    <result column="update_time" property="updateTime" />
+    <result column="status_str" property="statusStr" />
+    <result column="picture_url" property="pictureUrl" />
+    <result column="new_category_id" property="newCategoryId" />
+    <result column="menu_id" property="menuId" />
+    <result column="browse_number" property="browseNumber" />
+    <result column="create_time" property="createTime" />
+    <result column="creater" property="creater" />
+
+
+  </resultMap>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="selectByIdMap">
+    select
+    id, status, new_content, title, update_time, status_str, picture_url, new_category_id,
+    menu_id, create_time, browse_number
+    from bt_view_news
+    where id = #{id}
   </select>
 </mapper>

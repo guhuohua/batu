@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -94,10 +95,12 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         record.setCreater(btSysUsers.get(0).getUsername());
         btViewNewsMapper.insert(record);
 
- 
+
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
+
         btViewNewsEng.setCreateTime(new Date());
+
         btViewNewsEng.setUpdateTime(new Date());
         btViewNewsEng.setBrowseNumber(record.getBrowseNumber());
         btViewNewsEng.setMenuId(record.getMenuId());
@@ -140,7 +143,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
             btViewNewsEngMapper.deleteByExample(engExample);
             BtViewNewsFanExample fanExample = new BtViewNewsFanExample();
             fanExample.createCriteria().andIdEqualTo(id);
-
+            btViewNewsFanMapper.deleteByExample(fanExample);
         }
         ResponseResult result = new ResponseResult();
 
@@ -193,6 +196,20 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         ResponseResult result = new ResponseResult();
         result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult findById(String Id) {
+
+        ResponseResult result = null;
+        try {
+            BtViewNews viewNews = btViewNewsMapper.selectByPrimaryKey(Id);
+            result = new ResponseResult();
+            result.setData(viewNews);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return result;
     }
 }

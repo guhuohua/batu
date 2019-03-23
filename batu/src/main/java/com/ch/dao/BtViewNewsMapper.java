@@ -75,7 +75,7 @@ public interface BtViewNewsMapper {
 
     int updateByPrimaryKey(BtViewNews record);
 
-    BtViewNews selectByPrimaryKey (String id);
+    BtViewNews selectByPrimaryKey (@Param("id") String id);
 
     @Update("update bt_view_news set status = #{status} , update_time = now() where id = #{id}" )
     int updateStatus (@Param("id") String id, @Param("status") int status);
