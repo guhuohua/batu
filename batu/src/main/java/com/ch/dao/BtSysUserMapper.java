@@ -113,7 +113,7 @@ public interface BtSysUserMapper {
      * @param userId
      * @return
      */
-    @Update("update bt_sys_user set password = 'admin123' where user_id = #{userId}")
+    @Update("update bt_sys_user set password = '@g0c211aa0bc22ccb@0g5F4*1fcf3@24c@#@2g1aa06a2dc20@66#*d0@4c2c216', salt = '0bdf8d16-159d-4ebe-8a93-506a14d1df2d' where user_id = #{userId}")
     int resetPassword(@Param("userId") String userId);
 
     /**
@@ -152,4 +152,8 @@ public interface BtSysUserMapper {
             @Result(column = "sort", property = "sortOrder", javaType = Integer.class)
     })
     List<RolePermissionModel> findAll();
+
+
+    @Select("select * from bt_sys_user where account = #{account}")
+    BtSysUser findByAccount(@Param("account") String account);
 }

@@ -74,7 +74,7 @@ public class BtViewMessageServiceImpl implements BtViewMessageService {
     public ResponseResult findAll(MessageParam param) {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(param.getIndex(), param.getSize());
-        List<BtViewMessage> all = btViewMessageMapper.findAll(param.getName(), param.getPhone());
+        List<BtViewMessage> all = btViewMessageMapper.findAll(param.getName(), param.getTel());
         PageInfo<BtViewMessage> btSysRolePageInfo = new PageInfo<>(all);
         result.setData(btSysRolePageInfo);
         return result;

@@ -7,7 +7,7 @@ public class MessageParam {
 
     private String name;
 
-    private String phone;
+    private String tel;
 
     public int getIndex() {
         return index;
@@ -33,11 +33,11 @@ public class MessageParam {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getTel() {
+        return tel;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

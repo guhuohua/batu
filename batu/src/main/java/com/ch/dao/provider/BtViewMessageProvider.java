@@ -9,11 +9,11 @@ public class BtViewMessageProvider {
         String name = (String) map.get("name");
         String phone = (String) map.get("phone");
         StringBuffer sb = new StringBuffer("select * from bt_view_message where 1=1");
-        if (name != null) {
+        if (name != null && name != "") {
             sb.append(" and name like '%").append(name).append("%'");
         }
-        if (phone != null) {
-            sb.append(" and tel like '%").append(phone).append("%'");
+        if (phone != null && phone !="") {
+            sb.append(" and tel = ").append(phone);
         }
         sb.append(" order by message_time desc");
         return sb.toString();
