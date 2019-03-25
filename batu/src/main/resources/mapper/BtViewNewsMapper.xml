@@ -11,12 +11,12 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="new_content" jdbcType="VARCHAR" property="newContent" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="update_time" jdbcType="DATE" property="updateTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status_str" jdbcType="VARCHAR" property="statusStr" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="new_category_id" jdbcType="VARCHAR" property="newCategoryId" />
     <result column="menu_id" jdbcType="VARCHAR" property="menuId" />
-    <result column="create_time" jdbcType="DATE" property="createTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="browse_number" jdbcType="INTEGER" property="browseNumber" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
   </resultMap>
@@ -139,9 +139,9 @@
       picture_url, new_category_id, menu_id, 
       create_time, browse_number,creater)
     values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{newContent,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{statusStr,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{statusStr,jdbcType=VARCHAR},
       #{pictureUrl,jdbcType=VARCHAR}, #{newCategoryId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=DATE}, #{browseNumber,jdbcType=INTEGER},#{creater,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{browseNumber,jdbcType=INTEGER},#{creater,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ch.entity.BtViewNews">
     <!--
@@ -199,7 +199,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=DATE},
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="statusStr != null">
         #{statusStr,jdbcType=VARCHAR},
@@ -214,7 +214,7 @@
         #{menuId,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        #{createTime,jdbcType=DATE},
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="browseNumber != null">
         #{browseNumber,jdbcType=INTEGER},
@@ -253,7 +253,7 @@
         title = #{record.title,jdbcType=VARCHAR},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=DATE},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.statusStr != null">
         status_str = #{record.statusStr,jdbcType=VARCHAR},
@@ -268,7 +268,7 @@
         menu_id = #{record.menuId,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=DATE},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.browseNumber != null">
         browse_number = #{record.browseNumber,jdbcType=INTEGER},
@@ -289,12 +289,12 @@
       status = #{record.status,jdbcType=INTEGER},
       new_content = #{record.newContent,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=DATE},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status_str = #{record.statusStr,jdbcType=VARCHAR},
       picture_url = #{record.pictureUrl,jdbcType=VARCHAR},
       new_category_id = #{record.newCategoryId,jdbcType=VARCHAR},
       menu_id = #{record.menuId,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=DATE},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       browse_number = #{record.browseNumber,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -306,12 +306,12 @@
     set status = #{status,jdbcType=INTEGER},
     new_content = #{newContent,jdbcType=VARCHAR},
     title = #{title,jdbcType=VARCHAR},
-    update_time = #{updateTime,jdbcType=DATE},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
     status_str = #{statusStr,jdbcType=VARCHAR},
     picture_url = #{pictureUrl,jdbcType=VARCHAR},
     new_category_id = #{newCategoryId,jdbcType=VARCHAR},
     menu_id = #{menuId,jdbcType=VARCHAR},
-    create_time = #{createTime,jdbcType=DATE},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
     browse_number = #{browseNumber,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>

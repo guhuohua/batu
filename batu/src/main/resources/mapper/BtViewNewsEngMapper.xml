@@ -11,7 +11,7 @@
     <result column="status" jdbcType="INTEGER" property="status" />
     <result column="new_content" jdbcType="VARCHAR" property="newContent" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="update_time" jdbcType="DATE" property="updateTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="status_str" jdbcType="VARCHAR" property="statusStr" />
     <result column="picture_url" jdbcType="VARCHAR" property="pictureUrl" />
     <result column="new_category_id" jdbcType="VARCHAR" property="newCategoryId" />
@@ -138,7 +138,7 @@
       picture_url, new_category_id, menu_id, 
       browse_number, create_time)
     values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{newContent,jdbcType=VARCHAR}, 
-      #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=DATE}, #{statusStr,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{statusStr,jdbcType=VARCHAR},
       #{pictureUrl,jdbcType=VARCHAR}, #{newCategoryId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
       #{browseNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
@@ -198,7 +198,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
-        #{updateTime,jdbcType=DATE},
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="statusStr != null">
         #{statusStr,jdbcType=VARCHAR},
@@ -288,7 +288,7 @@
       status = #{record.status,jdbcType=INTEGER},
       new_content = #{record.newContent,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=DATE},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       status_str = #{record.statusStr,jdbcType=VARCHAR},
       picture_url = #{record.pictureUrl,jdbcType=VARCHAR},
       new_category_id = #{record.newCategoryId,jdbcType=VARCHAR},

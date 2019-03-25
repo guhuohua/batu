@@ -166,6 +166,17 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         ResponseResult result = new ResponseResult();
         try {//查询所有菜单
             List<BtViewMenu> allMenu = btViewMenuMapper.selectByExample(null);
+           for(BtViewMenu btViewMenu : allMenu){
+
+               BtViewMenuExample example = new BtViewMenuExample();
+               BtViewMenuExample.Criteria criteria = example.createCriteria();
+               criteria.andIdEqualTo(btViewMenu.getParentId());
+               List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
+               for (BtViewMenu btViewMenu1 : btViewMenus){
+                   btViewMenu.setParentName(btViewMenu1.getName());
+               }
+
+           }
             //根节点
             List<BtViewMenu> rootMenu = new ArrayList<BtViewMenu>();
             for (BtViewMenu nav : allMenu) {
@@ -327,6 +338,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         ResponseResult result = new ResponseResult();
         try {//查询所有菜单
             List<BtViewMenuFan> allMenu = btViewMenuFanMapper.selectByExample(null);
+
             //根节点
             List<BtViewMenuFan> rootMenu = new ArrayList<BtViewMenuFan>();
             for (BtViewMenuFan nav : allMenu) {

@@ -75,7 +75,15 @@ public class BtViewMenu {
      * @mbg.generated Wed Mar 13 17:29:02 CST 2019
      */
     private String path;
+    private String ParentName;
 
+    public String getParentName() {
+        return ParentName;
+    }
+
+    public void setParentName(String parentName) {
+        ParentName = parentName;
+    }
 
     private List<BtViewMenu> children;
 

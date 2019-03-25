@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/sysNews")
-@Api(value = "新闻管理",description = "新闻管理")
+@Api(value = "新闻管理", description = "新闻管理")
 public class BtSysNewsController {
 
     @Autowired
@@ -31,14 +31,14 @@ public class BtSysNewsController {
 
     @RequestMapping(value = "/deleNews", method = RequestMethod.POST)
     @ApiOperation("删除新闻")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_delete","sys_news_release"})
-    public ResponseResult deleNews(@RequestBody List<String> ids){
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_delete", "sys_news_release"})
+    public ResponseResult deleNews(@RequestBody List<String> ids) {
         ResponseResult result = new ResponseResult();
 
         try {
             return btSysNewsService.delete(ids);
         } catch (Exception e) {
-            LOGGER.error("删除失败"+e.getMessage(),e);
+            LOGGER.error("删除失败" + e.getMessage(), e);
             result.setCode(500);
             result.setError(e.getMessage());
             result.setError_description("删除失败");
@@ -62,13 +62,13 @@ public class BtSysNewsController {
     }*/
 
     @RequestMapping(value = "/searchNews", method = RequestMethod.POST)
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see","sys_news_release"})
-    public ResponseResult searchNews(@RequestBody NewsParam newsParam){
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see", "sys_news_release"})
+    public ResponseResult searchNews(@RequestBody NewsParam newsParam) {
         ResponseResult result = new ResponseResult();
         try {
             return btSysNewsService.findPage(newsParam);
         } catch (Exception e) {
-            LOGGER.error("查询失败"+e.getMessage(),e);
+            LOGGER.error("查询失败" + e.getMessage(), e);
             result.setCode(500);
             result.setError(e.getMessage());
             result.setError_description("查询失败");
@@ -78,21 +78,21 @@ public class BtSysNewsController {
 
     @PostMapping(value = "/editNews")
     @ApiOperation("增加或修改新闻")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert","sys_news_see_edit","sys_news_release"})
-    public ResponseResult updateNews(@RequestBody BtViewNews record , HttpServletRequest req){
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert", "sys_news_see_edit", "sys_news_release"})
+    public ResponseResult updateNews(@RequestBody BtViewNews record, HttpServletRequest req) {
         String token = req.getHeader("Authorization");
         String userId = TokenUtil.getUserId(token);
         ResponseResult result = new ResponseResult();
         try {
 
-            if (record.getId()!=null && !StringUtils.isEmpty(record.getId())){
+            if (record.getId() != null && !StringUtils.isEmpty(record.getId())) {
                 return btSysNewsService.updateByPrimaryKey(record);
-            }else {
-                return btSysNewsService.insert(record,userId);
+            } else {
+                return btSysNewsService.insert(record, userId);
             }
 
         } catch (Exception e) {
-            LOGGER.error("修改失败"+e.getMessage(),e);
+            LOGGER.error("修改失败" + e.getMessage(), e);
             result.setCode(500);
             result.setError(e.getMessage());
             result.setError_description("修改失败");
@@ -101,21 +101,21 @@ public class BtSysNewsController {
     }
 
     @GetMapping("/updateStatus")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert","sys_news_see_edit","sys_news_release"})
-    public ResponseResult updateStatus(@RequestParam String id,@RequestParam int status){
-       return  btSysNewsService.updateStatus(id,status);
-
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert", "sys_news_see_edit", "sys_news_release"})
+    public ResponseResult updateStatus(@RequestParam String id, @RequestParam int status) {
+        return btSysNewsService.updateStatus(id, status);
 
 
     }
+
     @GetMapping("/findById/{id}")
-    public ResponseResult findById(@PathVariable("id") String id){
+    public ResponseResult findById(@PathVariable("id") String id) {
         System.out.println(id);
         return btSysNewsService.findById(id);
     }
 
     @GetMapping("/findById")
-    public ResponseResult findById11111(@RequestParam("id") String id){
+    public ResponseResult findById11111(@RequestParam("id") String id) {
         System.out.println(id);
         return btSysNewsService.findById(id);
     }

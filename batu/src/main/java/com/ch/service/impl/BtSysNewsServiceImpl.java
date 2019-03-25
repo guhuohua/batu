@@ -81,7 +81,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     }*/
     @Override
     @Transactional
-    public ResponseResult insert(BtViewNews record,String userId) {
+    public ResponseResult insert(BtViewNews record, String userId) {
         record.setCreateTime(new Date());
         String uuid = IdUtil.createIdByUUID();
         record.setId(uuid);
@@ -96,7 +96,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         record.setCreater(btSysUsers.get(0).getUsername());
         btViewNewsMapper.insert(record);
 
- 
+
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
         btViewNewsEng.setCreateTime(new Date());
@@ -174,14 +174,14 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     public ResponseResult updateStatus(String id, int status) {
 
         ResponseResult result = new ResponseResult();
-        if (status==1) {
+        if (status == 1) {
             btViewNewsMapper.updateStatus(id, status);
         } else {
             btViewNewsMapper.updateDate(id, status);
         }
 
-        btViewNewsEngMapper.updateStatus(id,status);
-        btViewNewsFanMapper.updateStatus(id,status);
+        btViewNewsEngMapper.updateStatus(id, status);
+        btViewNewsFanMapper.updateStatus(id, status);
 
         return result;
     }
@@ -200,11 +200,13 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         result.setData(page);
         return result;
     }
-    public ResponseResult findById(String id){
+
+    public ResponseResult findById(String id) {
         ResponseResult result = new ResponseResult();
         BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
         result.setData(btViewNews);
-        return  result;
+        return result;
+
     }
 }
 
