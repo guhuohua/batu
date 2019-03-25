@@ -97,5 +97,11 @@ public interface BtViewNewsService {
 
     ResponseResult findViewNewsFanByMenId(String menuId, Integer index, Integer size);
 
+    ResponseResult findOneByMenId(String menuId);
+
+    ResponseResult findOneEngByMenId(String menuId);
+
+    ResponseResult findOneFanByMenId(String menuId);
+
 
 }
