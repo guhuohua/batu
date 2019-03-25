@@ -1,5 +1,6 @@
 package com.ch.service.impl;
 
+import com.ch.base.BeanUtils;
 import com.ch.base.ResponseResult;
 import com.ch.dao.*;
 import com.ch.model.PersonMangeDTO;
@@ -217,7 +218,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             }
             BtSysUser btSysUser = new BtSysUser();
             btSysUser.setAccount(personParam.getAccount());
-            if (personParam.getPassword() != null || personParam.getPassword()!="") {
+            if (BeanUtils.isNotEmpty(btSysUser.getPassword())) {
                 String salt = UUID.randomUUID().toString();
                 PasswordUtil encoderMd5 = new PasswordUtil(salt, "sha-256");
                 String encodedPassword = encoderMd5.encode(personParam.getPassword());

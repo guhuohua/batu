@@ -1,6 +1,9 @@
 package com.ch.base;
 
 
+import com.alibaba.fastjson.JSONObject;
+import com.ch.util.HttpsUtil;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,13 +18,13 @@ public class TransApi {
         this.securityKey = securityKey;
     }
 
-    public String getTransResult(String query, String from, String to) {
-        Map<String, String> params = buildParams(query, from, to);
-        return HttpGet.get(TRANS_API_HOST, params);
+    public JSONObject getTransResult(String query, String from, String to) {
+        Map<String, Object> params = buildParams(query, from, to);
+        return HttpsUtil.doPost(TRANS_API_HOST, params);
     }
 
-    private Map<String, String> buildParams(String query, String from, String to) {
-        Map<String, String> params = new HashMap<String, String>();
+    private Map<String, Object> buildParams(String query, String from, String to) {
+        Map<String, Object> params = new HashMap<String, Object>();
         params.put("q", query);
         params.put("from", from);
         params.put("to", to);
