@@ -76,6 +76,15 @@ public class BtViewMenu {
      */
     private String path;
     private String ParentName;
+    private boolean page;
+
+    public boolean isPage() {
+        return page;
+    }
+
+    public void setPage(boolean page) {
+        this.page = page;
+    }
 
     public String getParentName() {
         return ParentName;

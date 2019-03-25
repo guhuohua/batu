@@ -6,11 +6,14 @@ import com.ch.dao.BtViewNewsFanMapper;
 import com.ch.dao.BtViewNewsMapper;
 import com.ch.entity.*;
 import com.ch.service.BtViewNewsService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+
 @Service
 @Transactional
 public class BtViewNewsServiceImpl implements BtViewNewsService {
@@ -72,54 +75,98 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
     }
 
     @Override
-    public ResponseResult findViewNewsByMenuId(String menuId) {
-
+    public ResponseResult findViewNewsByNewId(String newId) {
+        ResponseResult result = new ResponseResult();
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
-        criteria.andMenuIdEqualTo(menuId);
+        criteria.andIdEqualTo(newId);
         criteria.andStatusEqualTo(1);
         List<BtViewNews> newsList = btViewNewsMapper.selectByExample(example);
-        for(BtViewNews btViewNews :  newsList){
-            Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
+        if (newsList.stream().findFirst().isPresent()) {
+            BtViewNews btViewNews = newsList.stream().findFirst().get();
+            Integer browseNumber = btViewNews.getBrowseNumber() == null ? 0 : btViewNews.getBrowseNumber();
             btViewNews.setBrowseNumber(++browseNumber);
             btViewNewsMapper.updateByPrimaryKey(btViewNews);
+            result.setData(btViewNews);
         }
-        ResponseResult result = new ResponseResult();
-        result.setData(newsList);
         return result;
     }
 
     @Override
-    public ResponseResult findViewNewsEngByMenuId(String menuId) {
+    public ResponseResult findViewNewsEngByNewId(String newId) {
+       ResponseResult result = new ResponseResult();
         BtViewNewsEngExample example = new BtViewNewsEngExample();
         BtViewNewsEngExample.Criteria criteria = example.createCriteria();
-        criteria.andMenuIdEqualTo(menuId);
+        criteria.andIdEqualTo(newId);
         criteria.andStatusEqualTo(1);
         List<BtViewNewsEng> newsList = btViewNewsEngMapper.selectByExample(example);
-        for(BtViewNewsEng btViewNews :  newsList){
-            Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
-            btViewNews.setBrowseNumber(++browseNumber);
-            btViewNewsEngMapper.updateByPrimaryKey(btViewNews);
+        if (newsList.stream().findFirst().isPresent()) {
+            BtViewNewsEng btViewNewsEng = newsList.stream().findFirst().get();
+            Integer browseNumber = btViewNewsEng.getBrowseNumber() == null ? 0 : btViewNewsEng.getBrowseNumber();
+            btViewNewsEng.setBrowseNumber(++browseNumber);
+            btViewNewsEngMapper.updateByPrimaryKey(btViewNewsEng);
+            result.setData(btViewNewsEng);
         }
-        ResponseResult result = new ResponseResult();
-        result.setData(newsList);
         return result;
     }
 
     @Override
-    public ResponseResult findViewNewsFanByMenuId(String menuId) {
+    public ResponseResult findViewNewsFanByNewId(String newId) {
+       ResponseResult result = new ResponseResult();
         BtViewNewsFanExample example = new BtViewNewsFanExample();
         BtViewNewsFanExample.Criteria criteria = example.createCriteria();
-        criteria.andMenuIdEqualTo(menuId);
+        criteria.andIdEqualTo(newId);
         criteria.andStatusEqualTo(1);
         List<BtViewNewsFan> newsList = btViewNewsFanMapper.selectByExample(example);
-        for(BtViewNewsFan btViewNews :  newsList){
-            Integer browseNumber = btViewNews.getBrowseNumber()==null?0:btViewNews.getBrowseNumber();
-            btViewNews.setBrowseNumber(++browseNumber);
-            btViewNewsFanMapper.updateByPrimaryKey(btViewNews);
+        if (newsList.stream().findFirst().isPresent()) {
+            BtViewNewsFan btViewNewsFan = newsList.stream().findFirst().get();
+            Integer browseNumber = btViewNewsFan.getBrowseNumber() == null ? 0 : btViewNewsFan.getBrowseNumber();
+            btViewNewsFan.setBrowseNumber(++browseNumber);
+            btViewNewsFanMapper.updateByPrimaryKey(btViewNewsFan);
+            result.setData(btViewNewsFan);
         }
+        return result;
+    }
+
+    @Override
+    public ResponseResult findViewNewsByMenId(String menuId, Integer index, Integer size) {
         ResponseResult result = new ResponseResult();
-        result.setData(newsList);
+        PageHelper.startPage(index, size);
+        BtViewNewsExample example = new BtViewNewsExample();
+        BtViewNewsExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+        PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult findViewNewsEngByMenId(String menuId, Integer index, Integer size) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(index, size);
+        BtViewNewsEngExample exampleEng = new BtViewNewsEngExample();
+        BtViewNewsEngExample.Criteria criteria = exampleEng.createCriteria();
+        criteria.andStatusEqualTo(1);
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNewsEng> btViewNewsEng = btViewNewsEngMapper.selectByExample(exampleEng);
+        PageInfo<BtViewNewsEng> page = new PageInfo<>(btViewNewsEng);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult findViewNewsFanByMenId(String menuId, Integer index, Integer size) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(index, size);
+        BtViewNewsFanExample exampleFan = new BtViewNewsFanExample();
+        BtViewNewsFanExample.Criteria criteria = exampleFan.createCriteria();
+        criteria.andStatusEqualTo(1);
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNewsFan> btViewNewsFan = btViewNewsFanMapper.selectByExample(exampleFan);
+        PageInfo<BtViewNewsFan> page = new PageInfo<>(btViewNewsFan);
+        result.setData(page);
         return result;
     }
 

@@ -80,14 +80,22 @@ public interface BtViewNewsService {
      */
     int updateByExample(@Param("record") BtViewNews record, @Param("example") BtViewNewsExample example);
 
-    public ResponseResult findViewNewsByMenuId(String menuId);
+    public ResponseResult findViewNewsByNewId(String newId);
 
     /**
      * 根据ID查询英文信息
-     * @param menuId
+     * @param newId
      * @return
      */
-    ResponseResult findViewNewsEngByMenuId(String menuId);
-    ResponseResult findViewNewsFanByMenuId(String menuId);
+    ResponseResult findViewNewsEngByNewId(String newId);
+
+    ResponseResult findViewNewsFanByNewId(String newId);
+
+    ResponseResult findViewNewsByMenId(String menuId, Integer index, Integer size);
+
+    ResponseResult findViewNewsEngByMenId(String menuId, Integer index, Integer size);
+
+    ResponseResult findViewNewsFanByMenId(String menuId, Integer index, Integer size);
+
 
 }

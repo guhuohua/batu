@@ -99,6 +99,7 @@ public interface BtViewMenuService {
      * 删除
      */
     public ResponseResult  deleteByPrimaryKey(String id);
+
 }
 
 
