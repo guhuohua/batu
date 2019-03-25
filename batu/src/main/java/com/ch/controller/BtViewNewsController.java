@@ -77,10 +77,10 @@ public class BtViewNewsController {
 
 
     @RequestMapping(value = "/newsEngByMenuId", method = RequestMethod.GET)
-    public ResponseResult findViewNewsFanByNewId(@RequestParam String newId, @RequestParam Integer index, @RequestParam Integer size) {
+    public ResponseResult findViewNewsFanByNewId(@RequestParam String menuId, @RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
-            return  btViewNewsService.findViewNewsEngByMenId(newId,index,size);
+            return  btViewNewsService.findViewNewsEngByMenId(menuId,index,size);
         } catch (Exception e) {
             LOGGER.error("新闻展示失败"+e.getMessage(),e);
             result.setCode(500);
