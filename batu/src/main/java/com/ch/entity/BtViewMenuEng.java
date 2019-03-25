@@ -76,7 +76,17 @@ public class BtViewMenuEng {
      */
     private String path;
 
+    private Boolean page;
+
     private List<BtViewMenuEng> children;
+
+    public Boolean getPage() {
+        return page;
+    }
+
+    public void setPage(Boolean page) {
+        this.page = page;
+    }
 
     public List<BtViewMenuEng> getChildren() {
         return children;

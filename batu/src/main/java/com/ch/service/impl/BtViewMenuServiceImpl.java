@@ -52,19 +52,15 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Override
     public ResponseResult insert(BtViewMenu record) {
         ResponseResult result = new ResponseResult();
-        String idByUUID = IdUtil.createIdByUUID();
-        record.setId(idByUUID);
         record.setCreateTime(new Date());
         btViewMenuMapper.insert(record);
 
         BtViewMenuEng btViewMenuEng = new BtViewMenuEng();
-        btViewMenuEng.setId(idByUUID);
         modelMapper.map(record, btViewMenuEng);
         btViewMenuEng.setName(baiduTranslateUtil.translate(record.getName()));
         btViewMenuEngMapper.insert(btViewMenuEng);
 
         BtViewMenuFan btViewMenuFan = new BtViewMenuFan();
-        btViewMenuFan.setId(idByUUID);
         modelMapper.map(record, btViewMenuFan);
         btViewMenuFan.setName(baiduTranslateUtil.translateFan(record.getName()));
         btViewMenuFanMapper.insert(btViewMenuFan);
