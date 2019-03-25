@@ -8,6 +8,7 @@ import com.ch.entity.*;
 import com.ch.service.BtViewNewsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,6 +168,51 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         List<BtViewNewsFan> btViewNewsFan = btViewNewsFanMapper.selectByExample(exampleFan);
         PageInfo<BtViewNewsFan> page = new PageInfo<>(btViewNewsFan);
         result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult findOneByMenId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        BtViewNewsExample example = new BtViewNewsExample();
+        BtViewNewsExample.Criteria criteria = example.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+       if(btViewNews.size()>0){
+           BtViewNews viewNews = btViewNews.get(0);
+           result.setData(viewNews);
+       }
+
+        return result;
+    }
+
+    @Override
+    public ResponseResult findOneEngByMenId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        BtViewNewsEngExample exampleEng = new BtViewNewsEngExample();
+        BtViewNewsEngExample.Criteria criteria = exampleEng.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNewsEng> btViewNews = btViewNewsEngMapper.selectByExample(exampleEng);
+        if (btViewNews.size()>0){
+            BtViewNewsEng viewNews = btViewNews.get(0);
+            result.setData(viewNews);
+        }
+
+        return result;
+    }
+
+    @Override
+    public ResponseResult findOneFanByMenId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        BtViewNewsFanExample exampleFan = new BtViewNewsFanExample();
+        BtViewNewsFanExample.Criteria criteria = exampleFan.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        List<BtViewNewsFan> btViewNews = btViewNewsFanMapper.selectByExample(exampleFan);
+        if(btViewNews.size()>0){
+            BtViewNewsFan viewNews = btViewNews.get(0);
+            result.setData(viewNews);
+        }
+
         return result;
     }
 
