@@ -31,6 +31,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     BaiduTranslateUtil baiduTranslateUtil;
     @Autowired
     BtSysUserMapper btSysUserMapper;
+    @Autowired
+    BtViewMenuMapper btViewMenuMapper;
 
     @Autowired
     BtViewNewsFanMapper btViewNewsFanMapper;
@@ -179,6 +181,9 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     public ResponseResult updateStatus(String id, int status) {
         ResponseResult result = new ResponseResult();
+        BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
+        BtViewMenu btViewMenu = btViewMenuMapper.selectByPrimaryKey(btViewNews.getMenuId());
+
         if (status == 1) {
             BtViewNews viewNews = btViewNewsMapper.findById(id);
             BtViewMenu btViewMenu = btViewMenuMapper.findById(viewNews.getMenuId());
