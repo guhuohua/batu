@@ -35,6 +35,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Autowired
     BtViewNewsFanMapper btViewNewsFanMapper;
 
+    @Autowired
+    BtViewMenuMapper btViewMenuMapper;
 
     @Override
     public long countByExample(BtViewNewsExample example) {
@@ -119,7 +121,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNewsFan.setNewCategoryId(record.getNewCategoryId());
         btViewNewsFan.setNewContent(baiduTranslateUtil.translateFan(record.getNewContent()));
         btViewNewsFan.setPictureUrl(record.getPictureUrl());
-        btViewNewsFan.setStatusStr("en");
+        btViewNewsFan.setStatusStr("cht");
         btViewNewsFan.setTitle(baiduTranslateUtil.translateFan(record.getTitle()));
         btViewNewsFan.setStatus(0);
         btViewNewsFanMapper.insert(btViewNewsFan);
@@ -153,18 +155,21 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Transactional
     public ResponseResult updateByPrimaryKey(BtViewNews record) {
         ResponseResult result = new ResponseResult();
-        record.setUpdateTime(new Date());
+        if (record.getStatus() == 1) {
+            result.setCode(500);
+            result.setError("发布中的状态不允许编辑");
+            result.setError_description("发布中的状态不允许编辑");
+            return result;
+        }
         btViewNewsMapper.updateByPrimaryKey(record);
         BtViewNewsEng btViewNewsEng = btViewNewsEngMapper.findById(record.getId());
         btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
-        btViewNewsEng.setUpdateTime(new Date());
         btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
         btViewNewsEngMapper.updateByPrimaryKey(btViewNewsEng);
 
 
         BtViewNewsFan btViewNewsFan = btViewNewsFanMapper.findById(record.getId());
         btViewNewsFan.setTitle(baiduTranslateUtil.translateFan(record.getTitle()));
-        btViewNewsFan.setUpdateTime(new Date());
         btViewNewsFan.setNewContent(baiduTranslateUtil.translateFan(record.getNewContent()));
         btViewNewsFanMapper.updateByPrimaryKey(btViewNewsFan);
 
@@ -173,9 +178,15 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
 
     @Override
     public ResponseResult updateStatus(String id, int status) {
-
         ResponseResult result = new ResponseResult();
         if (status == 1) {
+            BtViewNews viewNews = btViewNewsMapper.findById(id);
+            BtViewMenu btViewMenu = btViewMenuMapper.findById(viewNews.getMenuId());
+            if (!btViewMenu.getPage()) {
+                btViewNewsMapper.updateUnpublished(viewNews.getMenuId());
+                btViewNewsEngMapper.updateUnpublished(viewNews.getMenuId());
+                btViewNewsFanMapper.updateUnpublished(viewNews.getMenuId());
+            }
             btViewNewsMapper.updateStatus(id, status);
         } else {
             btViewNewsMapper.updateDate(id, status);

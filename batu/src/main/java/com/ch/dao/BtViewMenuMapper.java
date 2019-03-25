@@ -6,6 +6,7 @@ import com.ch.entity.BtViewMenuExample;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -71,5 +72,9 @@ public interface BtViewMenuMapper {
 
     int deleteByPrimaryKey(String id);
     BtViewMenu selectByPrimaryKey(String id);
+
+
+    @Select("select * from bt_view_menu where id = #{id}")
+    BtViewMenu findById(@Param("id") String id);
 
 }
