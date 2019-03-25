@@ -170,7 +170,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
 
                BtViewMenuExample example = new BtViewMenuExample();
                BtViewMenuExample.Criteria criteria = example.createCriteria();
-               criteria.andIdEqualTo(btViewMenu.getParentId());
+               criteria.andIdEqualTo (btViewMenu.getParentId());
                List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
                for (BtViewMenu btViewMenu1 : btViewMenus){
                    btViewMenu.setParentName(btViewMenu1.getName());
