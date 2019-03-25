@@ -141,6 +141,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
             btViewNewsEngMapper.deleteByExample(engExample);
             BtViewNewsFanExample fanExample = new BtViewNewsFanExample();
             fanExample.createCriteria().andIdEqualTo(id);
+            btViewNewsFanMapper.deleteByExample(fanExample);
 
         }
         ResponseResult result = new ResponseResult();
