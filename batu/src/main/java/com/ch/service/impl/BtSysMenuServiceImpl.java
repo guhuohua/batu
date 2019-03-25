@@ -1,5 +1,6 @@
 package com.ch.service.impl;
 
+import com.ch.base.BeanUtils;
 import com.ch.base.ResponseResult;
 import com.ch.dao.*;
 import com.ch.entity.*;
@@ -47,6 +48,9 @@ public class BtSysMenuServiceImpl implements BtSysMenuService {
                 btSysPermissionExample.createCriteria().andPermissionIdEqualTo(rolePermission.getPermissionId());
                 btSysPermissionMapper.selectByExample(btSysPermissionExample).forEach(permission -> {
                     permissionNameList.add(permission.getName());
+                    if (BeanUtils.isNotEmpty(permission.getParentId())) {
+                        
+                    }
                 });
             });
         });

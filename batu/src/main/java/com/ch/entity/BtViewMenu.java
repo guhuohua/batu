@@ -76,13 +76,23 @@ public class BtViewMenu {
      */
     private String path;
     private String ParentName;
-    private boolean page;
+    private Boolean page;
 
-    public boolean isPage() {
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Boolean getPage() {
         return page;
     }
 
-    public void setPage(boolean page) {
+    public void setPage(Boolean page) {
         this.page = page;
     }
 

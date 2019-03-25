@@ -61,8 +61,8 @@ public class BtViewNewsController {
             return result;
         }
     }
-    @RequestMapping(value = "/newsByMenuId", method = RequestMethod.POST)
-    public ResponseResult findViewNewsByMenuId(@RequestParam String menuId,Integer index,Integer size) {
+    @RequestMapping(value = "/newsByMenuId", method = RequestMethod.GET)
+    public ResponseResult findViewNewsByMenuId(@RequestParam String menuId,@RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
             return  btViewNewsService.findViewNewsByMenId(menuId,index ,size);
@@ -76,8 +76,8 @@ public class BtViewNewsController {
     }
 
 
-    @RequestMapping(value = "/newsEngByMenuId", method = RequestMethod.POST)
-    public ResponseResult findViewNewsFanByNewId(@RequestParam String newId,Integer index,Integer size) {
+    @RequestMapping(value = "/newsEngByMenuId", method = RequestMethod.GET)
+    public ResponseResult findViewNewsFanByNewId(@RequestParam String newId, @RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
             return  btViewNewsService.findViewNewsEngByMenId(newId,index,size);
@@ -91,8 +91,8 @@ public class BtViewNewsController {
     }
 
 
-    @RequestMapping(value = "/newsFanByMenuId", method = RequestMethod.POST)
-    public ResponseResult findViewNewsFanByMenuId(@RequestParam String menuId, Integer index, Integer size) {
+    @RequestMapping(value = "/newsFanByMenuId", method = RequestMethod.GET)
+    public ResponseResult findViewNewsFanByMenuId(@RequestParam String menuId,  @RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
             return  btViewNewsService.findViewNewsFanByMenId(menuId,index,size);

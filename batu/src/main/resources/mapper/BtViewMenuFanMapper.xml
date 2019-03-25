@@ -269,7 +269,7 @@
       creater = #{creater,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       path = #{path,jdbcType=VARCHAR},
-       page = #{path,jdbcType=TINYINT}
+       page = #{page,jdbcType=TINYINT}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
