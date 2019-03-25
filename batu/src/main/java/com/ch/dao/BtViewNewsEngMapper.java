@@ -84,4 +84,7 @@ public interface BtViewNewsEngMapper {
     @Update("update bt_view_news_eng set status = #{status} where id = #{id}" )
     int updateStatus (@Param("id") String id,@Param("status") int status);
 
+    @Update("update bt_view_news_eng set status = 0 where menu_id = #{menuId}")
+    int updateUnpublished(@Param("menuId") String menuId);
+
 }

@@ -49,7 +49,18 @@ public class BtSysMenuServiceImpl implements BtSysMenuService {
                 btSysPermissionMapper.selectByExample(btSysPermissionExample).forEach(permission -> {
                     permissionNameList.add(permission.getName());
                     if (BeanUtils.isNotEmpty(permission.getParentId())) {
-                        
+                        BtSysPermissionExample example = new BtSysPermissionExample();
+                        example.createCriteria().andPermissionIdEqualTo(String.valueOf(permission.getParentId()));
+                        btSysPermissionMapper.selectByExample(example).forEach(parentPermission -> {
+                            permissionNameList.add(parentPermission.getName());
+                            if (BeanUtils.isNotEmpty(parentPermission.getParentId())) {
+                                BtSysPermissionExample example2 = new BtSysPermissionExample();
+                                example2.createCriteria().andPermissionIdEqualTo(String.valueOf(permission.getParentId()));
+                                btSysPermissionMapper.selectByExample(example2).forEach(top -> {
+                                    permissionNameList.add(top.getName());
+                                });
+                            }
+                        });
                     }
                 });
             });
