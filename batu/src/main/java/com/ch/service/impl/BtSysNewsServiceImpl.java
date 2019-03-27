@@ -38,8 +38,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Autowired
     BtViewNewsFanMapper btViewNewsFanMapper;
 
-    @Autowired
-    BtViewMenuMapper btViewMenuMapper;
+   /* @Autowired
+    BtViewMenuMapper btViewMenuMapper;*/
 
     @Override
     public long countByExample(BtViewNewsExample example) {
@@ -87,6 +87,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     @Transactional
     public ResponseResult insert(BtViewNews record, String userId) {
+        ResponseResult result = new ResponseResult();
         record.setCreateTime(new Date());
         String uuid = IdUtil.createIdByUUID();
         record.setId(uuid);
@@ -108,10 +109,21 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNewsEng.setBrowseNumber(record.getBrowseNumber());
         btViewNewsEng.setMenuId(record.getMenuId());
         btViewNewsEng.setNewCategoryId(record.getNewCategoryId());
-        btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
+        if (baiduTranslateUtil.translate(record.getNewContent())!=null) {
+            btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
+        }else {
+            result.setCode(789);
+            return result;
+        }
+
         btViewNewsEng.setPictureUrl(record.getPictureUrl());
         btViewNewsEng.setStatusStr("en");
-        btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
+        if (baiduTranslateUtil.translate(record.getTitle())!=null) {
+            btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
+        }else {
+            result.setCode(789);
+            return result;
+        }
         btViewNewsEng.setStatus(0);
         btViewNewsEngMapper.insert(btViewNewsEng);
 
@@ -122,13 +134,25 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNewsFan.setBrowseNumber(record.getBrowseNumber());
         btViewNewsFan.setMenuId(record.getMenuId());
         btViewNewsFan.setNewCategoryId(record.getNewCategoryId());
-        btViewNewsFan.setNewContent(baiduTranslateUtil.translateFan(record.getNewContent()));
+        if (baiduTranslateUtil.translateFan(record.getNewContent())!=null) {
+            btViewNewsFan.setNewContent(baiduTranslateUtil.translateFan(record.getNewContent()));
+        }else {
+            result.setCode(789);
+            return result;
+        }
+
         btViewNewsFan.setPictureUrl(record.getPictureUrl());
         btViewNewsFan.setStatusStr("cht");
-        btViewNewsFan.setTitle(baiduTranslateUtil.translateFan(record.getTitle()));
-        btViewNewsFan.setStatus(0);
+        if (baiduTranslateUtil.translateFan(record.getTitle())!=null) {
+            btViewNewsFan.setTitle(baiduTranslateUtil.translateFan(record.getTitle()));
+        }else {
+            result.setCode(789);
+            return  result;
+        }
+
+        btViewNewsFan.setStatus(789);
         btViewNewsFanMapper.insert(btViewNewsFan);
-        ResponseResult result = new ResponseResult();
+
 
         return result;
     }
@@ -166,14 +190,35 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         }
         btViewNewsMapper.updateByPrimaryKey(record);
         BtViewNewsEng btViewNewsEng = btViewNewsEngMapper.findById(record.getId());
-        btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
-        btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
+        if (baiduTranslateUtil.translate(record.getTitle())!=null){
+            btViewNewsEng.setTitle(baiduTranslateUtil.translate(record.getTitle()));
+       }else {
+            result.setCode(789);
+            return result;
+        }
+          if (baiduTranslateUtil.translate(record.getNewContent())!=null){
+              btViewNewsEng.setNewContent(baiduTranslateUtil.translate(record.getNewContent()));
+          }else {
+              return result;
+          }
+
         btViewNewsEngMapper.updateByPrimaryKey(btViewNewsEng);
 
 
         BtViewNewsFan btViewNewsFan = btViewNewsFanMapper.findById(record.getId());
-        btViewNewsFan.setTitle(baiduTranslateUtil.translateFan(record.getTitle()));
-        btViewNewsFan.setNewContent(baiduTranslateUtil.translateFan(record.getNewContent()));
+       if (baiduTranslateUtil.translateFan(record.getTitle())!=null){
+           btViewNewsFan.setTitle(baiduTranslateUtil.translateFan(record.getTitle()));
+       }else {
+           result.setCode(789);
+           return result;
+       }
+        if (baiduTranslateUtil.translateFan(record.getNewContent())!=null){
+            btViewNewsFan.setNewContent(baiduTranslateUtil.translateFan(record.getNewContent()));
+        }else {
+            result.setCode(789);
+            return  result;
+        }
+
         btViewNewsFanMapper.updateByPrimaryKey(btViewNewsFan);
 
         return result;
@@ -198,8 +243,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         }
         if (status == 1) {
             BtViewNews viewNews = btViewNewsMapper.findById(id);
-            BtViewMenu btViewMenu = btViewMenuMapper.findById(viewNews.getMenuId());
-            if (!btViewMenu.getPage()) {
+            BtViewMenu btViewMenu1 = btViewMenuMapper.findById(viewNews.getMenuId());
+            if (!btViewMenu1.getPage()) {
                 btViewNewsMapper.updateUnpublished(viewNews.getMenuId());
                 btViewNewsEngMapper.updateUnpublished(viewNews.getMenuId());
                 btViewNewsFanMapper.updateUnpublished(viewNews.getMenuId());
