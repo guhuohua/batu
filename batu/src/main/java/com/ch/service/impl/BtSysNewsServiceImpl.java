@@ -227,24 +227,10 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     @Override
     public ResponseResult updateStatus(String id, int status) {
         ResponseResult result = new ResponseResult();
-        BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
-        BtViewMenu btViewMenu = btViewMenuMapper.selectByPrimaryKey(btViewNews.getMenuId());
-        if (btViewMenu.getPage()) {
-            BtViewNewsExample example = new BtViewNewsExample();
-            BtViewNewsExample.Criteria criteria = example.createCriteria();
-            criteria.andMenuIdEqualTo(btViewMenu.getId());
-            List<BtViewNews> btViewNewsList = btViewNewsMapper.selectByExample(example);
-            for (BtViewNews btViewNews1 : btViewNewsList) {
-                String newId = btViewNews1.getId();
-                btViewNewsMapper.updateStatus(newId, 0);
-                btViewNewsEngMapper.updateStatus(newId,0);
-                btViewNewsFanMapper.updateStatus(newId,0);
-            }
-        }
         if (status == 1) {
             BtViewNews viewNews = btViewNewsMapper.findById(id);
-            BtViewMenu btViewMenu1 = btViewMenuMapper.findById(viewNews.getMenuId());
-            if (!btViewMenu1.getPage()) {
+            BtViewMenu btViewMenu = btViewMenuMapper.findById(viewNews.getMenuId());
+            if (!btViewMenu.getPage()) {
                 btViewNewsMapper.updateUnpublished(viewNews.getMenuId());
                 btViewNewsEngMapper.updateUnpublished(viewNews.getMenuId());
                 btViewNewsFanMapper.updateUnpublished(viewNews.getMenuId());
@@ -253,6 +239,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         } else {
             btViewNewsMapper.updateDate(id, status);
         }
+
         btViewNewsEngMapper.updateStatus(id, status);
         btViewNewsFanMapper.updateStatus(id, status);
         return result;
