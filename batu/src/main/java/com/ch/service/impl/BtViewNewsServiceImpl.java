@@ -137,6 +137,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         criteria.andStatusEqualTo(1);
         criteria.andMenuIdEqualTo(menuId);
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         result.setData(page);
         return result;
@@ -165,6 +166,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         criteria.andStatusEqualTo(1);
         criteria.andMenuIdEqualTo(menuId);
         List<BtViewNewsFan> btViewNewsFan = btViewNewsFanMapper.selectByExample(exampleFan);
+
         PageInfo<BtViewNewsFan> page = new PageInfo<>(btViewNewsFan);
         result.setData(page);
         return result;
