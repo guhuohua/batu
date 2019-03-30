@@ -179,6 +179,9 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
        if(btViewNews.size()>0){
            BtViewNews viewNews = btViewNews.get(0);
+           Integer browseNumber = viewNews.getBrowseNumber() == null ? 0 : viewNews.getBrowseNumber();
+           viewNews.setBrowseNumber(++browseNumber);
+           btViewNewsMapper.updateByPrimaryKey(viewNews);
            result.setData(viewNews);
        }
 
@@ -195,6 +198,9 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         List<BtViewNewsEng> btViewNews = btViewNewsEngMapper.selectByExample(exampleEng);
         if (btViewNews.size()>0){
             BtViewNewsEng viewNews = btViewNews.get(0);
+            Integer browseNumber = viewNews.getBrowseNumber() == null ? 0 : viewNews.getBrowseNumber();
+            viewNews.setBrowseNumber(++browseNumber);
+            btViewNewsEngMapper.updateByPrimaryKey(viewNews);
             result.setData(viewNews);
         }
 
@@ -211,6 +217,9 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         List<BtViewNewsFan> btViewNews = btViewNewsFanMapper.selectByExample(exampleFan);
         if(btViewNews.size()>0){
             BtViewNewsFan viewNews = btViewNews.get(0);
+            Integer browseNumber = viewNews.getBrowseNumber() == null ? 0 : viewNews.getBrowseNumber();
+            viewNews.setBrowseNumber(++browseNumber);
+            btViewNewsFanMapper.updateByPrimaryKey(viewNews);
             result.setData(viewNews);
         }
 
