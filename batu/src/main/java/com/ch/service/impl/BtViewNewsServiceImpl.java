@@ -191,6 +191,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsEngExample exampleEng = new BtViewNewsEngExample();
         BtViewNewsEngExample.Criteria criteria = exampleEng.createCriteria();
         criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
         List<BtViewNewsEng> btViewNews = btViewNewsEngMapper.selectByExample(exampleEng);
         if (btViewNews.size()>0){
             BtViewNewsEng viewNews = btViewNews.get(0);
@@ -206,6 +207,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsFanExample exampleFan = new BtViewNewsFanExample();
         BtViewNewsFanExample.Criteria criteria = exampleFan.createCriteria();
         criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
         List<BtViewNewsFan> btViewNews = btViewNewsFanMapper.selectByExample(exampleFan);
         if(btViewNews.size()>0){
             BtViewNewsFan viewNews = btViewNews.get(0);
