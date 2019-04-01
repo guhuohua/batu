@@ -109,9 +109,10 @@ public class BtViewMenuController {
        ResponseResult result = new ResponseResult();
         try {
 
-            if (StringUtils.isEmpty(btViewMenu.getId()) || btViewMenu.getId()==null){
+            if ("add".equals(btViewMenu.getType())){
                 result =  btViewMenuService.insert(btViewMenu);
-            }else {
+            }
+            if ("edit".equals(btViewMenu.getType())){
                 result =  btViewMenuService.updateByPrimaryKey(btViewMenu);
             }
 

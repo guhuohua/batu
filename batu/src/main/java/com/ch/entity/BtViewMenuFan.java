@@ -76,8 +76,18 @@ public class BtViewMenuFan {
      */
     private String path;
 
+    private Boolean page;
+
 
     private List<BtViewMenuFan> children;
+
+    public Boolean getPage() {
+        return page;
+    }
+
+    public void setPage(Boolean page) {
+        this.page = page;
+    }
 
     public List<BtViewMenuFan> getChildren() {
         return children;

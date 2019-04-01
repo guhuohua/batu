@@ -61,8 +61,8 @@ public class BtViewNewsController {
             return result;
         }
     }
-    @RequestMapping(value = "/newsByMenuId", method = RequestMethod.POST)
-    public ResponseResult findViewNewsByMenuId(@RequestParam String menuId,Integer index,Integer size) {
+    @RequestMapping(value = "/newsByMenuId", method = RequestMethod.GET)
+    public ResponseResult findViewNewsByMenuId(@RequestParam String menuId,@RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
             return  btViewNewsService.findViewNewsByMenId(menuId,index ,size);
@@ -76,11 +76,11 @@ public class BtViewNewsController {
     }
 
 
-    @RequestMapping(value = "/newsEngByMenuId", method = RequestMethod.POST)
-    public ResponseResult findViewNewsFanByNewId(@RequestParam String newId,Integer index,Integer size) {
+    @RequestMapping(value = "/newsEngByMenuId", method = RequestMethod.GET)
+    public ResponseResult findViewNewsFanByNewId(@RequestParam String menuId, @RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
-            return  btViewNewsService.findViewNewsEngByMenId(newId,index,size);
+            return  btViewNewsService.findViewNewsEngByMenId(menuId,index,size);
         } catch (Exception e) {
             LOGGER.error("新闻展示失败"+e.getMessage(),e);
             result.setCode(500);
@@ -91,11 +91,51 @@ public class BtViewNewsController {
     }
 
 
-    @RequestMapping(value = "/newsFanByMenuId", method = RequestMethod.POST)
-    public ResponseResult findViewNewsFanByMenuId(@RequestParam String menuId, Integer index, Integer size) {
+    @RequestMapping(value = "/newsFanByMenuId", method = RequestMethod.GET)
+    public ResponseResult findViewNewsFanByMenuId(@RequestParam String menuId,  @RequestParam Integer index, @RequestParam Integer size) {
         ResponseResult result = new ResponseResult();
         try {
             return  btViewNewsService.findViewNewsFanByMenId(menuId,index,size);
+        } catch (Exception e) {
+            LOGGER.error("新闻展示失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("新闻展示失败");
+            return result;
+        }
+    }
+
+    @RequestMapping(value = "/findOneByMenId",method = RequestMethod.GET)
+    public ResponseResult findOneByMenId(@RequestParam String MenuId){
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.findOneByMenId(MenuId);
+        } catch (Exception e) {
+            LOGGER.error("新闻展示失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("新闻展示失败");
+            return result;
+        }
+    }
+    @RequestMapping(value = "/findOneEngByMenId",method = RequestMethod.GET)
+    public ResponseResult findOneEngByMenId(@RequestParam String MenuId){
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.findOneEngByMenId(MenuId);
+        } catch (Exception e) {
+            LOGGER.error("新闻展示失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("新闻展示失败");
+            return result;
+        }
+    }
+    @RequestMapping(value = "/findOneFanByMenId",method = RequestMethod.GET)
+    public ResponseResult findOneFanByMenId(@RequestParam String MenuId){
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.findOneFanByMenId(MenuId);
         } catch (Exception e) {
             LOGGER.error("新闻展示失败"+e.getMessage(),e);
             result.setCode(500);

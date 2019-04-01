@@ -10,6 +10,7 @@ import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import com.ch.model.NewsPageDTO;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -84,6 +85,11 @@ public interface BtViewNewsMapper {
     @Update("update bt_view_news set status = #{status}, update_time = null  where id = #{id}" )
     int updateDate (@Param("id") String id, @Param("status") int status);
 
+    @Select("select * from bt_view_news where id = #{id}")
+    BtViewNews findById(@Param("id") String id);
+
+    @Update("update bt_view_news set status = 0 ,update_time = null  where menu_id = #{menuId}")
+    int updateUnpublished(@Param("menuId") String menuId);
 
     @SelectProvider(type = BtViewNewsProvider.class , method = "getNewsList")
     List<NewsPageDTO> findPage(@Param("newsParam")NewsParam newsParam);

@@ -218,7 +218,7 @@ public class BtSysUserServiceImpl implements BtSysUserService {
             }
             BtSysUser btSysUser = new BtSysUser();
             btSysUser.setAccount(personParam.getAccount());
-            if (BeanUtils.isNotEmpty(btSysUser.getPassword())) {
+            if (BeanUtils.isNotEmpty(personParam.getPassword())) {
                 String salt = UUID.randomUUID().toString();
                 PasswordUtil encoderMd5 = new PasswordUtil(salt, "sha-256");
                 String encodedPassword = encoderMd5.encode(personParam.getPassword());

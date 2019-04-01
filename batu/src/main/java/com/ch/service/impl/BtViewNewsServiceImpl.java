@@ -94,7 +94,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
 
     @Override
     public ResponseResult findViewNewsEngByNewId(String newId) {
-       ResponseResult result = new ResponseResult();
+        ResponseResult result = new ResponseResult();
         BtViewNewsEngExample example = new BtViewNewsEngExample();
         BtViewNewsEngExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(newId);
@@ -112,7 +112,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
 
     @Override
     public ResponseResult findViewNewsFanByNewId(String newId) {
-       ResponseResult result = new ResponseResult();
+        ResponseResult result = new ResponseResult();
         BtViewNewsFanExample example = new BtViewNewsFanExample();
         BtViewNewsFanExample.Criteria criteria = example.createCriteria();
         criteria.andIdEqualTo(newId);
@@ -172,5 +172,60 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         return result;
     }
 
+    @Override
+    public ResponseResult findOneByMenId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        BtViewNewsExample example = new BtViewNewsExample();
+        BtViewNewsExample.Criteria criteria = example.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
+        List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+        if (btViewNews.size() > 0) {
+            BtViewNews viewNews = btViewNews.get(0);
+            Integer browseNumber = viewNews.getBrowseNumber() == null ? 0 : viewNews.getBrowseNumber();
+            viewNews.setBrowseNumber(++browseNumber);
+            btViewNewsMapper.updateByPrimaryKey(viewNews);
+            result.setData(viewNews);
+        }
 
+        return result;
+    }
+
+    @Override
+    public ResponseResult findOneEngByMenId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        BtViewNewsEngExample exampleEng = new BtViewNewsEngExample();
+        BtViewNewsEngExample.Criteria criteria = exampleEng.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
+        List<BtViewNewsEng> btViewNews = btViewNewsEngMapper.selectByExample(exampleEng);
+        if (btViewNews.size() > 0) {
+            BtViewNewsEng viewNews = btViewNews.get(0);
+            Integer browseNumber = viewNews.getBrowseNumber() == null ? 0 : viewNews.getBrowseNumber();
+            viewNews.setBrowseNumber(++browseNumber);
+            btViewNewsEngMapper.updateByPrimaryKey(viewNews);
+            result.setData(viewNews);
+        }
+
+        return result;
+    }
+
+    @Override
+    public ResponseResult findOneFanByMenId(String menuId) {
+        ResponseResult result = new ResponseResult();
+        BtViewNewsFanExample exampleFan = new BtViewNewsFanExample();
+        BtViewNewsFanExample.Criteria criteria = exampleFan.createCriteria();
+        criteria.andMenuIdEqualTo(menuId);
+        criteria.andStatusEqualTo(1);
+        List<BtViewNewsFan> btViewNews = btViewNewsFanMapper.selectByExample(exampleFan);
+        if (btViewNews.size() > 0) {
+            BtViewNewsFan viewNews = btViewNews.get(0);
+            Integer browseNumber = viewNews.getBrowseNumber() == null ? 0 : viewNews.getBrowseNumber();
+            viewNews.setBrowseNumber(++browseNumber);
+            btViewNewsFanMapper.updateByPrimaryKey(viewNews);
+            result.setData(viewNews);
+        }
+
+        return result;
+    }
 }
