@@ -236,12 +236,14 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
                 btViewNewsFanMapper.updateUnpublished(viewNews.getMenuId());
             }
             btViewNewsMapper.updateStatus(id, status);
-        } else {
-            btViewNewsMapper.updateDate(id, status);
+            btViewNewsEngMapper.updateStatus(id, status);
+            btViewNewsFanMapper.updateStatus(id, status);
         }
-
-        btViewNewsEngMapper.updateStatus(id, status);
-        btViewNewsFanMapper.updateStatus(id, status);
+        if (status == 0){
+            btViewNewsMapper.updateDate(id, status);
+            btViewNewsEngMapper.updateStatus(id, status);
+            btViewNewsFanMapper.updateStatus(id, status);
+        }
         return result;
     }
 
