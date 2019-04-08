@@ -1,5 +1,7 @@
 package com.ch.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 public class UserDTO {
@@ -7,7 +9,7 @@ public class UserDTO {
     private String userId;
 
     private String username;
-
+    @JsonIgnore
     private String password;
 
     private Set<String> roles;

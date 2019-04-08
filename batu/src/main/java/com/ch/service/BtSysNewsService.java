@@ -1,12 +1,12 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.BtViewNewsDto;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 public interface BtSysNewsService  {
@@ -69,7 +69,7 @@ public interface BtSysNewsService  {
      * @param
      * @return
      */
-    public ResponseResult insert(BtViewNews record,String userId);
+    public ResponseResult insert(BtViewNewsDto record, String userId);
 
 
     /**
@@ -84,7 +84,7 @@ public interface BtSysNewsService  {
      * @param record
      * @return
      */
-    public ResponseResult updateByPrimaryKey(BtViewNews record);
+    public ResponseResult updateByPrimaryKey(BtViewNewsDto record);
     public ResponseResult updateStatus (String id, int status);
     ResponseResult findById(String Id);
 
