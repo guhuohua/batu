@@ -1,10 +1,7 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
-import com.ch.model.PersonMangeParam;
-import com.ch.model.PersonParam;
-import com.ch.model.RoleDTO;
-import com.ch.model.RolePermissionDTO;
+import com.ch.model.*;
 import com.ch.service.BtSysRoleService;
 import com.ch.service.BtSysUserService;
 import io.swagger.annotations.Api;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,7 @@ public class BtSysRoleController {
     BtSysUserService btSysUserService;
 
     @GetMapping(value = "role_list")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_see","sys_mange_role"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_see", "sys_mange_role"})
     @ApiOperation("获取角色")
     public ResponseResult roleList(HttpServletRequest req, HttpServletResponse res, @RequestParam int index, @RequestParam int size) {
         ResponseResult result = new ResponseResult();
@@ -50,8 +48,32 @@ public class BtSysRoleController {
         return result;
     }
 
+    @GetMapping(value = "die_data")
+    @ApiOperation("死数据")
+    public ResponseResult dieData(HttpServletRequest req, HttpServletResponse res) {
+        ResponseResult result = new ResponseResult();
+        try {
+            List<DieDataDTO> list = new ArrayList<>();
+            DieDataDTO dieDataDTO  = new DieDataDTO();
+            dieDataDTO.setLabel("新闻中心");
+            dieDataDTO.setValue("1400");
+            list.add(dieDataDTO);
+            DieDataDTO dieDataDTO2  = new DieDataDTO();
+            dieDataDTO2.setLabel("产品");
+            dieDataDTO2.setValue("3100");
+            list.add(dieDataDTO2);
+            result.setData(list);
+        } catch (Exception e) {
+            LOGGER.error("获取死数据失败" + e.getMessage(), e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("获取死数据失败");
+        }
+        return result;
+    }
+
     @PostMapping(value = "insert_role")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_insert","sys_mange_role"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_insert", "sys_mange_role"})
     @ApiOperation("增加角色")
     public ResponseResult insertRole(HttpServletRequest req, HttpServletResponse res, @RequestBody RoleDTO roleDTO) {
         ResponseResult result = new ResponseResult();
@@ -67,7 +89,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "delete_roles")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_delete","sys_mange_role"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_delete", "sys_mange_role"})
     @ApiOperation("删除角色")
     public ResponseResult deleteRoles(HttpServletRequest req, HttpServletResponse res, @RequestBody List<String> roleIds) {
         ResponseResult result = new ResponseResult();
@@ -83,7 +105,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "update_roles")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_edit","sys_mange_role"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_edit", "sys_mange_role"})
     @ApiOperation("编辑角色")
     public ResponseResult updateRoles(HttpServletRequest req, HttpServletResponse res, @RequestBody RoleDTO roleDTO) {
         ResponseResult result = new ResponseResult();
@@ -99,7 +121,7 @@ public class BtSysRoleController {
     }
 
     @GetMapping(value = "find_permission")
-   @ApiOperation("查询权限")
+    @ApiOperation("查询权限")
     public ResponseResult findPermission(HttpServletRequest req, HttpServletResponse res, @RequestParam String roleId) {
         ResponseResult result = new ResponseResult();
         try {
@@ -114,7 +136,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "save_permission")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_setup","sys_mange_role"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_setup", "sys_mange_role"})
     @ApiOperation("添加权限")
     public ResponseResult savePermission(HttpServletRequest req, HttpServletResponse res, @RequestBody RolePermissionDTO rolePermissionDTO) {
         ResponseResult result = new ResponseResult();
@@ -130,7 +152,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "person_mange_list")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_see","sys_person_mange_mange"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_see", "sys_person_mange_mange"})
     @ApiOperation("展示后台管理人员列表")
     public ResponseResult personMangeList(HttpServletRequest req, HttpServletResponse res, @RequestBody PersonMangeParam param) {
         ResponseResult result = new ResponseResult();
@@ -161,7 +183,7 @@ public class BtSysRoleController {
     }
 
     @PostMapping(value = "insert_or_update")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_insert","sys_person_mange_edit","sys_person_mange_mange"})
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_insert", "sys_person_mange_edit", "sys_person_mange_mange"})
     @ApiOperation("新增编辑人员")
     public ResponseResult insertOrUpdate(HttpServletRequest req, HttpServletResponse res, @RequestBody PersonParam personParam) {
         ResponseResult result = new ResponseResult();
@@ -177,8 +199,8 @@ public class BtSysRoleController {
     }
 
     @GetMapping(value = "reset")
-    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_reset","sys_person_mange_mange"})
-   @ApiOperation("重置密码")
+    @RequiresPermissions(logical = Logical.OR, value = {"sys_person_mange_reset", "sys_person_mange_mange"})
+    @ApiOperation("重置密码")
     public ResponseResult reset(HttpServletRequest req, HttpServletResponse res, @RequestParam String userId) {
         ResponseResult result = new ResponseResult();
         try {
