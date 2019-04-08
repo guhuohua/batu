@@ -88,7 +88,7 @@ public interface BtViewNewsMapper {
     @Select("select * from bt_view_news where id = #{id}")
     BtViewNews findById(@Param("id") String id);
 
-    @Update("update bt_view_news set status = 0 where menu_id = #{menuId}")
+    @Update("update bt_view_news set status = 0 ,update_time = null  where menu_id = #{menuId}")
     int updateUnpublished(@Param("menuId") String menuId);
 
     @SelectProvider(type = BtViewNewsProvider.class , method = "getNewsList")
