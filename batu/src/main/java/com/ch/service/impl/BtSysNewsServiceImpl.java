@@ -12,6 +12,7 @@ import com.ch.util.IdUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Example;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +39,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
 
     @Autowired
     BtViewNewsFanMapper btViewNewsFanMapper;
+    @Autowired
+    ModelMapper modelMapper;
 
    /* @Autowired
     BtViewMenuMapper btViewMenuMapper;*/
@@ -106,6 +109,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNews.setMenuId(record.getMenuId());
         btViewNews.setNewContent(record.getNewContent());
         btViewNews.setTitle(record.getTitle());
+        btViewNews.setPictureUrl(record.getPictureUrl());
+        btViewNews.setNewCategoryId(record.getNewCategoryId());
         btViewNewsMapper.insert(btViewNews);
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
@@ -153,7 +158,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         //    return  result;
         //}
 
-        btViewNewsFan.setStatus(789);
+        btViewNewsFan.setStatus(0);
         btViewNewsFan.setNewContent(record.getFanContent());
         btViewNewsFan.setTitle(record.getFanTitle());
         btViewNewsFanMapper.insert(btViewNewsFan);
@@ -254,7 +259,17 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
     public ResponseResult findById(String id) {
         ResponseResult result = new ResponseResult();
         BtViewNews btViewNews = btViewNewsMapper.selectByPrimaryKey(id);
-        result.setData(btViewNews);
+        BtViewNewsDto btViewNewsDto = new BtViewNewsDto();
+        modelMapper.map(btViewNews, btViewNewsDto);
+        BtViewNewsEngExample btViewNewsEngExample = new BtViewNewsEngExample();
+        btViewNewsEngExample.createCriteria().andIdEqualTo(id);
+        BtViewNewsEng btViewNewsEng = btViewNewsEngMapper.selectByExample(btViewNewsEngExample).stream().findFirst().get();
+        btViewNewsDto.setEngTitle(btViewNewsEng.getTitle());
+        btViewNewsDto.setEngContent(btViewNewsEng.getNewContent());
+        BtViewNewsFan btViewNewsFan = btViewNewsFanMapper.selectByPrimaryKey(id);
+        btViewNewsDto.setFanTitle(btViewNewsFan.getTitle());
+        btViewNewsDto.setFanContent(btViewNewsFan.getNewContent());
+        result.setData(btViewNewsDto);
         return result;
 
     }

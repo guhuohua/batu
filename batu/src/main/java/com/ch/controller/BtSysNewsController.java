@@ -1,6 +1,7 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.BtViewNewsDto;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.service.BtSysNewsService;
@@ -79,7 +80,7 @@ public class BtSysNewsController {
     @PostMapping(value = "/editNews")
     @ApiOperation("增加或修改新闻")
     @RequiresPermissions(logical = Logical.OR, value = {"sys_news_see_insert", "sys_news_see_edit", "sys_news_release"})
-    public ResponseResult updateNews(@RequestBody BtViewNews record, HttpServletRequest req) {
+    public ResponseResult updateNews(@RequestBody BtViewNewsDto record, HttpServletRequest req) {
         String token = req.getHeader("Authorization");
         String userId = TokenUtil.getUserId(token);
         ResponseResult result = new ResponseResult();
