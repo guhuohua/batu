@@ -1,15 +1,13 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.service.BtViewNewsService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/viewNews")
@@ -141,6 +139,48 @@ public class BtViewNewsController {
             result.setCode(500);
             result.setError(e.getMessage());
             result.setError_description("新闻展示失败");
+            return result;
+        }
+    }
+    @PostMapping("searchNews")
+    public ResponseResult searchNews(@RequestBody NewsParam newsParam){
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.searchNews(newsParam);
+        } catch (Exception e) {
+            LOGGER.error("搜索新闻失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("搜索新闻失败");
+            return result;
+        }
+    }
+
+    @PostMapping("searchNewsEng")
+    public ResponseResult searchNewsEng(@RequestBody NewsParam newsParam){
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.searchNewsEng(newsParam);
+        } catch (Exception e) {
+            LOGGER.error("搜索新闻失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("搜索新闻失败");
+            return result;
+        }
+    }
+
+
+    @PostMapping("searchNewsFan")
+    public ResponseResult searchNewsFan(@RequestBody NewsParam newsParam){
+        ResponseResult result = new ResponseResult();
+        try {
+            return  btViewNewsService.searchNewsFan(newsParam);
+        } catch (Exception e) {
+            LOGGER.error("搜索新闻失败"+e.getMessage(),e);
+            result.setCode(500);
+            result.setError(e.getMessage());
+            result.setError_description("搜索新闻失败");
             return result;
         }
     }

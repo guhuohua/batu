@@ -4,6 +4,7 @@ import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsEngMapper;
 import com.ch.dao.BtViewNewsFanMapper;
 import com.ch.dao.BtViewNewsMapper;
+import com.ch.dto.NewsParam;
 import com.ch.entity.*;
 import com.ch.service.BtViewNewsService;
 import com.github.pagehelper.PageHelper;
@@ -226,4 +227,60 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
 
         return result;
     }
+
+    @Override
+    public ResponseResult searchNews(NewsParam newsParam) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
+        BtViewNewsExample example = new BtViewNewsExample();
+        BtViewNewsExample.Criteria criteria = example.createCriteria();
+        if (newsParam!=null){
+            if (newsParam.getTitle()!=null && newsParam.getTitle().length()>0 ){
+                criteria.andTitleLike("%"+newsParam.getTitle()+"%");
+            }
+
+        }
+        List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+        PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult searchNewsEng(NewsParam newsParam) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
+        BtViewNewsEngExample example = new BtViewNewsEngExample();
+        BtViewNewsEngExample.Criteria criteria = example.createCriteria();
+        if (newsParam!=null){
+            if (newsParam.getTitle()!=null && newsParam.getTitle().length()>0 ){
+                criteria.andTitleLike("%"+newsParam.getTitle()+"%");
+            }
+
+        }
+        List<BtViewNewsEng> btViewNews = btViewNewsEngMapper.selectByExample(example);
+        PageInfo<BtViewNewsEng> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult searchNewsFan(NewsParam newsParam) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(newsParam.getIndex(), newsParam.getSize());
+        BtViewNewsFanExample example = new BtViewNewsFanExample();
+        BtViewNewsFanExample.Criteria criteria = example.createCriteria();
+        if (newsParam!=null){
+            if (newsParam.getTitle()!=null && newsParam.getTitle().length()>0 ){
+                criteria.andTitleLike("%"+newsParam.getTitle()+"%");
+            }
+
+        }
+        List<BtViewNewsFan> btViewNews = btViewNewsFanMapper.selectByExample(example);
+        PageInfo<BtViewNewsFan> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+
 }
