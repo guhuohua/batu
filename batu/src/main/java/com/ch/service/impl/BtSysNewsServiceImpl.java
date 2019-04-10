@@ -197,22 +197,21 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
             return result;
         }
         BtViewNews btViewNews = new BtViewNews();
-        btViewNews.setTitle(record.getTitle());
-        btViewNews.setNewContent(record.getNewContent());
+        modelMapper.map(record, btViewNews);
         btViewNewsMapper.updateByPrimaryKey(btViewNews);
 
 
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
+        modelMapper.map(record, btViewNewsEng);
         btViewNewsEng.setTitle(record.getEngTitle());
         btViewNewsEng.setNewContent(record.getEngContent());
-
         btViewNewsEngMapper.updateByPrimaryKey(btViewNewsEng);
 
 
         BtViewNewsFan btViewNewsFan = new BtViewNewsFan();
+        modelMapper.map(record, btViewNewsFan);
         btViewNewsFan.setTitle(record.getFanTitle());
         btViewNewsFan.setNewContent(record.getFanContent());
-
         btViewNewsFanMapper.updateByPrimaryKey(btViewNewsFan);
 
         return result;

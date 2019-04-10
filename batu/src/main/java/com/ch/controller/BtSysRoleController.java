@@ -55,13 +55,29 @@ public class BtSysRoleController {
         try {
             List<DieDataDTO> list = new ArrayList<>();
             DieDataDTO dieDataDTO  = new DieDataDTO();
-            dieDataDTO.setLabel("新闻中心");
-            dieDataDTO.setValue("1400");
+            dieDataDTO.setLabel("肿瘤介入");
+            dieDataDTO.setValue("2140");
             list.add(dieDataDTO);
             DieDataDTO dieDataDTO2  = new DieDataDTO();
-            dieDataDTO2.setLabel("产品");
-            dieDataDTO2.setValue("3100");
+            dieDataDTO2.setLabel("心内介入");
+            dieDataDTO2.setValue("2130");
             list.add(dieDataDTO2);
+            DieDataDTO dieDataDTO3  = new DieDataDTO();
+            dieDataDTO3.setLabel("外周介入");
+            dieDataDTO3.setValue("2120");
+            list.add(dieDataDTO3);
+            DieDataDTO dieDataDTO4  = new DieDataDTO();
+            dieDataDTO4.setLabel("神经介入");
+            dieDataDTO4.setValue("2110");
+            list.add(dieDataDTO4);
+            DieDataDTO dieDataDTO5  = new DieDataDTO();
+            dieDataDTO5.setLabel("诊断性及监控性");
+            dieDataDTO5.setValue("3110");
+            list.add(dieDataDTO5);
+            DieDataDTO dieDataDTO6  = new DieDataDTO();
+            dieDataDTO6.setLabel("急诊及手术");
+            dieDataDTO6.setValue("3120");
+            list.add(dieDataDTO6);
             result.setData(list);
         } catch (Exception e) {
             LOGGER.error("获取死数据失败" + e.getMessage(), e);
