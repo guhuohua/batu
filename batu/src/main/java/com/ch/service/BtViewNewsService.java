@@ -1,6 +1,7 @@
 package com.ch.service;
 
 import com.ch.base.ResponseResult;
+import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.entity.BtViewNewsExample;
 import org.apache.ibatis.annotations.Param;
@@ -102,6 +103,19 @@ public interface BtViewNewsService {
     ResponseResult findOneEngByMenId(String menuId);
 
     ResponseResult findOneFanByMenId(String menuId);
+
+
+    ResponseResult searchNews(Integer index, Integer size,String title);
+
+
+
+
+    ResponseResult searchNewsEng(Integer index, Integer size,String title);
+
+
+
+
+    ResponseResult searchNewsFan(Integer index, Integer size,String title);
 
 
 }

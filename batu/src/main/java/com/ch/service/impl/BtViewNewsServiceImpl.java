@@ -4,6 +4,7 @@ import com.ch.base.ResponseResult;
 import com.ch.dao.BtViewNewsEngMapper;
 import com.ch.dao.BtViewNewsFanMapper;
 import com.ch.dao.BtViewNewsMapper;
+import com.ch.dto.NewsParam;
 import com.ch.entity.*;
 import com.ch.service.BtViewNewsService;
 import com.github.pagehelper.PageHelper;
@@ -226,4 +227,60 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
 
         return result;
     }
+
+    @Override
+    public ResponseResult searchNews(Integer index, Integer size,String title) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(index, size);
+        BtViewNewsExample example = new BtViewNewsExample();
+        BtViewNewsExample.Criteria criteria = example.createCriteria();
+        //if (newsParam!=null){
+            if (title!=null && title.length()>0 ){
+                criteria.andTitleLike("%"+title+"%");
+            }
+
+       // }
+        List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+        PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult searchNewsEng(Integer index, Integer size,String title) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(index, size);
+        BtViewNewsEngExample example = new BtViewNewsEngExample();
+        BtViewNewsEngExample.Criteria criteria = example.createCriteria();
+        //if (newsParam!=null){
+            if (title!=null && title.length()>0 ){
+                criteria.andTitleLike("%"+title+"%");
+            }
+
+        //}
+        List<BtViewNewsEng> btViewNews = btViewNewsEngMapper.selectByExample(example);
+        PageInfo<BtViewNewsEng> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+    @Override
+    public ResponseResult searchNewsFan(Integer index, Integer size,String title) {
+        ResponseResult result = new ResponseResult();
+        PageHelper.startPage(index, size);
+        BtViewNewsFanExample example = new BtViewNewsFanExample();
+        BtViewNewsFanExample.Criteria criteria = example.createCriteria();
+      //  if (newsParam!=null){
+            if (title!=null && title.length()>0 ){
+                criteria.andTitleLike("%"+title+"%");
+            }
+
+       // }
+        List<BtViewNewsFan> btViewNews = btViewNewsFanMapper.selectByExample(example);
+        PageInfo<BtViewNewsFan> page = new PageInfo<>(btViewNews);
+        result.setData(page);
+        return result;
+    }
+
+
 }
