@@ -4,6 +4,8 @@ import com.ch.base.ResponseResult;
 import com.ch.dto.NewsParam;
 import com.ch.entity.BtViewNews;
 import com.ch.service.BtViewNewsService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/viewNews")
+@Api(value = "首页新闻",description = "首页新闻")
+
 public class BtViewNewsController {
 
     @Autowired
@@ -142,11 +146,12 @@ public class BtViewNewsController {
             return result;
         }
     }
-    @PostMapping("searchNews")
-    public ResponseResult searchNews(@RequestBody NewsParam newsParam){
+    @GetMapping("searchNews")
+    @ApiOperation("搜索新闻")
+    public ResponseResult searchNews(Integer index, Integer size,String title ){
         ResponseResult result = new ResponseResult();
         try {
-            return  btViewNewsService.searchNews(newsParam);
+            return  btViewNewsService.searchNews(index, size,title);
         } catch (Exception e) {
             LOGGER.error("搜索新闻失败"+e.getMessage(),e);
             result.setCode(500);
@@ -156,11 +161,12 @@ public class BtViewNewsController {
         }
     }
 
-    @PostMapping("searchNewsEng")
-    public ResponseResult searchNewsEng(@RequestBody NewsParam newsParam){
+    @GetMapping("searchNewsEng")
+    @ApiOperation("搜索新闻英文")
+    public ResponseResult searchNewsEng(Integer index, Integer size,String title ){
         ResponseResult result = new ResponseResult();
         try {
-            return  btViewNewsService.searchNewsEng(newsParam);
+            return  btViewNewsService.searchNewsEng(index,size,title);
         } catch (Exception e) {
             LOGGER.error("搜索新闻失败"+e.getMessage(),e);
             result.setCode(500);
@@ -171,11 +177,12 @@ public class BtViewNewsController {
     }
 
 
-    @PostMapping("searchNewsFan")
-    public ResponseResult searchNewsFan(@RequestBody NewsParam newsParam){
+    @GetMapping("searchNewsFan")
+    @ApiOperation("搜索新闻繁体")
+    public ResponseResult searchNewsFan(Integer index, Integer size,String title){
         ResponseResult result = new ResponseResult();
         try {
-            return  btViewNewsService.searchNewsFan(newsParam);
+            return  btViewNewsService.searchNewsFan(index,size,title);
         } catch (Exception e) {
             LOGGER.error("搜索新闻失败"+e.getMessage(),e);
             result.setCode(500);

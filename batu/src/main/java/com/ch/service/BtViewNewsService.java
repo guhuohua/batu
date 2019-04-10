@@ -105,17 +105,17 @@ public interface BtViewNewsService {
     ResponseResult findOneFanByMenId(String menuId);
 
 
-    ResponseResult searchNews(NewsParam newsParam);
+    ResponseResult searchNews(Integer index, Integer size,String title);
 
 
 
 
-    ResponseResult searchNewsEng(NewsParam newsParam);
+    ResponseResult searchNewsEng(Integer index, Integer size,String title);
 
 
 
 
-    ResponseResult searchNewsFan(NewsParam newsParam);
+    ResponseResult searchNewsFan(Integer index, Integer size,String title);
 
 
 }
