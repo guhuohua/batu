@@ -234,6 +234,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         PageHelper.startPage(index, size);
         BtViewNewsExample example = new BtViewNewsExample();
         BtViewNewsExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
         //if (newsParam!=null){
             if (title!=null && title.length()>0 ){
                 criteria.andTitleLike("%"+title+"%");
@@ -252,6 +253,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         PageHelper.startPage(index, size);
         BtViewNewsEngExample example = new BtViewNewsEngExample();
         BtViewNewsEngExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
         //if (newsParam!=null){
             if (title!=null && title.length()>0 ){
                 criteria.andTitleLike("%"+title+"%");
@@ -270,6 +272,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         PageHelper.startPage(index, size);
         BtViewNewsFanExample example = new BtViewNewsFanExample();
         BtViewNewsFanExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
       //  if (newsParam!=null){
             if (title!=null && title.length()>0 ){
                 criteria.andTitleLike("%"+title+"%");

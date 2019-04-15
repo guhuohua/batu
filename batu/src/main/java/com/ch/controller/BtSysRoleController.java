@@ -78,6 +78,10 @@ public class BtSysRoleController {
             dieDataDTO6.setLabel("急诊及手术");
             dieDataDTO6.setValue("3120");
             list.add(dieDataDTO6);
+            DieDataDTO dieDataDTO7  = new DieDataDTO();
+            dieDataDTO7.setLabel("新闻中心");
+            dieDataDTO7.setValue("1400");
+            list.add(dieDataDTO7);
             result.setData(list);
         } catch (Exception e) {
             LOGGER.error("获取死数据失败" + e.getMessage(), e);
