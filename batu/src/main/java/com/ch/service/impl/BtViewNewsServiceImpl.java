@@ -134,9 +134,11 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(index, size);
         BtViewNewsExample example = new BtViewNewsExample();
+        example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsExample.Criteria criteria = example.createCriteria();
         criteria.andStatusEqualTo(1);
         criteria.andMenuIdEqualTo(menuId);
+
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         result.setData(page);
@@ -148,6 +150,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(index, size);
         BtViewNewsEngExample exampleEng = new BtViewNewsEngExample();
+        exampleEng.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsEngExample.Criteria criteria = exampleEng.createCriteria();
         criteria.andStatusEqualTo(1);
         criteria.andMenuIdEqualTo(menuId);
@@ -162,6 +165,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(index, size);
         BtViewNewsFanExample exampleFan = new BtViewNewsFanExample();
+        exampleFan.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsFanExample.Criteria criteria = exampleFan.createCriteria();
         criteria.andStatusEqualTo(1);
         criteria.andMenuIdEqualTo(menuId);
@@ -233,6 +237,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(index, size);
         BtViewNewsExample example = new BtViewNewsExample();
+        example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsExample.Criteria criteria = example.createCriteria();
         criteria.andStatusEqualTo(1);
         //if (newsParam!=null){
@@ -252,6 +257,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(index, size);
         BtViewNewsEngExample example = new BtViewNewsEngExample();
+        example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsEngExample.Criteria criteria = example.createCriteria();
         criteria.andStatusEqualTo(1);
         //if (newsParam!=null){
@@ -271,6 +277,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         ResponseResult result = new ResponseResult();
         PageHelper.startPage(index, size);
         BtViewNewsFanExample example = new BtViewNewsFanExample();
+        example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsFanExample.Criteria criteria = example.createCriteria();
         criteria.andStatusEqualTo(1);
       //  if (newsParam!=null){
