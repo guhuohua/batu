@@ -81,10 +81,16 @@ public interface BtViewNewsEngMapper {
     int updateByPrimaryKey(@Param("btViewNewsEng") BtViewNewsEng btViewNewsEng);
 
 
-    @Update("update bt_view_news_eng set status = #{status} where id = #{id}" )
+    @Update("update bt_view_news_eng set status = #{status} ,update_time = now()  where id = #{id}" )
     int updateStatus (@Param("id") String id,@Param("status") int status);
 
     @Update("update bt_view_news_eng set status = 0 where menu_id = #{menuId}")
     int updateUnpublished(@Param("menuId") String menuId);
+
+
+
+    @Update("update bt_view_news_eng set status = #{status}, update_time = null  where id = #{id}" )
+    int updateDate (@Param("id") String id, @Param("status") int status);
+
 
 }

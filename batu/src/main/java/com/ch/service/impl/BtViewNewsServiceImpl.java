@@ -138,7 +138,6 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsExample.Criteria criteria = example.createCriteria();
         criteria.andStatusEqualTo(1);
         criteria.andMenuIdEqualTo(menuId);
-
         List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
         PageInfo<BtViewNews> page = new PageInfo<>(btViewNews);
         result.setData(page);
