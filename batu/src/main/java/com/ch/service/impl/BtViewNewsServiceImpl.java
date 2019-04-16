@@ -238,6 +238,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsExample example = new BtViewNewsExample();
         example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
         //if (newsParam!=null){
             if (title!=null && title.length()>0 ){
                 criteria.andTitleLike("%"+title+"%");
@@ -257,6 +258,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsEngExample example = new BtViewNewsEngExample();
         example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsEngExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
         //if (newsParam!=null){
             if (title!=null && title.length()>0 ){
                 criteria.andTitleLike("%"+title+"%");
@@ -276,6 +278,7 @@ public class BtViewNewsServiceImpl implements BtViewNewsService {
         BtViewNewsFanExample example = new BtViewNewsFanExample();
         example.setOrderByClause("update_time DESC,create_time DESC");
         BtViewNewsFanExample.Criteria criteria = example.createCriteria();
+        criteria.andStatusEqualTo(1);
       //  if (newsParam!=null){
             if (title!=null && title.length()>0 ){
                 criteria.andTitleLike("%"+title+"%");
