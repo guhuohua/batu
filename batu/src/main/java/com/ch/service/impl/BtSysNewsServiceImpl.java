@@ -234,8 +234,8 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         }
         if (status == 0){
             btViewNewsMapper.updateDate(id, status);
-            btViewNewsEngMapper.updateStatus(id, status);
-            btViewNewsFanMapper.updateStatus(id, status);
+            btViewNewsEngMapper.updateDate(id, status);
+            btViewNewsFanMapper.updateDate(id, status);
         }
         return result;
     }

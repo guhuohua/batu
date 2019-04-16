@@ -36,11 +36,14 @@ public interface BtViewNewsFanMapper {
     @Select("select * from bt_view_news_fan where id = #{id}")
     BtViewNewsFan findById(@Param("id") String id);
 
-    @Update("update bt_view_news_fan set status = #{status} where id = #{id}" )
+    @Update("update bt_view_news_fan set status = #{status} ,update_time = now()  where id = #{id}" )
     int updateStatus (@Param("id") String id,@Param("status") int status);
 
     @Update("update bt_view_news_fan set status = 0 where menu_id = #{menuId}")
     int updateUnpublished(@Param("menuId") String menuId);
 
+
+    @Update("update bt_view_news_fan set status = #{status}, update_time = null  where id = #{id}" )
+    int updateDate (@Param("id") String id, @Param("status") int status);
 
 }
