@@ -23,7 +23,7 @@ public class BtSysNewsCategoryServiceImpl implements BtSysNewsCategoryService {
     ResponseResult result = new ResponseResult();
     @Override
     public ResponseResult insert(BtViewNewsCategory record) {
-
+        record.setId(IdUtil.createIdByUUID());
         btViewNewsCategoryMapper.insert(record);
         return result;
     }
@@ -35,14 +35,14 @@ public class BtSysNewsCategoryServiceImpl implements BtSysNewsCategoryService {
     }
 
     @Override
-    public ResponseResult delete(Integer id) {
+    public ResponseResult delete(String id) {
         btViewNewsCategoryMapper.deleteByPrimaryKey(id);
         return result;
     }
 
     @Override
-    public ResponseResult delete(List<Integer> ids) {
-        for (Integer id : ids){
+    public ResponseResult delete(List<String> ids) {
+        for (String id : ids){
             btViewNewsCategoryMapper.deleteByPrimaryKey(id);
         }
         return result;

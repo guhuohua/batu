@@ -1,5 +1,6 @@
 package com.ch.controller;
 
+import com.ch.base.BeanUtils;
 import com.ch.base.ResponseResult;
 import com.ch.entity.BtViewNewsCategory;
 import com.ch.service.BtSysNewsCategoryService;
@@ -59,7 +60,7 @@ public class BtSysNewsCategoryController {
     public ResponseResult updateByPrimaryKey(@RequestBody BtViewNewsCategory record) {
         ResponseResult result = new ResponseResult();
         try {
-            if (record.getId()!=null){
+            if (BeanUtils.isNotEmpty(record.getId())){
                 result = btSysNewsCategoryService.updateByPrimaryKey(record);
             }else {
                 result = btSysNewsCategoryService.insert(record);
@@ -76,7 +77,7 @@ public class BtSysNewsCategoryController {
 
     @RequestMapping(value = "/deleByIdsCategory", method = RequestMethod.POST)
     @RequiresPermissions(logical = Logical.OR, value = {"sys_news_category_delete","sys_news_category"})
-    public ResponseResult deleByIds(@RequestBody List<Integer> ids) {
+    public ResponseResult deleByIds(@RequestBody List<String> ids) {
         ResponseResult result = new ResponseResult();
         try {
             result =  btSysNewsCategoryService.delete(ids);

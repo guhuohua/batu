@@ -67,6 +67,6 @@ public interface BtViewNewsCategoryMapper {
      int updateByPrimaryKey(BtViewNewsCategory record);
 
 
-     int deleteByPrimaryKey(Integer id);
+     int deleteByPrimaryKey(String id);
 
 }

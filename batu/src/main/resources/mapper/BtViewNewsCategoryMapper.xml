@@ -118,7 +118,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from bt_view_news_category
     where id = #{id,jdbcType=VARCHAR}
   </delete>

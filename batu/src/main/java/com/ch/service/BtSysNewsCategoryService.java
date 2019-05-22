@@ -29,14 +29,14 @@ public interface BtSysNewsCategoryService {
      */
 
 
-    public ResponseResult delete(Integer id);
+    public ResponseResult delete(String id);
 
     /**
      * 批量删除
      * @param ids
      * @return
      */
-    public ResponseResult delete(List<Integer> ids);
+    public ResponseResult delete(List<String> ids);
 
     /**
      * 分页展示新闻分类
