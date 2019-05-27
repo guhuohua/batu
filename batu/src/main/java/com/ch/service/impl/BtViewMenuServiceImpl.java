@@ -283,13 +283,13 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         BtViewMenuEng btViewMenuEng = btViewMenuEngMapper.findById(btViewMenu.getId());
         btViewMenuEng.setName(baiduTranslateUtil.translate(btViewMenu.getName()));
         btViewMenuEng.setPage(btViewMenu.getPage());
+        btViewMenuEng.setSortOrder(btViewMenu.getSortOrder());
         btViewMenuEngMapper.updateByPrimaryKey(btViewMenuEng);
-
         BtViewMenuFan btViewMenuFan = btViewMenuFanMapper.findById(btViewMenu.getId());
         btViewMenuFan.setPage(btViewMenu.getPage());
         btViewMenuFan.setName(baiduTranslateUtil.translateFan(btViewMenu.getName()));
+        btViewMenuFan.setSortOrder(btViewMenu.getSortOrder());
         btViewMenuFanMapper.updateByPrimaryKey(btViewMenuFan);
-
         return result;
     }
 
