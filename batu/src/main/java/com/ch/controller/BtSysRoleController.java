@@ -67,20 +67,18 @@ public class BtSysRoleController {
         ResponseResult result = new ResponseResult();
         try {
             List<DieDataDTO> list = new ArrayList<>();
-            BtViewMenuExample example
+            BtViewMenuExample example = new BtViewMenuExample();
+            BtViewMenuExample.Criteria criteria1 = example.createCriteria();
+            criteria1.andPageEqualTo(1);
             List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
             for (BtViewMenu btViewMenu : btViewMenus) {
-               BtViewNewsExample example = new BtViewNewsExample();
-                BtViewNewsExample.Criteria criteria = example.createCriteria();
-                criteria.andMenuIdEqualTo(btViewMenu.getId());
-                List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
-                if (btViewNews.size()>1){
+
                     DieDataDTO dieDataDTO  = new DieDataDTO();
                     dieDataDTO.setLabel(btViewMenu.getName());
                     dieDataDTO.setValue(btViewMenu.getId());
                     list.add(dieDataDTO);
                 }
-            }
+            
            /* DieDataDTO dieDataDTO  = new DieDataDTO();
             dieDataDTO.setLabel("肿瘤介入");
             dieDataDTO.setValue("2140");

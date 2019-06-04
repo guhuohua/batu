@@ -330,6 +330,8 @@ public class BtViewMenuExample {
             return (Criteria) this;
         }
 
+
+
         public Criteria andParentIdNotBetween(String value1, String value2) {
             addCriterion("parent_id not between", value1, value2, "parentId");
             return (Criteria) this;
@@ -417,6 +419,11 @@ public class BtViewMenuExample {
 
         public Criteria andSortOrderEqualTo(Integer value) {
             addCriterion("sort_order =", value, "sortOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andPageEqualTo(Integer value) {
+            addCriterion("page =", value, "page");
             return (Criteria) this;
         }
 

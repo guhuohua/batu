@@ -279,6 +279,11 @@ public class BtSysMenuExample {
             return (Criteria) this;
         }
 
+        public Criteria andPageEqualTo(Integer value) {
+            addCriterion("page =", value, "page");
+            return (Criteria) this;
+        }
+
         public Criteria andParentIdNotEqualTo(String value) {
             addCriterion("parent_id <>", value, "parentId");
             return (Criteria) this;
