@@ -67,8 +67,8 @@ public class BtSysRoleController {
         ResponseResult result = new ResponseResult();
         try {
             List<DieDataDTO> list = new ArrayList<>();
-            BtViewMenuExample
-            List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(null);
+            BtViewMenuExample example
+            List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
             for (BtViewMenu btViewMenu : btViewMenus) {
                BtViewNewsExample example = new BtViewNewsExample();
                 BtViewNewsExample.Criteria criteria = example.createCriteria();
