@@ -1,6 +1,11 @@
 package com.ch.controller;
 
 import com.ch.base.ResponseResult;
+import com.ch.dao.BtViewMenuMapper;
+import com.ch.dao.BtViewNewsEngMapper;
+import com.ch.dao.BtViewNewsFanMapper;
+import com.ch.dao.BtViewNewsMapper;
+import com.ch.entity.*;
 import com.ch.model.*;
 import com.ch.service.BtSysRoleService;
 import com.ch.service.BtSysUserService;
@@ -31,6 +36,14 @@ public class BtSysRoleController {
 
     @Autowired
     BtSysUserService btSysUserService;
+    @Autowired
+    BtViewNewsMapper btViewNewsMapper;
+    @Autowired
+    BtViewNewsFanMapper btViewNewsFanMapper;
+    @Autowired
+    BtViewNewsEngMapper btViewNewsEngMapper;
+    @Autowired
+    BtViewMenuMapper btViewMenuMapper;
 
     @GetMapping(value = "role_list")
     @RequiresPermissions(logical = Logical.OR, value = {"sys_mange_role_see", "sys_mange_role"})
@@ -54,7 +67,20 @@ public class BtSysRoleController {
         ResponseResult result = new ResponseResult();
         try {
             List<DieDataDTO> list = new ArrayList<>();
-            DieDataDTO dieDataDTO  = new DieDataDTO();
+            List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(null);
+            for (BtViewMenu btViewMenu : btViewMenus) {
+               BtViewNewsExample example = new BtViewNewsExample();
+                BtViewNewsExample.Criteria criteria = example.createCriteria();
+                criteria.andMenuIdEqualTo(btViewMenu.getId());
+                List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+                if (btViewNews.size()>1){
+                    DieDataDTO dieDataDTO  = new DieDataDTO();
+                    dieDataDTO.setLabel(btViewMenu.getName());
+                    dieDataDTO.setValue(btViewMenu.getId());
+                    list.add(dieDataDTO);
+                }
+            }
+           /* DieDataDTO dieDataDTO  = new DieDataDTO();
             dieDataDTO.setLabel("肿瘤介入");
             dieDataDTO.setValue("2140");
             list.add(dieDataDTO);
@@ -81,7 +107,7 @@ public class BtSysRoleController {
             DieDataDTO dieDataDTO7  = new DieDataDTO();
             dieDataDTO7.setLabel("新闻中心");
             dieDataDTO7.setValue("1400");
-            list.add(dieDataDTO7);
+            list.add(dieDataDTO7);*/
             result.setData(list);
         } catch (Exception e) {
             LOGGER.error("获取死数据失败" + e.getMessage(), e);
