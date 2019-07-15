@@ -111,6 +111,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNews.setTitle(record.getTitle());
         btViewNews.setPictureUrl(record.getPictureUrl());
         btViewNews.setNewCategoryId(record.getNewCategoryId());
+        btViewNews.setRangeApplication(record.getRangeApplication());
         btViewNewsMapper.insert(btViewNews);
         BtViewNewsEng btViewNewsEng = new BtViewNewsEng();
         btViewNewsEng.setId(uuid);
@@ -135,6 +136,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNewsEng.setStatus(0);
         btViewNewsEng.setNewContent(record.getEngContent());
         btViewNewsEng.setTitle(record.getEngTitle());
+        btViewNewsEng.setRangeApplication(record.getRangeApplicationEng());
         btViewNewsEngMapper.insert(btViewNewsEng);
         BtViewNewsFan btViewNewsFan = new BtViewNewsFan();
         btViewNewsFan.setId(uuid);
@@ -161,6 +163,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         btViewNewsFan.setStatus(0);
         btViewNewsFan.setNewContent(record.getFanContent());
         btViewNewsFan.setTitle(record.getFanTitle());
+        btViewNewsFan.setRangeApplication(record.getRangeApplicationFan());
         btViewNewsFanMapper.insert(btViewNewsFan);
         return result;
     }
@@ -205,6 +208,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         modelMapper.map(record, btViewNewsEng);
         btViewNewsEng.setTitle(record.getEngTitle());
         btViewNewsEng.setNewContent(record.getEngContent());
+        btViewNewsEng.setRangeApplication(record.getRangeApplicationEng());
         btViewNewsEngMapper.updateByPrimaryKey(btViewNewsEng);
 
 
@@ -212,6 +216,7 @@ public class BtSysNewsServiceImpl implements BtSysNewsService {
         modelMapper.map(record, btViewNewsFan);
         btViewNewsFan.setTitle(record.getFanTitle());
         btViewNewsFan.setNewContent(record.getFanContent());
+        btViewNewsFan.setRangeApplication(record.getRangeApplicationFan());
         btViewNewsFanMapper.updateByPrimaryKey(btViewNewsFan);
 
         return result;

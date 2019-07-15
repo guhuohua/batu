@@ -108,6 +108,33 @@ public class BtViewNewsDto {
     private String fanContent;
     private String engTitle;
     private String fanTitle;
+    private String rangeApplication;
+    private String rangeApplicationEng;
+    private String rangeApplicationFan;
+
+    public String getRangeApplication() {
+        return rangeApplication;
+    }
+
+    public void setRangeApplication(String rangeApplication) {
+        this.rangeApplication = rangeApplication;
+    }
+
+    public String getRangeApplicationEng() {
+        return rangeApplicationEng;
+    }
+
+    public void setRangeApplicationEng(String rangeApplicationEng) {
+        this.rangeApplicationEng = rangeApplicationEng;
+    }
+
+    public String getRangeApplicationFan() {
+        return rangeApplicationFan;
+    }
+
+    public void setRangeApplicationFan(String rangeApplicationFan) {
+        this.rangeApplicationFan = rangeApplicationFan;
+    }
 
     public String getEngTitle() {
         return engTitle;
