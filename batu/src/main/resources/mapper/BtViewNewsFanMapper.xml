@@ -13,6 +13,7 @@
     <result column="menu_id" property="menuId" jdbcType="VARCHAR" />
     <result column="browse_number" property="browseNumber" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="range_application" property="rangeApplication" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, status, new_content, title, update_time, status_str, picture_url, new_category_id, 
-    menu_id, browse_number, create_time
+    menu_id, browse_number, create_time,range_application
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.ch.entity.BtViewNewsFanExample" >
     select
@@ -111,11 +112,11 @@
     insert into bt_view_news_fan (id, status, new_content, 
       title, update_time, status_str, 
       picture_url, new_category_id, menu_id, 
-      browse_number, create_time)
+      browse_number, create_time,range_application)
     values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{newContent,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{statusStr,jdbcType=VARCHAR},
       #{pictureUrl,jdbcType=VARCHAR}, #{newCategoryId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
-      #{browseNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{browseNumber,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{rangeApplication,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ch.entity.BtViewNewsFan" >
     insert into bt_view_news_fan
@@ -301,7 +302,8 @@
       new_category_id = #{newCategoryId,jdbcType=VARCHAR},
       menu_id = #{menuId,jdbcType=VARCHAR},
       browse_number = #{browseNumber,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+       range_application = #{rangeApplication,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

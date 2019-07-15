@@ -19,6 +19,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="browse_number" jdbcType="INTEGER" property="browseNumber" />
     <result column="creater" jdbcType="VARCHAR" property="creater" />
+    <result column="range_application" jdbcType="VARCHAR" property="rangeApplication" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--
@@ -95,7 +96,7 @@
       This element was generated on Thu Mar 14 14:09:05 CST 2019.
     -->
     id, status, new_content, title, update_time, status_str, picture_url, new_category_id, 
-    menu_id, create_time, browse_number
+    menu_id, create_time, browse_number,range_application
   </sql>
   <select id="selectByExample" parameterType="com.ch.entity.BtViewNewsExample" resultMap="BaseResultMap">
     <!--
@@ -137,11 +138,11 @@
     insert into bt_view_news (id, status, new_content, 
       title, update_time, status_str, 
       picture_url, new_category_id, menu_id, 
-      create_time, browse_number,creater)
+      create_time, browse_number,creater,range_application)
     values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{newContent,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{statusStr,jdbcType=VARCHAR},
       #{pictureUrl,jdbcType=VARCHAR}, #{newCategoryId,jdbcType=VARCHAR}, #{menuId,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{browseNumber,jdbcType=INTEGER},#{creater,jdbcType=VARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{browseNumber,jdbcType=INTEGER},#{creater,jdbcType=VARCHAR},#{rangeApplication,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.ch.entity.BtViewNews">
     <!--
@@ -312,7 +313,8 @@
     new_category_id = #{newCategoryId,jdbcType=VARCHAR},
     menu_id = #{menuId,jdbcType=VARCHAR},
     create_time = #{createTime,jdbcType=TIMESTAMP},
-    browse_number = #{browseNumber,jdbcType=INTEGER}
+    browse_number = #{browseNumber,jdbcType=INTEGER},
+    range_application = #{rangeApplication,jdbcType=INTEGER},
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <resultMap id="selectByIdMap" type="com.ch.entity.BtViewNews">
@@ -329,13 +331,13 @@
     <result column="browse_number" property="browseNumber" />
     <result column="create_time" property="createTime" />
     <result column="creater" property="creater" />
-
+    <result column="range_application" property="rangeApplication" />
 
   </resultMap>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="selectByIdMap">
     select
     id, status, new_content, title, update_time, status_str, picture_url, new_category_id,
-    menu_id, create_time, browse_number
+    menu_id, create_time, browse_number,range_application
     from bt_view_news
     where id = #{id}
   </select>

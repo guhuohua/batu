@@ -25,6 +25,16 @@ public class BtViewNewsFan {
 
     private Date createTime;
 
+    private String rangeApplication;
+
+    public String getRangeApplication() {
+        return rangeApplication;
+    }
+
+    public void setRangeApplication(String rangeApplication) {
+        this.rangeApplication = rangeApplication;
+    }
+
     public String getId() {
         return id;
     }
