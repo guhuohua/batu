@@ -100,6 +100,8 @@ public interface BtViewMenuService {
      */
     public ResponseResult  deleteByPrimaryKey(String id);
 
+
+    ResponseResult findMenuNewsId();
 }
 
 

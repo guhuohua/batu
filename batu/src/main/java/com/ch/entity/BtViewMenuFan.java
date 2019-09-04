@@ -81,6 +81,56 @@ public class BtViewMenuFan {
 
     private List<BtViewMenuFan> children;
 
+    private String iconBefore;
+    private String iconAfter;
+
+    private String newsId;
+
+    private String image;
+
+
+    private String parentName;
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
+    }
+
+    public void setIconAfter(String iconAfter) {
+        this.iconAfter = iconAfter;
+    }
+
+    public String getIconBefore() {
+        return iconBefore;
+    }
+
+    public void setIconBefore(String iconBefore) {
+        this.iconBefore = iconBefore;
+    }
+
+    public String getIconAfter() {
+        return iconAfter;
+    }
+
     public Boolean getPage() {
         return page;
     }

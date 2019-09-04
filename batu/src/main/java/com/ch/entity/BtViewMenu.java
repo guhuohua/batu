@@ -80,6 +80,46 @@ public class BtViewMenu {
 
     private String type;
 
+    private String iconBefore;
+    private String iconAfter;
+
+
+    private String newsId;
+
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getNewsId() {
+        return newsId;
+    }
+
+    public void setNewsId(String newsId) {
+        this.newsId = newsId;
+    }
+
+    public String getIconBefore() {
+        return iconBefore;
+    }
+
+    public void setIconBefore(String iconBefore) {
+        this.iconBefore = iconBefore;
+    }
+
+    public String getIconAfter() {
+        return iconAfter;
+    }
+
+    public void setIconAfter(String iconAfter) {
+        this.iconAfter = iconAfter;
+    }
+
     public String getType() {
         return type;
     }

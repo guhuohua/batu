@@ -66,8 +66,8 @@ public class BtViewMenuController {
             try {
                 String clientIP = IpUtil.getClientIP(req);
                 String addresses = ip138Util.getCityInfo(clientIP);
-                System.out.println(addresses);
-                System.out.println("clientIP:" + clientIP);
+                /*System.out.println(addresses);
+                System.out.println("clientIP:" + clientIP);*/
                 btSysTrafficStatisticsService.saveTrafficStatistics(ipAddr, addresses);
             } catch (Exception e) {
                 e.printStackTrace();

@@ -314,7 +314,7 @@
     menu_id = #{menuId,jdbcType=VARCHAR},
     create_time = #{createTime,jdbcType=TIMESTAMP},
     browse_number = #{browseNumber,jdbcType=INTEGER},
-    range_application = #{rangeApplication,jdbcType=INTEGER},
+    range_application = #{rangeApplication,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <resultMap id="selectByIdMap" type="com.ch.entity.BtViewNews">

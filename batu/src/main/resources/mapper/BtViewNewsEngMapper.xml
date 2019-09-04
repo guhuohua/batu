@@ -19,6 +19,7 @@
     <result column="browse_number" jdbcType="INTEGER" property="browseNumber" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="range_application" jdbcType="VARCHAR" property="rangeApplication" />
+
   </resultMap>
   <sql id="Example_Where_Clause">
     <!--

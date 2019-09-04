@@ -1,9 +1,7 @@
 package com.ch.service.impl;
 
 import com.ch.base.ResponseResult;
-import com.ch.dao.BtViewMenuEngMapper;
-import com.ch.dao.BtViewMenuFanMapper;
-import com.ch.dao.BtViewMenuMapper;
+import com.ch.dao.*;
 import com.ch.dto.MenuParam;
 import com.ch.entity.*;
 
@@ -28,7 +26,8 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     @Autowired
     BtViewMenuEngMapper btViewMenuEngMapper;
 
-
+    @Autowired
+    BtViewNewsMapper btViewNewsMapper;
 
     @Autowired
     BaiduTranslateUtil baiduTranslateUtil;
@@ -38,6 +37,11 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
 
     @Autowired
     BtViewMenuFanMapper btViewMenuFanMapper;
+    @Autowired
+    BtViewNewsFanMapper btViewNewsFanMapper;
+    @Autowired
+    BtViewNewsEngMapper btViewNewsEngMapper;
+
 
     @Override
     public long countByExample(BtViewMenuExample example) {
@@ -73,41 +77,41 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         ResponseResult result = new ResponseResult();
 
         BtViewMenu btViewMenu = btViewMenuMapper.selectByPrimaryKey(id);
-        if(btViewMenu.getParentId().equals("0")){
+        if (btViewMenu.getParentId().equals("0")) {
 
             BtViewMenuExample example = new BtViewMenuExample();
             BtViewMenuExample.Criteria criteria = example.createCriteria();
             criteria.andParentIdEqualTo(id);
             List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
-           if (btViewMenus!=null){
-               for (BtViewMenu btViewMenu2 :btViewMenus){
-                   BtViewMenuExample example1 = new BtViewMenuExample();
-                   BtViewMenuExample.Criteria criteria1 = example1.createCriteria();
-                   criteria1.andParentIdEqualTo(btViewMenu2.getId());
-                   List<BtViewMenu> btViewMenus1 = btViewMenuMapper.selectByExample(example1);
+            if (btViewMenus != null) {
+                for (BtViewMenu btViewMenu2 : btViewMenus) {
+                    BtViewMenuExample example1 = new BtViewMenuExample();
+                    BtViewMenuExample.Criteria criteria1 = example1.createCriteria();
+                    criteria1.andParentIdEqualTo(btViewMenu2.getId());
+                    List<BtViewMenu> btViewMenus1 = btViewMenuMapper.selectByExample(example1);
 
-                   for ( BtViewMenu btViewMenu1 :btViewMenus1){
-                       btViewMenuMapper.deleteByPrimaryKey(btViewMenu1.getId());
-                       btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu1.getId());
-                       btViewMenuFanMapper.deleteByPrimaryKey(btViewMenu1.getId());
-                   }
+                    for (BtViewMenu btViewMenu1 : btViewMenus1) {
+                        btViewMenuMapper.deleteByPrimaryKey(btViewMenu1.getId());
+                        btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu1.getId());
+                        btViewMenuFanMapper.deleteByPrimaryKey(btViewMenu1.getId());
+                    }
 
 
-                   btViewMenuMapper.deleteByPrimaryKey(btViewMenu2.getId());
-                   btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu2.getId());
-                   btViewMenuFanMapper.deleteByPrimaryKey(btViewMenu2.getId());
+                    btViewMenuMapper.deleteByPrimaryKey(btViewMenu2.getId());
+                    btViewMenuEngMapper.deleteByPrimaryKey(btViewMenu2.getId());
+                    btViewMenuFanMapper.deleteByPrimaryKey(btViewMenu2.getId());
 
-               }
-           }else {
-               btViewMenuMapper.deleteByPrimaryKey(id);
-               btViewMenuEngMapper.deleteByPrimaryKey(id);
-               btViewMenuFanMapper.deleteByPrimaryKey(id);
+                }
+            } else {
+                btViewMenuMapper.deleteByPrimaryKey(id);
+                btViewMenuEngMapper.deleteByPrimaryKey(id);
+                btViewMenuFanMapper.deleteByPrimaryKey(id);
 
-           }
+            }
             btViewMenuMapper.deleteByPrimaryKey(id);
             btViewMenuEngMapper.deleteByPrimaryKey(id);
             btViewMenuFanMapper.deleteByPrimaryKey(id);
-        }else {
+        } else {
             BtViewMenuExample example = new BtViewMenuExample();
             BtViewMenuExample.Criteria criteria = example.createCriteria();
             criteria.andParentIdEqualTo(id);
@@ -117,8 +121,8 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
 
             fanExample.createCriteria().andParentIdEqualTo(id);
             List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
-            if (btViewMenus!=null){
-                for (BtViewMenu btViewMenu2 :btViewMenus){
+            if (btViewMenus != null) {
+                for (BtViewMenu btViewMenu2 : btViewMenus) {
                     btViewMenuMapper.deleteByExample(example);
                     btViewMenuEngMapper.deleteByExample(engExample);
                     btViewMenuFanMapper.deleteByExample(fanExample);
@@ -127,7 +131,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
                 btViewMenuMapper.deleteByPrimaryKey(id);
                 btViewMenuEngMapper.deleteByPrimaryKey(id);
                 btViewMenuFanMapper.deleteByPrimaryKey(id);
-            }else {
+            } else {
                 btViewMenuMapper.deleteByPrimaryKey(id);
                 btViewMenuEngMapper.deleteByPrimaryKey(id);
                 btViewMenuFanMapper.deleteByPrimaryKey(id);
@@ -136,6 +140,12 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
 
         return result;
     }
+
+    @Override
+    public ResponseResult findMenuNewsId() {
+        return null;
+    }
+
 
     @Override
     public int insertSelective(BtViewMenu record) {
@@ -162,17 +172,27 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         ResponseResult result = new ResponseResult();
         try {//查询所有菜单
             List<BtViewMenu> allMenu = btViewMenuMapper.selectByExample(null);
-           for(BtViewMenu btViewMenu : allMenu){
+            for (BtViewMenu btViewMenu : allMenu) {
+                BtViewNewsExample example = new BtViewNewsExample();
+                BtViewNewsExample.Criteria criteria = example.createCriteria();
+                criteria.andMenuIdEqualTo(btViewMenu.getId());
+                List<BtViewNews> btViewNews = btViewNewsMapper.selectByExample(example);
+                if (btViewNews.size() > 0) {
+                    btViewMenu.setNewsId(btViewNews.get(0).getId());
+                    btViewMenu.setImage(btViewNews.get(0).getPictureUrl());
+                }
+            }
+            for (BtViewMenu btViewMenu : allMenu) {
 
-               BtViewMenuExample example = new BtViewMenuExample();
-               BtViewMenuExample.Criteria criteria = example.createCriteria();
-               criteria.andIdEqualTo (btViewMenu.getParentId());
-               List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
-               for (BtViewMenu btViewMenu1 : btViewMenus){
-                   btViewMenu.setParentName(btViewMenu1.getName());
-               }
+                BtViewMenuExample example = new BtViewMenuExample();
+                BtViewMenuExample.Criteria criteria = example.createCriteria();
+                criteria.andIdEqualTo(btViewMenu.getParentId());
+                List<BtViewMenu> btViewMenus = btViewMenuMapper.selectByExample(example);
+                for (BtViewMenu btViewMenu1 : btViewMenus) {
+                    btViewMenu.setParentName(btViewMenu1.getName());
+                }
 
-           }
+            }
             //根节点
             List<BtViewMenu> rootMenu = new ArrayList<BtViewMenu>();
             for (BtViewMenu nav : allMenu) {
@@ -186,6 +206,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
             for (BtViewMenu nav : rootMenu) {
                 /* 获取根节点下的所有子节点 使用getChild方法*/
                 List<BtViewMenu> childList = getChild(nav.getId(), allMenu);
+
                 nav.setChildren(childList);//给根节点设置子节点
             }
             /**
@@ -299,6 +320,27 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         ResponseResult result = new ResponseResult();
         try {//查询所有菜单
             List<BtViewMenuEng> allMenu = btViewMenuEngMapper.selectByExample(null);
+            for (BtViewMenuEng btViewMenu : allMenu) {
+                BtViewNewsEngExample example = new BtViewNewsEngExample();
+                BtViewNewsEngExample.Criteria criteria = example.createCriteria();
+                criteria.andMenuIdEqualTo(btViewMenu.getId());
+                List<BtViewNewsEng> btViewNewsEngs = btViewNewsEngMapper.selectByExample(example);
+                if (btViewNewsEngs.size() > 0) {
+                    btViewMenu.setNewsId(btViewNewsEngs.get(0).getId());
+                    btViewMenu.setImage(btViewNewsEngs.get(0).getPictureUrl());
+                }
+            }
+
+            for (BtViewMenuEng btViewMenu : allMenu) {
+                BtViewMenuEngExample example = new BtViewMenuEngExample();
+                BtViewMenuEngExample.Criteria criteria = example.createCriteria();
+                criteria.andIdEqualTo(btViewMenu.getParentId());
+                List<BtViewMenuEng> btViewMenuEngs = btViewMenuEngMapper.selectByExample(example);
+                for (BtViewMenuEng btViewMenu1 : btViewMenuEngs) {
+                    btViewMenu.setParentName(btViewMenu1.getName());
+                }
+
+            }
             //根节点
             List<BtViewMenuEng> rootMenu = new ArrayList<BtViewMenuEng>();
             for (BtViewMenuEng nav : allMenu) {
@@ -324,6 +366,7 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
             return result;
 
         } catch (Exception e) {
+            e.printStackTrace();
             result.setCode(500);
             result.setError(e.getMessage());
             result.setError_description("菜单生成异常");
@@ -336,7 +379,26 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         ResponseResult result = new ResponseResult();
         try {//查询所有菜单
             List<BtViewMenuFan> allMenu = btViewMenuFanMapper.selectByExample(null);
+            for (BtViewMenuFan btViewMenu : allMenu) {
+                BtViewNewsFanExample example = new BtViewNewsFanExample();
+                BtViewNewsFanExample.Criteria criteria = example.createCriteria();
+                criteria.andMenuIdEqualTo(btViewMenu.getId());
+                List<BtViewNewsFan> btViewNewsFans = btViewNewsFanMapper.selectByExample(example);
+                if (btViewNewsFans.size() > 0) {
+                    btViewMenu.setNewsId(btViewNewsFans.get(0).getId());
+                    btViewMenu.setImage(btViewNewsFans.get(0).getPictureUrl());
+                }
+            }
+            for (BtViewMenuFan btViewMenu : allMenu) {
+                BtViewMenuFanExample example = new BtViewMenuFanExample();
+                BtViewMenuFanExample.Criteria criteria = example.createCriteria();
+                criteria.andIdEqualTo(btViewMenu.getParentId());
+                List<BtViewMenuFan> btViewMenuFans = btViewMenuFanMapper.selectByExample(example);
+                for (BtViewMenuFan btViewMenu1 : btViewMenuFans) {
+                    btViewMenu.setParentName(btViewMenu1.getName());
+                }
 
+            }
             //根节点
             List<BtViewMenuFan> rootMenu = new ArrayList<BtViewMenuFan>();
             for (BtViewMenuFan nav : allMenu) {
@@ -393,8 +455,6 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
     }
 
 
-
-
     public Comparator<BtViewMenuEng> orderEng() {
         Comparator<BtViewMenuEng> comparator = new Comparator<BtViewMenuEng>() {
             @Override
@@ -442,7 +502,6 @@ public class BtViewMenuServiceImpl implements BtViewMenuService {
         }
         return childList;
     }
-
 
 
 }
